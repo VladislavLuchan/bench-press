@@ -1,4 +1,5 @@
 import {
+  createChatClient,
   createDb,
   ensureSchema,
   findExistingJobKeys,
@@ -28,7 +29,6 @@ import type { ScraperEnv } from '../env.ts';
 import { mapWithConcurrency } from '../lib/concurrency.ts';
 import { BlockedError, type HttpClient } from '../lib/http.ts';
 import { errorMessage, log } from '../lib/logger.ts';
-import { createChatClient } from '../llm/chat-client.ts';
 import { fetchDescription, fetchListings } from '../sources/fetch.ts';
 import { sources } from '../sources/index.ts';
 import type { DiscoveredJob, Source } from '../sources/types.ts';

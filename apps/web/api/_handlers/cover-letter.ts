@@ -1,5 +1,5 @@
 import { getJob, getSetting, saveCoverLetter } from '@bench-press/shared';
-import { generateCoverLetter } from '../_lib/claude.ts';
+import { generateCoverLetter } from '../_lib/llm.ts';
 import { HttpError, idParam, json, readJson } from '../_lib/http.ts';
 import { detectLanguage } from '../_lib/language.ts';
 import type { Handler } from '../_lib/router.ts';

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { Job } from '@bench-press/shared';
-import type { ChatClient } from '../../src/llm/chat-client.ts';
+import type { ChatClient, Job } from '@bench-press/shared';
 import { parseScoreJson, scoreJob } from '../../src/pipeline/score.ts';
 
 const valid = {
@@ -41,12 +40,12 @@ describe('scoreJob', () => {
 
   it('retries once on a malformed answer and then succeeds', async () => {
     const answers = ['{"fit": "high"}', JSON.stringify(valid)];
-    const chat: ChatClient = { completeJson: async () => answers.shift() ?? '' };
+    const chat: ChatClient = { complete: async () => answers.shift() ?? '' };
     await expect(scoreJob(job, 'system', chat, 2)).resolves.toEqual(valid);
   });
 
   it('gives up after the configured retries', async () => {
-    const chat: ChatClient = { completeJson: async () => 'nope' };
+    const chat: ChatClient = { complete: async () => 'nope' };
     await expect(scoreJob(job, 'system', chat, 1)).rejects.toThrow(/after 2 attempts/);
   });
 });

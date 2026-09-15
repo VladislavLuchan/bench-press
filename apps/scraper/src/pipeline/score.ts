@@ -1,6 +1,10 @@
 import { readFile } from 'node:fs/promises';
-import { scoreResultSchema, type Job, type ScoreResult } from '@bench-press/shared';
-import type { ChatClient } from '../llm/chat-client.ts';
+import {
+  scoreResultSchema,
+  type ChatClient,
+  type Job,
+  type ScoreResult,
+} from '@bench-press/shared';
 import { errorMessage } from '../lib/logger.ts';
 
 const PROMPT_PATH = new URL('../prompts/score.md', import.meta.url);
@@ -44,7 +48,7 @@ export async function scoreJob(
   let lastError: unknown;
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      return parseScoreJson(await chat.completeJson(systemPrompt, user));
+      return parseScoreJson(await chat.complete(systemPrompt, user, { json: true }));
     } catch (error) {
       lastError = error;
     }

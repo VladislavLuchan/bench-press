@@ -8,3 +8,4 @@ export * from './db/settings.ts';
 export * from './db/runs.ts';
 export * from './db/source-state.ts';
 export * from './db/stats.ts';
+export * from './llm/chat-client.ts';
