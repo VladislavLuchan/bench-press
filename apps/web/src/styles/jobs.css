@@ -1,0 +1,267 @@
+.jobs {
+  display: grid;
+  grid-template-columns: minmax(320px, 5fr) minmax(360px, 7fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .jobs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.jobs__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.jobs__detail {
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.jobs__empty,
+.jobs__error {
+  color: var(--text-muted);
+  margin: 8px 0;
+}
+
+.jobs__error {
+  color: var(--bad);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 8px 0 12px;
+}
+
+/* Cards */
+.job-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.job-card:hover {
+  background: var(--bg-hover);
+}
+
+.job-card--selected {
+  border-color: var(--accent);
+}
+
+.job-card--applied,
+.job-card--replied,
+.job-card--skipped {
+  opacity: 0.7;
+}
+
+.job-card__body {
+  min-width: 0;
+  flex: 1;
+}
+
+.job-card__title {
+  font-size: 15px;
+}
+
+.job-card__meta {
+  margin: 2px 0 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.job-card__source {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.job-card__status {
+  color: var(--accent);
+}
+
+.job-card__summary {
+  margin: 0;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+.fit-badge {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  font-family: var(--mono);
+  background: var(--bg);
+  border: 2px solid var(--border);
+}
+
+.fit-badge--high {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.fit-badge--mid {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.fit-badge--low {
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+.fit-badge--none {
+  color: var(--text-muted);
+}
+
+/* Detail */
+.job-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.job-detail__header {
+  display: flex;
+  gap: 12px;
+}
+
+.job-detail__title {
+  font-size: 18px;
+}
+
+.job-detail__meta {
+  margin: 2px 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.job-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.job-detail__summary {
+  margin: 0;
+}
+
+.job-detail__error {
+  margin: 0;
+  color: var(--bad);
+}
+
+.job-detail__lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.job-detail__list ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+
+.job-detail__list-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.job-detail__list--good .job-detail__list-title {
+  color: var(--good);
+}
+
+.job-detail__list--warn .job-detail__list-title {
+  color: var(--warn);
+}
+
+.job-detail__list--bad .job-detail__list-title {
+  color: var(--bad);
+}
+
+.job-detail__description summary {
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.job-detail__description-text {
+  white-space: pre-wrap;
+  font: inherit;
+  margin: 8px 0 0;
+  color: var(--text);
+  opacity: 0.9;
+}
+
+/* Cover letter */
+.cover-letter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.cover-letter__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.cover-letter__status {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.cover-letter__status--copied {
+  color: var(--good);
+}
+
+.cover-letter__status--pending {
+  color: var(--warn);
+}
+
+.cover-letter__status--failed {
+  color: var(--bad);
+}
+
+.cover-letter__error {
+  margin: 0;
+  color: var(--bad);
+}
+
+.cover-letter__text {
+  width: 100%;
+  resize: vertical;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px;
+  font: inherit;
+}

@@ -116,3 +116,31 @@ export interface SourceState {
   lastSuccessAt: string | null;
   lastError: string | null;
 }
+
+/** Aggregates for the Stats page, computed in SQL. */
+export interface DailyCount {
+  day: string;
+  count: number;
+}
+
+export interface ConversionRow {
+  bucket: string;
+  applied: number;
+  replied: number;
+}
+
+export interface StatusTotals {
+  new: number;
+  applied: number;
+  skipped: number;
+  replied: number;
+  filtered: number;
+}
+
+export interface DashboardStats {
+  appliedPerDay: DailyCount[];
+  appliedPerWeek: DailyCount[];
+  bySource: ConversionRow[];
+  byFit: ConversionRow[];
+  totals: StatusTotals;
+}

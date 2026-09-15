@@ -1,0 +1,143 @@
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.stats__totals {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.stat-tile {
+  min-width: 100px;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-tile__value {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+
+.stat-tile__label {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.stats__empty,
+.stats__error {
+  color: var(--text-muted);
+}
+
+.stats__error {
+  color: var(--bad);
+}
+
+.bar-chart,
+.conversion,
+.runs {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+}
+
+.bar-chart__title,
+.conversion__title,
+.runs__title {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.bar-chart__bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bar-chart__row {
+  display: grid;
+  grid-template-columns: 80px 1fr 32px;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.bar-chart__label {
+  color: var(--text-muted);
+  font-family: var(--mono);
+}
+
+.bar-chart__bar {
+  display: block;
+  height: 12px;
+  min-width: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.bar-chart__value {
+  text-align: right;
+  font-family: var(--mono);
+}
+
+.runs__source {
+  display: inline-block;
+  margin-right: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.runs__source--bad {
+  color: var(--bad);
+}
+
+.runs__source--skipped {
+  color: var(--warn);
+}
+
+/* Settings */
+.settings {
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings__textarea {
+  font-family: var(--mono);
+  font-size: 13px;
+  resize: vertical;
+}
+
+.settings__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings__status {
+  color: var(--text-muted);
+}

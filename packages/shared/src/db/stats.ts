@@ -1,33 +1,7 @@
 import type { ResultSet } from '@libsql/client';
 import type { Db } from './client.ts';
 import { integerRequired, text, textRequired } from './row.ts';
-
-export interface DailyCount {
-  day: string;
-  count: number;
-}
-
-export interface ConversionRow {
-  bucket: string;
-  applied: number;
-  replied: number;
-}
-
-export interface StatusTotals {
-  new: number;
-  applied: number;
-  skipped: number;
-  replied: number;
-  filtered: number;
-}
-
-export interface DashboardStats {
-  appliedPerDay: DailyCount[];
-  appliedPerWeek: DailyCount[];
-  bySource: ConversionRow[];
-  byFit: ConversionRow[];
-  totals: StatusTotals;
-}
+import type { ConversionRow, DailyCount, DashboardStats, StatusTotals } from '../types.ts';
 
 const APPLIED = `applied_at IS NOT NULL`;
 
