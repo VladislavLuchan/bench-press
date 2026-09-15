@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { ChatClient, ChatCompletion } from '@bench-press/shared';
+import type { ChatClient, ChatCompletion, ScoreResult } from '@bench-press/shared';
 import {
   parseScoreBatchJson,
   parseScoreJson,
@@ -10,7 +10,7 @@ import {
   type ScorableJob,
 } from '../../src/pipeline/score.ts';
 
-const valid = {
+const valid: ScoreResult = {
   fit: 8,
   summary: 'Strong React match.',
   matches: ['React', 'TypeScript'],
