@@ -19,6 +19,6 @@ jobs:
           if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
       - run: npm run typecheck
       - run: npm run lint
-      - run: npm run format:check
       - run: npm test
       - run: npm run build
+      - run: npm run format:check
