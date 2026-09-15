@@ -5,6 +5,8 @@ export interface ScraperEnv {
   telegramBotToken: string | undefined;
   telegramChatId: string | undefined;
   dashboardUrl: string | undefined;
+  /** BACKFILL=1 widens source date windows to a week for a first catch-up run. */
+  backfill: boolean;
 }
 
 function required(env: NodeJS.ProcessEnv, key: string): string {
@@ -22,5 +24,6 @@ export function readEnv(env: NodeJS.ProcessEnv = process.env): ScraperEnv {
     telegramBotToken: env.TELEGRAM_BOT_TOKEN,
     telegramChatId: env.TELEGRAM_CHAT_ID,
     dashboardUrl: env.DASHBOARD_URL,
+    backfill: env.BACKFILL === '1' || env.BACKFILL === 'true',
   };
 }

@@ -7,16 +7,24 @@ import { JobFilters } from '../components/JobFilters.tsx';
 import { navigate } from '../router.ts';
 
 interface Props {
+  /** `jobs` shows scored, active jobs; `filtered` shows what the pre-filter rejected. */
+  mode: 'jobs' | 'filtered';
   selectedId: number | null;
 }
+
+const DEFAULT_QUERY: Record<Props['mode'], JobsQuery> = {
+  jobs: { sort: 'fit', minFit: 6, status: 'new' },
+  filtered: { sort: 'date', status: 'filtered' },
+};
 
 function toSummary(job: Job): JobSummary {
   const { description: _description, coverLetter, ...rest } = job;
   return { ...rest, hasCoverLetter: coverLetter !== null };
 }
 
-export function JobsPage({ selectedId }: Props) {
-  const [query, setQuery] = useState<JobsQuery>({ sort: 'fit' });
+export function JobsPage({ mode, selectedId }: Props) {
+  const [query, setQuery] = useState<JobsQuery>(DEFAULT_QUERY[mode]);
+  const base = mode === 'filtered' ? '#/filtered' : '#/jobs';
   const [jobs, setJobs] = useState<JobSummary[]>([]);
   const [selected, setSelected] = useState<Job | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +76,7 @@ export function JobsPage({ selectedId }: Props) {
   return (
     <div className="jobs">
       <div className="jobs__list">
-        <JobFilters query={query} onChange={setQuery} />
+        <JobFilters query={query} onChange={setQuery} lockStatus={mode === 'filtered'} />
         {error && <p className="jobs__error">{error}</p>}
         {loading && jobs.length === 0 && <p className="jobs__empty">Loading…</p>}
         {!loading && jobs.length === 0 && <p className="jobs__empty">Nothing here yet.</p>}
@@ -77,7 +85,7 @@ export function JobsPage({ selectedId }: Props) {
             key={job.id}
             job={job}
             selected={job.id === selectedId}
-            onSelect={(id) => navigate(`#/jobs/${id}`)}
+            onSelect={(id) => navigate(`${base}/${id}`)}
           />
         ))}
       </div>

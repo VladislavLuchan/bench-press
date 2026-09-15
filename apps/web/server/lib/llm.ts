@@ -22,7 +22,7 @@ export interface CoverLetterInput {
 }
 
 export async function generateCoverLetter(input: CoverLetterInput): Promise<string> {
-  const text = await getClient().complete(
+  const { text } = await getClient().complete(
     buildCoverLetterSystemPrompt(input.profile, input.template),
     buildCoverLetterUserPrompt(input.job),
     { maxTokens: 1024, temperature: 0.4 },

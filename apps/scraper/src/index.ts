@@ -4,8 +4,9 @@ import { createHttpClient } from './lib/http.ts';
 import { errorMessage, log } from './lib/logger.ts';
 import { runPipeline } from './pipeline/run.ts';
 
-const USAGE = `Usage: scrape [--dry-run] [--capture-fixtures]
+const USAGE = `Usage: scrape [--dry-run] [--backfill] [--capture-fixtures]
   --dry-run           Fetch and filter, print what would be stored; no DB, LLM or Telegram.
+  --backfill          Widen source date windows to a week (same as BACKFILL=1).
   --capture-fixtures  Save one listing and one detail page per source into tests/fixtures.`;
 
 async function main(): Promise<void> {
@@ -22,7 +23,9 @@ async function main(): Promise<void> {
   }
 
   const dryRun = args.has('--dry-run');
-  await runPipeline({ http, env: dryRun ? null : readEnv(), dryRun });
+  const env = dryRun ? null : readEnv();
+  const backfill = args.has('--backfill') || (env?.backfill ?? process.env.BACKFILL === '1');
+  await runPipeline({ http, env, dryRun, backfill });
 }
 
 main().catch((error: unknown) => {

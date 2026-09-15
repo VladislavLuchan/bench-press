@@ -19,6 +19,7 @@ const STATS_QUERIES = {
     SUM(CASE WHEN replied_at IS NOT NULL THEN 1 ELSE 0 END) AS replied
     FROM jobs WHERE ${APPLIED} GROUP BY bucket ORDER BY fit DESC`,
   totals: `SELECT status, COUNT(*) AS count FROM jobs GROUP BY status`,
+  appliedToday: `SELECT COUNT(*) AS count FROM jobs WHERE applied_at >= date('now')`,
 } as const;
 
 type StatsKey = keyof typeof STATS_QUERIES;
@@ -36,6 +37,11 @@ function toConversion(result: ResultSet): ConversionRow[] {
     applied: integerRequired(row, 'applied'),
     replied: integerRequired(row, 'replied'),
   }));
+}
+
+function countOf(result: ResultSet): number {
+  const row = result.rows[0];
+  return row ? integerRequired(row, 'count') : 0;
 }
 
 function toTotals(result: ResultSet): StatusTotals {
@@ -66,5 +72,6 @@ export async function getDashboardStats(db: Db): Promise<DashboardStats> {
     bySource: toConversion(resultFor('bySource')),
     byFit: toConversion(resultFor('byFit')),
     totals: toTotals(resultFor('totals')),
+    appliedToday: countOf(resultFor('appliedToday')),
   };
 }

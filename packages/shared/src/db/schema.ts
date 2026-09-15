@@ -62,3 +62,13 @@ export const SCHEMA_STATEMENTS: readonly string[] = [
     error TEXT
   )`,
 ];
+
+/**
+ * Columns added after the first release. Applied with ALTER TABLE only when missing, so
+ * existing rows and statuses are untouched.
+ */
+export const COLUMN_MIGRATIONS: ReadonlyArray<{ table: string; column: string; ddl: string }> = [
+  { table: 'jobs', column: 'sources', ddl: 'sources TEXT' },
+  { table: 'jobs', column: 'thin_description', ddl: 'thin_description INTEGER NOT NULL DEFAULT 0' },
+  { table: 'jobs', column: 'primary_stack', ddl: 'primary_stack TEXT' },
+];

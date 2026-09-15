@@ -3,19 +3,44 @@ import { htmlToText, normalizeWhitespace } from '../lib/html-to-text.ts';
 import { linkedinJobId } from '../lib/normalize-url.ts';
 import { parseDate } from '../lib/parse-date.ts';
 import { config } from '../config.ts';
-import type { DiscoveredJob, Source } from './types.ts';
+import type { DiscoveredJob, Search, Source } from './types.ts';
 
+const SEARCH_URL = 'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search';
 const GUEST_POSTING_URL = 'https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/';
 
 /**
  * LinkedIn guest job search. Both endpoints are public and unauthenticated; we never send
- * cookies. A 429, a redirect to the auth wall, or an empty result page means "blocked":
- * the pipeline backs off for hours instead of retrying.
+ * cookies. A 429, a redirect to the auth wall, or an empty result across all searches means
+ * "blocked": the pipeline backs off for hours instead of retrying.
  */
 export const linkedin: Source = {
   name: 'linkedin',
-  listingUrls: config.sources.linkedin.listingUrls,
   emptyMeansBlocked: true,
+
+  searches({ backfill }) {
+    const { keywords, locations, maxPages, pageSize } = config.sources.linkedin;
+    const window = backfill ? 'r604800' : 'r86400';
+    const searches: Search[] = [];
+    for (const keyword of keywords) {
+      for (const location of locations) {
+        searches.push({
+          name: `${keyword} @ ${location}`,
+          maxPages,
+          pageSize,
+          request: (page) => ({
+            url: `${SEARCH_URL}?${new URLSearchParams({
+              keywords: keyword,
+              location,
+              f_WT: '2',
+              f_TPR: window,
+              start: String(page * pageSize),
+            })}`,
+          }),
+        });
+      }
+    }
+    return searches;
+  },
 
   parseListings(body) {
     const $ = cheerio.load(body);
@@ -40,8 +65,8 @@ export const linkedin: Source = {
         location: location || null,
         salaryRaw: normalizeWhitespace(card.find('.job-search-card__salary-info').text()) || null,
         postedAt: parseDate(card.find('time').attr('datetime')),
-        // Search was filtered by f_WT=2 (remote), but only trust explicit text.
-        remote: /remote/i.test(location) ? true : null,
+        // Every search is filtered by f_WT=2 (remote), so the listing is remote by construction.
+        remote: true,
         description: null,
       });
     });
@@ -59,9 +84,7 @@ export const linkedin: Source = {
     const description = htmlToText($('.show-more-less-html__markup').first().html() ?? '');
     const criteria = $('.description__job-criteria-item')
       .map((_, item) => {
-        const label = normalizeWhitespace(
-          $(item).find('.description__job-criteria-subheader').text(),
-        );
+        const label = normalizeWhitespace($(item).find('.description__job-criteria-subheader').text());
         const value = normalizeWhitespace($(item).find('.description__job-criteria-text').text());
         return label && value ? `${label}: ${value}` : '';
       })

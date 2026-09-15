@@ -8,6 +8,11 @@ const FIELDS: Array<{ key: keyof Settings; label: string; hint: string }> = [
     hint: 'Markdown. Used by the scorer and the cover letter writer. Stored only in the database.',
   },
   {
+    key: 'scoring_guidance',
+    label: 'Scoring guidance',
+    hint: 'Optional notes for the scorer: what to reward, what to punish, salary expectations.',
+  },
+  {
     key: 'cover_letter_template',
     label: 'Cover letter template',
     hint: 'Your constant paragraph plus the variable blocks the model should fill in.',
@@ -36,7 +41,9 @@ export function SettingsPage() {
   const save = async () => {
     setStatus('Saving…');
     try {
-      const saved = await api.settings.update(draft);
+      const saved = await api.settings.update(
+        Object.fromEntries(FIELDS.map(({ key }) => [key, draft[key]])),
+      );
       setSettings(saved);
       setDraft(saved);
       setStatus('Saved');
@@ -53,7 +60,7 @@ export function SettingsPage() {
           <span className="field__hint">{hint}</span>
           <textarea
             className="field__input settings__textarea"
-            rows={16}
+            rows={key === 'scoring_guidance' ? 6 : 16}
             value={draft[key]}
             onChange={(event) => setDraft({ ...draft, [key]: event.target.value })}
           />

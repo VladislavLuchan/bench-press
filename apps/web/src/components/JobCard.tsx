@@ -20,13 +20,18 @@ export function JobCard({ job, selected, onSelect }: Props) {
         <h3 className="job-card__title">{job.title}</h3>
         <p className="job-card__meta">
           <span>{job.company ?? 'unknown company'}</span>
-          <span className="job-card__source">{job.source}</span>
+          <span className="source-badge" title={job.sources.join(', ')}>
+            {job.source}
+            {job.sources.length > 1 && ` +${job.sources.length - 1}`}
+          </span>
           {(job.salaryRaw ?? job.salaryLlm) && <span>{job.salaryRaw ?? job.salaryLlm}</span>}
           <span>{formatDate(job.postedAt ?? job.firstSeenAt)}</span>
           {job.status !== 'new' && <span className="job-card__status">{job.status}</span>}
           {job.hasCoverLetter && <span title="Cover letter ready">✉</span>}
         </p>
         {job.summary && <p className="job-card__summary">{job.summary}</p>}
+        {job.filterReason && <p className="job-card__reason">{job.filterReason}</p>}
+        {job.thinDescription && <p className="job-card__reason">thin description</p>}
       </div>
     </article>
   );

@@ -13,13 +13,25 @@ export interface CompletionOptions {
   temperature?: number;
 }
 
+export interface TokenUsage {
+  promptTokens: number;
+  completionTokens: number;
+}
+
+export interface ChatCompletion {
+  text: string;
+  /** Null when the endpoint did not report usage. */
+  usage: TokenUsage | null;
+}
+
 export interface ChatClient {
-  /** One system + user turn; returns the assistant text. */
-  complete(system: string, user: string, options?: CompletionOptions): Promise<string>;
+  /** One system + user turn; returns the assistant text and token usage. */
+  complete(system: string, user: string, options?: CompletionOptions): Promise<ChatCompletion>;
 }
 
 interface ChatCompletionResponse {
   choices?: Array<{ message?: { content?: string | null } }>;
+  usage?: { prompt_tokens?: number; completion_tokens?: number };
   error?: { message?: string };
 }
 
@@ -64,7 +76,13 @@ export function createChatClient(options: ChatClientOptions): ChatClient {
       if (data.error?.message) throw new Error(`Chat API error: ${data.error.message}`);
       const content = data.choices?.[0]?.message?.content;
       if (!content) throw new Error('Chat API returned an empty completion');
-      return content;
+      const usage = data.usage
+        ? {
+            promptTokens: data.usage.prompt_tokens ?? 0,
+            completionTokens: data.usage.completion_tokens ?? 0,
+          }
+        : null;
+      return { text: content, usage };
     },
   };
 }

@@ -23,6 +23,8 @@ export class HttpError extends Error {
 
 export interface HttpClient {
   getText(url: string): Promise<string>;
+  /** Same throttling and block detection, for endpoints that need a method or body. */
+  request(url: string, init?: RequestInit): Promise<string>;
 }
 
 const LOGIN_WALL = /\/(login|authwall|checkpoint|uas\/login)/i;
@@ -47,15 +49,17 @@ export function createHttpClient(options = config.http): HttpClient {
     lastRequestAt.set(host, Date.now());
   }
 
-  return {
-    async getText(url: string): Promise<string> {
+  async function request(url: string, init: RequestInit = {}): Promise<string> {
       await throttle(new URL(url).host);
+      const headers = new Headers(init.headers);
+      headers.set('User-Agent', options.userAgent);
+      if (!headers.has('Accept')) {
+        headers.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
+      }
+      headers.set('Accept-Language', 'en-US,en;q=0.9,uk;q=0.8');
       const response = await fetch(url, {
-        headers: {
-          'User-Agent': options.userAgent,
-          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.9,uk;q=0.8',
-        },
+        ...init,
+        headers,
         redirect: 'follow',
         signal: AbortSignal.timeout(options.timeoutMs),
       });
@@ -68,6 +72,7 @@ export function createHttpClient(options = config.http): HttpClient {
       }
       if (!response.ok) throw new HttpError(response.status, url);
       return response.text();
-    },
-  };
+  }
+
+  return { request, getText: (url) => request(url) };
 }

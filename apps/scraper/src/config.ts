@@ -14,20 +14,43 @@ export const config = {
 
   sources: {
     djinni: {
-      /** "JavaScript" is Djinni's front-end category; unknown keywords silently return all jobs. */
-      listingUrls: [
-        'https://djinni.co/jobs/?primary_keyword=JavaScript&exp_level=3y&exp_level=5y&employment=remote',
-      ],
+      /** Valid primary_keyword values checked on the site: JavaScript, Fullstack, Node.js. */
+      keywords: ['JavaScript', 'Fullstack'],
+      params: 'exp_level=3y&exp_level=5y&employment=remote',
+      maxPages: 5,
+      pageSize: 15,
     },
     linkedin: {
-      /** Guest search endpoint: no cookies, no session. f_WT=2 remote, f_TPR=r86400 last 24h. */
-      listingUrls: [
-        'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=Frontend%20Developer&location=Ukraine&f_WT=2&f_TPR=r86400&start=0',
-        'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=React%20Developer&location=Ukraine&f_WT=2&f_TPR=r86400&start=0',
+      /** Guest search endpoint: no cookies, no session. Each query x location is one search. */
+      keywords: [
+        'react typescript',
+        'react electron',
+        'senior frontend engineer',
+        'frontend engineer react',
+        'fullstack react node',
+        'product engineer react',
       ],
+      locations: [
+        'Ukraine',
+        'European Union',
+        'Poland',
+        'Norway',
+        'Sweden',
+        'Denmark',
+        'Netherlands',
+        'Germany',
+      ],
+      maxPages: 4,
+      pageSize: 10,
     },
     dou: {
-      listingUrls: ['https://jobs.dou.ua/vacancies/feeds/?category=Front%20End'],
+      /** Feed category names checked on the site. */
+      categories: ['Front End', 'Full Stack'],
+    },
+    nofluffjobs: {
+      /** rawSearch strings of the public search API; region pl is where remote EU offers live. */
+      searches: ['category=frontend city=remote', 'category=fullstack city=remote'],
+      region: 'pl',
     },
   },
 
@@ -35,24 +58,7 @@ export const config = {
   sourceBackoffHours: 12,
 
   prefilter: {
-    /** A title must contain one of these; keyword search on boards returns plenty of unrelated roles. */
-    requireTitleKeywords: [
-      'front',
-      'react',
-      'vue',
-      'angular',
-      'javascript',
-      'typescript',
-      'js',
-      'web',
-      'full-stack',
-      'fullstack',
-      'full stack',
-      'next',
-      'nuxt',
-    ],
-    /** Case-insensitive; a title containing any of these is skipped before the LLM. */
-    excludeTitleKeywords: ['junior', 'middle', 'intern', 'trainee', 'student', 'джуніор', 'стажер'],
+    /** Title rules live in config/filters.ts. */
     /** Listings older than this are skipped. */
     maxAgeDays: 7,
     /** Listings whose maximum salary is clearly below this (in USD) are skipped. */
@@ -72,16 +78,21 @@ export const config = {
 
   describe: {
     maxAttempts: 3,
-    perRunLimit: 40,
+    perRunLimit: 60,
   },
 
   scoring: {
-    concurrency: 3,
-    perRunLimit: 40,
+    /** Jobs per request; a bad batch answer falls back to one request per job. */
+    batchSize: 5,
+    /** Batches in flight at once. */
+    concurrency: 2,
+    perRunLimit: 60,
     /** Any OpenAI-compatible endpoint; the key comes from LLM_API_KEY. */
     baseUrl: 'https://openrouter.ai/api/v1',
     model: 'deepseek/deepseek-chat',
-    maxRetries: 2,
+    maxRetries: 1,
+    /** OpenRouter list price for the model above, used only for the cost estimate in logs. */
+    usdPerMillionTokens: { input: 0.27, output: 1.1 },
   },
 
   notify: {

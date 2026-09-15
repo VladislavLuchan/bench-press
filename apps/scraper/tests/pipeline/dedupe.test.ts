@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { ExistingJobRef } from '@bench-press/shared';
 import { dedupeWithinRun, excludeExisting, withKeys } from '../../src/pipeline/dedupe.ts';
 import type { DiscoveredJob } from '../../src/sources/types.ts';
 
@@ -25,7 +26,7 @@ describe('dedupeWithinRun', () => {
     expect(dedupeWithinRun([a, b]).map((item) => item.title)).toEqual(['Frontend Developer']);
   });
 
-  it('collapses the same title and company across sources', () => {
+  it('collapses the same title and company across sources and records both sources', () => {
     const djinni = job({});
     const linkedin = job({
       source: 'linkedin',
@@ -33,7 +34,9 @@ describe('dedupeWithinRun', () => {
       title: 'Frontend developer',
       company: 'ACME',
     });
-    expect(dedupeWithinRun([djinni, linkedin])).toHaveLength(1);
+    const unique = dedupeWithinRun([djinni, linkedin]);
+    expect(unique).toHaveLength(1);
+    expect(unique[0]?.sources).toEqual(['djinni', 'linkedin']);
   });
 
   it('keeps different jobs', () => {
@@ -44,16 +47,17 @@ describe('dedupeWithinRun', () => {
 });
 
 describe('excludeExisting', () => {
-  it('drops jobs already known by URL or by title+company', () => {
+  it('drops known jobs and reports new sources for them', () => {
     const known = withKeys(job({}));
     const fresh = withKeys(job({ url: 'https://djinni.co/jobs/3-vue', title: 'Vue Developer' }));
     const sameOpening = withKeys(
-      job({ url: 'https://djinni.co/jobs/4-frontend', title: 'Frontend Developer' }),
+      job({ source: 'dou', url: 'https://jobs.dou.ua/x/4', title: 'Frontend Developer' }),
     );
     const result = excludeExisting([known, fresh, sameOpening], {
-      canonicalUrls: new Set([known.canonicalUrl]),
-      dedupeKeys: new Set([known.dedupeKey]),
+      canonicalUrls: new Map<string, ExistingJobRef>([[known.canonicalUrl, { id: 7, sources: ['djinni'] }]]),
+      dedupeKeys: new Map<string, ExistingJobRef>([[known.dedupeKey, { id: 7, sources: ['djinni'] }]]),
     });
-    expect(result).toEqual([fresh]);
+    expect(result.fresh).toEqual([fresh]);
+    expect(result.sourceUpdates).toEqual([{ id: 7, sources: ['djinni', 'dou'] }]);
   });
 });

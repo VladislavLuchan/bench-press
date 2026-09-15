@@ -8,6 +8,8 @@ export function parseHash(hash: string): Route {
   const path = hash.replace(/^#/, '');
   if (path === '/stats') return { name: 'stats' };
   if (path === '/settings') return { name: 'settings' };
+  const filtered = path.match(/^\/filtered(?:\/(\d+))?$/);
+  if (filtered) return { name: 'filtered', jobId: filtered[1] ? Number(filtered[1]) : null };
   const job = path.match(/^\/jobs\/(\d+)$/);
   return { name: 'jobs', jobId: job ? Number(job[1]) : null };
 }

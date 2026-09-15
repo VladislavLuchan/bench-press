@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { tokenStore, UNAUTHORIZED_EVENT } from './api/client.ts';
+import { FetchNowButton } from './components/FetchNowButton.tsx';
+import { HeaderCounters } from './components/HeaderCounters.tsx';
 import { TokenGate } from './components/TokenGate.tsx';
 import { JobsPage } from './pages/JobsPage.tsx';
 import { SettingsPage } from './pages/SettingsPage.tsx';
@@ -8,6 +10,7 @@ import { useRoute } from './router.ts';
 
 const NAV = [
   { hash: '#/', label: 'Jobs', name: 'jobs' },
+  { hash: '#/filtered', label: 'Filtered', name: 'filtered' },
   { hash: '#/stats', label: 'Stats', name: 'stats' },
   { hash: '#/settings', label: 'Settings', name: 'settings' },
 ] as const;
@@ -37,9 +40,15 @@ export function App() {
             {item.label}
           </a>
         ))}
+        <span className="nav__spacer" />
+        <HeaderCounters />
+        <FetchNowButton />
       </nav>
       <main className="app__main">
-        {route.name === 'jobs' && <JobsPage selectedId={route.jobId} />}
+        {route.name === 'jobs' && <JobsPage key="jobs" mode="jobs" selectedId={route.jobId} />}
+        {route.name === 'filtered' && (
+          <JobsPage key="filtered" mode="filtered" selectedId={route.jobId} />
+        )}
         {route.name === 'stats' && <StatsPage />}
         {route.name === 'settings' && <SettingsPage />}
       </main>

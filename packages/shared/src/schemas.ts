@@ -15,7 +15,9 @@ export const scoreResultSchema = z.object({
   salary: z.string().nullable(),
   remote: z.boolean(),
   seniority: z.string(),
+  primary_stack: z.string().trim().toLowerCase().default('other'),
 });
+export const scoreResultListSchema = z.array(scoreResultSchema);
 
 export const jobListQuerySchema = z.object({
   minFit: z.coerce.number().int().min(0).max(10).optional(),

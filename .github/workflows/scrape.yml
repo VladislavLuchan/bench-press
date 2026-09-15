@@ -9,6 +9,10 @@ on:
         description: 'Fetch and filter only; no database, LLM or Telegram'
         type: boolean
         default: false
+      backfill:
+        description: 'Widen date windows to 7 days (first run / catch-up)'
+        type: boolean
+        default: false
 
 concurrency:
   group: scrape
@@ -17,7 +21,7 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -28,6 +32,7 @@ jobs:
       - name: Run scraper
         run: npm run scrape -w @bench-press/scraper -- ${{ inputs.dry_run && '--dry-run' || '' }}
         env:
+          BACKFILL: ${{ inputs.backfill && '1' || '' }}
           TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}

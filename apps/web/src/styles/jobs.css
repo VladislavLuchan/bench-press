@@ -88,9 +88,21 @@
   gap: 8px;
 }
 
-.job-card__source {
+.source-badge {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.job-card__reason {
+  margin: 0;
+  color: var(--warn);
+  font-size: 12px;
 }
 
 .job-card__status {
@@ -128,8 +140,8 @@
 }
 
 .fit-badge--low {
-  border-color: var(--bad);
-  color: var(--bad);
+  border-color: var(--border);
+  color: var(--text-muted);
 }
 
 .fit-badge--none {

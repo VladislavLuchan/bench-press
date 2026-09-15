@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import { htmlToText, normalizeWhitespace } from '../lib/html-to-text.ts';
 import { parseDate } from '../lib/parse-date.ts';
 import { config } from '../config.ts';
-import type { DiscoveredJob, Source } from './types.ts';
+import type { DiscoveredJob, Search, Source } from './types.ts';
 
 const REMOTE = /remote|віддалено|дистанційно/i;
 
@@ -13,7 +13,20 @@ const REMOTE = /remote|віддалено|дистанційно/i;
  */
 export const djinni: Source = {
   name: 'djinni',
-  listingUrls: config.sources.djinni.listingUrls,
+
+  searches() {
+    const { keywords, params, maxPages, pageSize } = config.sources.djinni;
+    return keywords.map(
+      (keyword): Search => ({
+        name: keyword,
+        maxPages,
+        pageSize,
+        request: (page) => ({
+          url: `https://djinni.co/jobs/?primary_keyword=${encodeURIComponent(keyword)}&${params}&page=${page + 1}`,
+        }),
+      }),
+    );
+  },
 
   parseListings(body, pageUrl) {
     const $ = cheerio.load(body);

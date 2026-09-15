@@ -84,6 +84,14 @@ export interface CoverLetterResponse {
 
 export type Settings = Record<SettingKey, string>;
 
+export interface FetchStatus {
+  requestedAt: string | null;
+  cooldownUntil: string | null;
+}
+
+/** Fired after a job changes so header counters can refresh. */
+export const JOBS_CHANGED_EVENT = 'bench-press:jobs-changed';
+
 export const api = {
   jobs: {
     list(query: JobsQuery): Promise<JobSummary[]> {
@@ -105,6 +113,10 @@ export const api = {
     },
   },
   stats: (): Promise<DashboardStats> => request('/stats'),
+  fetchNow: {
+    status: (): Promise<FetchStatus> => request('/fetch-now'),
+    trigger: (): Promise<FetchStatus> => request('/fetch-now', { method: 'POST' }),
+  },
   runs: (): Promise<Run[]> => request('/runs'),
   settings: {
     get: (): Promise<Settings> => request('/settings'),

@@ -5,18 +5,26 @@ import type { JobListQuery } from '../schemas.ts';
 import type { Job, JobStatus, JobSummary, NewJob, ScoreResult, SourceName } from '../types.ts';
 
 const SUMMARY_COLUMNS = `
-  id, source, external_id, url, canonical_url, dedupe_key, title, company, location,
-  salary_raw, describe_attempts, posted_at, first_seen_at, fit, summary, matches, gaps,
-  red_flags, salary_llm, remote, seniority, scored_at, score_error, status, filter_reason,
+  id, source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,
+  salary_raw, describe_attempts, thin_description, posted_at, first_seen_at, fit, summary,
+  matches, gaps, red_flags, salary_llm, remote, seniority, primary_stack, scored_at,
+  score_error, status, filter_reason,
   cover_letter IS NOT NULL AS has_cover_letter, cover_letter_lang, cover_letter_generated_at,
   notified_at, applied_at, replied_at, updated_at`;
 
 const FULL_COLUMNS = `${SUMMARY_COLUMNS}, description, cover_letter`;
 
+function parseSources(row: Row): SourceName[] {
+  const sources = jsonArray(row, 'sources') as SourceName[];
+  const primary = textRequired(row, 'source') as SourceName;
+  return sources.length > 0 ? sources : [primary];
+}
+
 function rowToSummary(row: Row): JobSummary {
   return {
     id: integerRequired(row, 'id'),
     source: textRequired(row, 'source') as SourceName,
+    sources: parseSources(row),
     externalId: text(row, 'external_id'),
     url: textRequired(row, 'url'),
     canonicalUrl: textRequired(row, 'canonical_url'),
@@ -26,6 +34,7 @@ function rowToSummary(row: Row): JobSummary {
     location: text(row, 'location'),
     salaryRaw: text(row, 'salary_raw'),
     describeAttempts: integerRequired(row, 'describe_attempts'),
+    thinDescription: bool(row, 'thin_description') ?? false,
     postedAt: text(row, 'posted_at'),
     firstSeenAt: textRequired(row, 'first_seen_at'),
     fit: integer(row, 'fit'),
@@ -36,6 +45,7 @@ function rowToSummary(row: Row): JobSummary {
     salaryLlm: text(row, 'salary_llm'),
     remote: bool(row, 'remote'),
     seniority: text(row, 'seniority'),
+    primaryStack: text(row, 'primary_stack'),
     scoredAt: text(row, 'scored_at'),
     scoreError: text(row, 'score_error'),
     status: textRequired(row, 'status') as JobStatus,
@@ -66,28 +76,58 @@ function placeholders(count: number): string {
 /** SQLite caps bound parameters per statement; keep IN lists comfortably below it. */
 const IN_CHUNK = 200;
 
-async function selectExisting(db: Db, column: string, values: string[]): Promise<Set<string>> {
-  const found = new Set<string>();
+export interface ExistingJobRef {
+  id: number;
+  sources: SourceName[];
+}
+
+async function selectExisting(
+  db: Db,
+  column: string,
+  values: string[],
+): Promise<Map<string, ExistingJobRef>> {
+  const found = new Map<string, ExistingJobRef>();
   for (let i = 0; i < values.length; i += IN_CHUNK) {
     const chunk = values.slice(i, i + IN_CHUNK);
     const result = await db.execute({
-      sql: `SELECT ${column} AS value FROM jobs WHERE ${column} IN (${placeholders(chunk.length)})`,
+      sql: `SELECT ${column} AS value, id, source, sources FROM jobs WHERE ${column} IN (${placeholders(chunk.length)})`,
       args: chunk,
     });
-    for (const row of result.rows) found.add(textRequired(row, 'value'));
+    for (const row of result.rows) {
+      found.set(textRequired(row, 'value'), {
+        id: integerRequired(row, 'id'),
+        sources: parseSources(row),
+      });
+    }
   }
   return found;
 }
 
-/** Which of the given keys are already present in the database. */
+/** Which of the given keys are already present, with the row they belong to. */
 export async function findExistingJobKeys(
   db: Db,
   keys: { canonicalUrls: string[]; dedupeKeys: string[] },
-): Promise<{ canonicalUrls: Set<string>; dedupeKeys: Set<string> }> {
+): Promise<{ canonicalUrls: Map<string, ExistingJobRef>; dedupeKeys: Map<string, ExistingJobRef> }> {
   return {
     canonicalUrls: await selectExisting(db, 'canonical_url', keys.canonicalUrls),
     dedupeKeys: await selectExisting(db, 'dedupe_key', keys.dedupeKeys),
   };
+}
+
+/** Records that an already stored opening was also seen on other sources. */
+export async function addJobSources(
+  db: Db,
+  updates: Array<{ id: number; sources: SourceName[] }>,
+): Promise<void> {
+  if (updates.length === 0) return;
+  const now = nowIso();
+  await db.batch(
+    updates.map((update) => ({
+      sql: `UPDATE jobs SET sources = ?, updated_at = ? WHERE id = ?`,
+      args: [JSON.stringify(update.sources), now, update.id],
+    })),
+    'write',
+  );
 }
 
 /** Inserts jobs in one batch. Duplicate canonical URLs are ignored, not errors. */
@@ -97,12 +137,13 @@ export async function insertJobs(db: Db, jobs: NewJob[]): Promise<number> {
   const results = await db.batch(
     jobs.map((job) => ({
       sql: `INSERT OR IGNORE INTO jobs (
-        source, external_id, url, canonical_url, dedupe_key, title, company, location,
-        salary_raw, description, posted_at, remote, first_seen_at, status, filter_reason,
-        updated_at
-      ) VALUES (${placeholders(16)})`,
+        source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,
+        salary_raw, description, thin_description, posted_at, remote, first_seen_at, status,
+        filter_reason, updated_at
+      ) VALUES (${placeholders(18)})`,
       args: [
         job.source,
+        JSON.stringify(job.sources ?? [job.source]),
         job.externalId,
         job.url,
         job.canonicalUrl,
@@ -112,6 +153,7 @@ export async function insertJobs(db: Db, jobs: NewJob[]): Promise<number> {
         job.location,
         job.salaryRaw,
         job.description,
+        Number(job.thinDescription),
         job.postedAt,
         job.remote === null ? null : Number(job.remote),
         now,
@@ -216,10 +258,24 @@ export async function findJobsMissingDescription(
   return result.rows.map(rowToJob);
 }
 
-export async function saveDescription(db: Db, id: number, description: string): Promise<void> {
+export async function saveDescription(
+  db: Db,
+  id: number,
+  description: string,
+  options: { thin: boolean },
+): Promise<void> {
   await db.execute({
-    sql: `UPDATE jobs SET description = ?, describe_attempts = describe_attempts + 1, updated_at = ? WHERE id = ?`,
-    args: [description, nowIso(), id],
+    sql: `UPDATE jobs SET description = ?, thin_description = ?, describe_attempts = describe_attempts + 1,
+      updated_at = ? WHERE id = ?`,
+    args: [description, Number(options.thin), nowIso(), id],
+  });
+}
+
+/** Moves a job out of the scoring queue after a description-level check failed. */
+export async function markFiltered(db: Db, id: number, reason: string): Promise<void> {
+  await db.execute({
+    sql: `UPDATE jobs SET status = 'filtered', filter_reason = ?, updated_at = ? WHERE id = ? AND status = 'new'`,
+    args: [reason, nowIso(), id],
   });
 }
 
@@ -245,7 +301,7 @@ export async function saveScore(db: Db, id: number, score: ScoreResult): Promise
   await db.execute({
     sql: `UPDATE jobs SET
       fit = ?, summary = ?, matches = ?, gaps = ?, red_flags = ?, salary_llm = ?, remote = ?,
-      seniority = ?, scored_at = ?, score_error = NULL, updated_at = ?
+      seniority = ?, primary_stack = ?, scored_at = ?, score_error = NULL, updated_at = ?
     WHERE id = ?`,
     args: [
       score.fit,
@@ -256,6 +312,7 @@ export async function saveScore(db: Db, id: number, score: ScoreResult): Promise
       score.salary,
       Number(score.remote),
       score.seniority,
+      score.primary_stack,
       now,
       now,
       id,

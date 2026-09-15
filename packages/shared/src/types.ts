@@ -1,10 +1,15 @@
-export const SOURCE_NAMES = ['djinni', 'linkedin', 'dou'] as const;
+export const SOURCE_NAMES = ['djinni', 'linkedin', 'dou', 'nofluffjobs'] as const;
 export type SourceName = (typeof SOURCE_NAMES)[number];
 
 export const JOB_STATUSES = ['new', 'applied', 'skipped', 'replied', 'filtered'] as const;
 export type JobStatus = (typeof JOB_STATUSES)[number];
 
-export const SETTING_KEYS = ['profile', 'cover_letter_template'] as const;
+export const SETTING_KEYS = [
+  'profile',
+  'cover_letter_template',
+  'scoring_guidance',
+  'fetch_requested_at',
+] as const;
 export type SettingKey = (typeof SETTING_KEYS)[number];
 
 /** A listing as returned by a source module, before any processing. */
@@ -32,12 +37,16 @@ export interface ScoreResult {
   salary: string | null;
   remote: boolean;
   seniority: string;
+  /** One word: react, vue, angular, backend, other. Drives the post-validation fit cap. */
+  primary_stack: string;
 }
 
 /** A row of the `jobs` table. */
 export interface Job {
   id: number;
   source: SourceName;
+  /** Every source the same opening was seen on; `source` is the first one. */
+  sources: SourceName[];
   externalId: string | null;
   url: string;
   canonicalUrl: string;
@@ -48,6 +57,8 @@ export interface Job {
   salaryRaw: string | null;
   description: string | null;
   describeAttempts: number;
+  /** Description under the size threshold: scored anyway, but flagged for the reader. */
+  thinDescription: boolean;
   postedAt: string | null;
   firstSeenAt: string;
   fit: number | null;
@@ -58,6 +69,7 @@ export interface Job {
   salaryLlm: string | null;
   remote: boolean | null;
   seniority: string | null;
+  primaryStack: string | null;
   scoredAt: string | null;
   scoreError: string | null;
   status: JobStatus;
@@ -80,26 +92,39 @@ export type JobSummary = Omit<Job, 'description' | 'coverLetter'> & {
 export interface NewJob extends JobListing {
   canonicalUrl: string;
   dedupeKey: string;
+  /** All sources the opening was seen on during this run; defaults to [source]. */
+  sources?: SourceName[];
   description: string | null;
+  thinDescription: boolean;
   status: Extract<JobStatus, 'new' | 'filtered'>;
   filterReason: string | null;
 }
 
 export interface SourceRunStats {
   listed: number;
+  /** HTTP requests made to the board during this run. */
+  requests: number;
   skipped: boolean;
+  /** The board started refusing mid-run; listed jobs were still kept. */
+  blocked: boolean;
   error: string | null;
 }
 
 export interface RunStats {
   sources: Partial<Record<SourceName, SourceRunStats>>;
   discovered: number;
+  /** Unique after in-run and database dedupe. */
+  unique: number;
   inserted: number;
   filtered: number;
+  /** Rejected after reading the full description (salary, office-only). */
+  descriptionFiltered: number;
   described: number;
+  sentToScoring: number;
   scored: number;
   scoreErrors: number;
   notified: number;
+  tokens: { prompt: number; completion: number; estimatedUsd: number } | null;
 }
 
 export interface Run {
@@ -143,4 +168,5 @@ export interface DashboardStats {
   bySource: ConversionRow[];
   byFit: ConversionRow[];
   totals: StatusTotals;
+  appliedToday: number;
 }

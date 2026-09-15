@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import { htmlToText, normalizeWhitespace } from '../lib/html-to-text.ts';
 import { parseDate } from '../lib/parse-date.ts';
 import { config } from '../config.ts';
-import type { DiscoveredJob, Source } from './types.ts';
+import type { DiscoveredJob, Search, Source } from './types.ts';
 
 const REMOTE = /remote|віддалено|дистанційно/i;
 
@@ -12,7 +12,19 @@ const REMOTE = /remote|віддалено|дистанційно/i;
  */
 export const dou: Source = {
   name: 'dou',
-  listingUrls: config.sources.dou.listingUrls,
+
+  searches() {
+    return config.sources.dou.categories.map(
+      (category): Search => ({
+        name: category,
+        maxPages: 1,
+        pageSize: Number.POSITIVE_INFINITY,
+        request: () => ({
+          url: `https://jobs.dou.ua/vacancies/feeds/?category=${encodeURIComponent(category)}`,
+        }),
+      }),
+    );
+  },
 
   parseListings(body) {
     const $ = cheerio.load(body, { xml: true });

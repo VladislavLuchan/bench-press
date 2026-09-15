@@ -4,9 +4,11 @@ import type { JobsQuery } from '../api/client.ts';
 interface Props {
   query: JobsQuery;
   onChange: (query: JobsQuery) => void;
+  /** The Filtered tab pins status to `filtered`. */
+  lockStatus?: boolean;
 }
 
-export function JobFilters({ query, onChange }: Props) {
+export function JobFilters({ query, onChange, lockStatus = false }: Props) {
   const update = (patch: Partial<JobsQuery>) => onChange({ ...query, ...patch });
 
   return (
@@ -44,9 +46,10 @@ export function JobFilters({ query, onChange }: Props) {
         <select
           className="field__input"
           value={query.status ?? ''}
+          disabled={lockStatus}
           onChange={(event) => update({ status: event.target.value || undefined })}
         >
-          <option value="">active</option>
+          <option value="">all active</option>
           {JOB_STATUSES.map((status) => (
             <option key={status} value={status}>
               {status}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Job, JobStatus } from '@bench-press/shared/types';
-import { api, errorMessage } from '../api/client.ts';
+import { api, errorMessage, JOBS_CHANGED_EVENT } from '../api/client.ts';
 import { formatDateTime } from '../lib/format.ts';
 import { CoverLetterPanel } from './CoverLetterPanel.tsx';
 import { FitBadge } from './FitBadge.tsx';
@@ -38,6 +38,7 @@ export function JobDetail({ job, onJobChange }: Props) {
     setError(null);
     try {
       onJobChange(await api.jobs.update(job.id, { status }));
+      window.dispatchEvent(new Event(JOBS_CHANGED_EVENT));
     } catch (err) {
       setError(errorMessage(err));
     }
@@ -54,12 +55,13 @@ export function JobDetail({ job, onJobChange }: Props) {
             </a>
           </h2>
           <p className="job-detail__meta">
-            {[job.company, job.location, job.salaryRaw ?? job.salaryLlm, job.seniority]
+            {[job.company, job.location, job.salaryRaw ?? job.salaryLlm, job.seniority, job.primaryStack]
               .filter(Boolean)
               .join(' · ')}
           </p>
           <p className="job-detail__meta">
-            {job.source} · seen {formatDateTime(job.firstSeenAt)}
+            {job.sources.join(', ')} · seen {formatDateTime(job.firstSeenAt)}
+            {job.filterReason && ` · filtered: ${job.filterReason}`}
             {job.appliedAt && ` · applied ${formatDateTime(job.appliedAt)}`}
             {job.repliedAt && ` · replied ${formatDateTime(job.repliedAt)}`}
           </p>
