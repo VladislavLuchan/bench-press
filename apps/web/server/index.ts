@@ -11,7 +11,7 @@ import { createRouter, route } from './lib/router.ts';
 /**
  * Single Vercel function for the whole API. vercel.json rewrites /api/* here, which keeps
  * one bundle, one cold start and one place to enforce the auth token.
- * Built by scripts/build-api.mjs into api/index.js; the api/ directory holds only that output.
+ * Bundled by scripts/build-api.mjs into server-dist/index.js and re-exported by api/index.js.
  */
 const handle = createRouter([
   route('GET', /^\/jobs$/, listJobsHandler),

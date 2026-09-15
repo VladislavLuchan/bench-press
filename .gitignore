@@ -9,5 +9,5 @@ dist/
 coverage/
 .DS_Store
 
-# Bundled Vercel function (built from apps/web/server)
-apps/web/api/*.js
+# Bundled API (built from apps/web/server, re-exported by apps/web/api/index.js)
+apps/web/server-dist/

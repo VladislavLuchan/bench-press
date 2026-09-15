@@ -9,7 +9,7 @@ export default tseslint.config(
       '**/dist/**',
       '**/.vercel/**',
       'apps/scraper/tests/fixtures/**',
-      'apps/web/api/**',
+      'apps/web/server-dist/**',
     ],
   },
   js.configs.recommended,
