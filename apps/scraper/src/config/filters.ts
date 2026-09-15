@@ -10,7 +10,7 @@ export const TITLE_INCLUDE =
 
 // `.net`, `c#` and `c++` sit outside the word-boundary group: `\b` does not work next to punctuation.
 export const TITLE_EXCLUDE =
-  /\.net\b|\bdotnet\b|c#|c\+\+|\b(designer|ux|python|django|java|kotlin|angular|vue|nuxt|svelte|shopify|wordpress|webflow|php|laravel|ruby|rails|golang|go|rust|webgpu|webgl|three\.?js|pixi|unity|unreal|qa\b|test engineer|test automation|aqa|devops|sre|data engineer|ml engineer|manager|recruiter|junior|middle|intern|trainee|student|ai training|annotat|react native|mobile|ios|android|flutter|scada|roku|html coder|coder\b|джуніор|стажер|верстальник)\b/i;
+  /\.net\b|\bdotnet\b|c#|c\+\+|\b(designer|ux|python|django|java|kotlin|angular|vue|nuxt|svelte|shopify|wordpress|webflow|php|laravel|ruby|rails|golang|go|rust|webgpu|webgl|three\.?js|pixi|unity|unreal|qa\b|test engineer|test automation|aqa|devops|sre|data engineer|ml engineer|manager|recruiter|junior|middle|intern|trainee|student|ai training|annotat\w*|react native|mobile|ios|android|flutter|scada|roku|html coder|coder\b|джуніор|стажер|верстальник)\b/i;
 
 /** Outsourcing companies tag listings with request ids; those are bulk postings, not roles. */
 export const TITLE_OUTSOURCE_ID = /\b(IRC|REQ|JR|ID)[-_ ]?\d{4,}\b/;
