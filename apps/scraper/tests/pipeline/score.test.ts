@@ -65,7 +65,9 @@ describe('parseScoreJson', () => {
       primary_stack: 'other',
       location_type: 'unclear',
     });
-    expect(parseScoreJson(JSON.stringify({ ...valid, location_type: 'moon' })).location_type).toBe('unclear');
+    expect(parseScoreJson(JSON.stringify({ ...valid, location_type: 'moon' })).location_type).toBe(
+      'unclear',
+    );
   });
 });
 
@@ -78,7 +80,9 @@ describe('postValidate', () => {
     expect(postValidate({ ...valid, location_type: 'onsite' }).score.fit).toBe(2);
     expect(postValidate({ ...valid, location_type: 'hybrid' }).score.fit).toBe(4);
     expect(postValidate({ ...valid, location_type: 'remote_region_limited' }).score.fit).toBe(4);
-    expect(postValidate({ ...valid, location_type: 'hybrid' }).notes).toEqual(['capped at 4: location is hybrid']);
+    expect(postValidate({ ...valid, location_type: 'hybrid' }).notes).toEqual([
+      'capped at 4: location is hybrid',
+    ]);
   });
 
   it('caps off-stack roles at 4 and leaves core stacks alone', () => {
@@ -91,7 +95,12 @@ describe('postValidate', () => {
     const result = postValidate({
       ...valid,
       fit: 7,
-      gaps: ['Backend experience is a plus', 'GraphQL nice to have', 'Must have Redux', 'Docker (bonus)'],
+      gaps: [
+        'Backend experience is a plus',
+        'GraphQL nice to have',
+        'Must have Redux',
+        'Docker (bonus)',
+      ],
     });
     expect(result.score.gaps).toEqual(['Must have Redux']);
     expect(result.score.fit).toBe(9);
@@ -100,7 +109,12 @@ describe('postValidate', () => {
   });
 
   it('never lets the gap bonus beat a location cap', () => {
-    const result = postValidate({ ...valid, fit: 6, location_type: 'hybrid', gaps: ['Go is a plus'] });
+    const result = postValidate({
+      ...valid,
+      fit: 6,
+      location_type: 'hybrid',
+      gaps: ['Go is a plus'],
+    });
     expect(result.score.fit).toBe(4);
     expect(result.notes).toEqual([
       '+1: 1 optional requirement(s) removed from gaps',
@@ -109,8 +123,12 @@ describe('postValidate', () => {
   });
 
   it('flags a remote verdict when the regex saw a hub, and unclear locations', () => {
-    expect(postValidate(valid, 'soft').score.red_flags).toEqual(['verify location (hub mentioned)']);
-    expect(postValidate({ ...valid, location_type: 'unclear' }).score.red_flags).toEqual(['location unclear']);
+    expect(postValidate(valid, 'soft').score.red_flags).toEqual([
+      'verify location (hub mentioned)',
+    ]);
+    expect(postValidate({ ...valid, location_type: 'unclear' }).score.red_flags).toEqual([
+      'location unclear',
+    ]);
     expect(postValidate({ ...valid, location_type: 'unclear' }).score.fit).toBe(8);
   });
 });
