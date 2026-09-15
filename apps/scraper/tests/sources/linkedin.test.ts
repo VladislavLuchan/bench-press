@@ -20,11 +20,12 @@ describe('linkedin.parseListings', () => {
   it('extracts the main fields of the first card', () => {
     expect(jobs[0]).toMatchObject({
       source: 'linkedin',
-      externalId: '4465508609',
-      title: 'Python Software Engineer with Frontend framework knowledge',
-      company: 'Origindata',
-      location: 'Ukraine',
+      externalId: '4466500371',
+      title: 'Lead Developer',
+      company: 'AMFG',
+      location: 'Kyiv City, Ukraine',
       postedAt: '2026-09-15T00:00:00.000Z',
+      remote: true,
       description: null,
     });
     expect(jobs[0]?.url).toContain('/jobs/view/');
@@ -32,7 +33,7 @@ describe('linkedin.parseListings', () => {
 
   it('points the description fetch at the guest posting endpoint', () => {
     expect(linkedin.descriptionUrl(jobs[0]!)).toBe(
-      'https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/4465508609',
+      'https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/4466500371',
     );
   });
 });
@@ -41,8 +42,8 @@ describe('linkedin.parseDescription', () => {
   const description = linkedin.parseDescription(detailHtml);
 
   it('returns readable text with the job criteria appended', () => {
-    expect(description).toContain('Python Developer');
-    expect(description).toContain('Seniority level: Entry level');
+    expect(description).toContain('fantastic opportunity to join a fast-growing company');
+    expect(description).toContain('Seniority level: Mid-Senior level');
     expect(description).toContain('Employment type: Full-time');
     expect(description).not.toContain('<p>');
   });

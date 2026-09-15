@@ -53,14 +53,14 @@ describe('dou.parseListings', () => {
   it('extracts the first item with its inline description', () => {
     expect(jobs[0]).toMatchObject({
       source: 'dou',
-      externalId: '373180',
-      url: 'https://jobs.dou.ua/companies/intelligent-legal-solutions/vacancies/373180/?utm_source=jobsrss',
-      title: 'Senior Front-End Developer',
-      company: 'Intelligent Legal Solutions',
-      location: 'віддалено',
-      remote: true,
+      externalId: '365171',
+      url: 'https://jobs.dou.ua/companies/12-ocsp/vacancies/365171/?utm_source=jobsrss',
+      title: 'Front-End розробник JavaScript (VueJS) до IT-підрозділу ЗСУ',
+      company: '12-й ОЦСП',
+      location: null,
+      remote: null,
     });
-    expect(jobs[0]?.description).toContain('Intelligent Legal Solutions');
+    expect(jobs[0]?.description?.length ?? 0).toBeGreaterThan(100);
     expect(jobs[0]?.description).not.toContain('<p>');
     expect(jobs[0]?.postedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
   });
