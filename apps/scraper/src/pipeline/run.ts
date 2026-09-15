@@ -78,7 +78,13 @@ async function discover(
       const backoffUntil = states.get(source.name)?.backoffUntil;
       if (backoffUntil && backoffUntil > now) {
         log.warn(`Skipping ${source.name}: backing off until ${backoffUntil}`);
-        stats.sources[source.name] = { listed: 0, requests: 0, skipped: true, blocked: false, error: null };
+        stats.sources[source.name] = {
+          listed: 0,
+          requests: 0,
+          skipped: true,
+          blocked: false,
+          error: null,
+        };
         return [];
       }
       try {
@@ -96,11 +102,20 @@ async function discover(
         } else if (db) {
           await markSourceSuccess(db, source.name);
         }
-        log.info(`Fetched ${source.name}`, { listed: result.jobs.length, requests: result.requests });
+        log.info(`Fetched ${source.name}`, {
+          listed: result.jobs.length,
+          requests: result.requests,
+        });
         return result.jobs;
       } catch (error) {
         const message = errorMessage(error);
-        stats.sources[source.name] = { listed: 0, requests: 0, skipped: false, blocked: false, error: message };
+        stats.sources[source.name] = {
+          listed: 0,
+          requests: 0,
+          skipped: false,
+          blocked: false,
+          error: message,
+        };
         log.error(`Source ${source.name} failed`, { error: message });
         if (db && error instanceof BlockedError) await backOff(db, source.name, error);
         return [];
@@ -210,20 +225,24 @@ async function scoreJobs(db: Db, env: ScraperEnv, stats: RunStats): Promise<void
   const systemPrompt = await loadScorePrompt(profile, guidance);
   const meter = new UsageMeter();
 
-  await mapWithConcurrency(chunk(pending, config.scoring.batchSize), config.scoring.concurrency, async (batch) => {
-    const outcomes = await scoreBatch(batch, systemPrompt, chat, meter);
-    for (const [index, outcome] of outcomes.entries()) {
-      const job = batch[index] as Job;
-      if (outcome.ok) {
-        await saveScore(db, job.id, outcome.score);
-        stats.scored++;
-      } else {
-        await saveScoreError(db, job.id, outcome.error);
-        stats.scoreErrors++;
-        log.warn(`Scoring failed for job ${job.id}`, { error: outcome.error });
+  await mapWithConcurrency(
+    chunk(pending, config.scoring.batchSize),
+    config.scoring.concurrency,
+    async (batch) => {
+      const outcomes = await scoreBatch(batch, systemPrompt, chat, meter);
+      for (const [index, outcome] of outcomes.entries()) {
+        const job = batch[index] as Job;
+        if (outcome.ok) {
+          await saveScore(db, job.id, outcome.score);
+          stats.scored++;
+        } else {
+          await saveScoreError(db, job.id, outcome.error);
+          stats.scoreErrors++;
+          log.warn(`Scoring failed for job ${job.id}`, { error: outcome.error });
+        }
       }
-    }
-  });
+    },
+  );
 
   stats.tokens = {
     prompt: meter.promptTokens,
@@ -279,11 +298,14 @@ export async function runPipeline({ http, env, dryRun, backfill }: RunOptions): 
     stats.discovered = discovered.length;
     const prepared = await prepareNewJobs(discovered, null, stats);
     for (const job of prepared) {
-      log.info(`${job.status.padEnd(8)} ${job.source.padEnd(11)} ${job.title} @ ${job.company ?? '?'}`, {
-        reason: job.filterReason,
-        sources: job.sources,
-        url: job.canonicalUrl,
-      });
+      log.info(
+        `${job.status.padEnd(8)} ${job.source.padEnd(11)} ${job.title} @ ${job.company ?? '?'}`,
+        {
+          reason: job.filterReason,
+          sources: job.sources,
+          url: job.canonicalUrl,
+        },
+      );
     }
     stats.filtered = prepared.filter((job) => job.status === 'filtered').length;
     logStage('dry run finished', stats);

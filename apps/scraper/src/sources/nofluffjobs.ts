@@ -40,21 +40,19 @@ export const nofluffjobs: Source = {
 
   searches() {
     const { searches, region } = config.sources.nofluffjobs;
-    return searches.map(
-      (rawSearch): Search => ({
-        name: rawSearch,
-        maxPages: 1,
-        pageSize: Number.POSITIVE_INFINITY,
-        request: () => ({
-          url: `${SEARCH_URL}?page=1&salaryCurrency=EUR&salaryPeriod=month&region=${region}`,
-          init: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ rawSearch, page: 1 }),
-          },
-        }),
+    return searches.map((rawSearch): Search => ({
+      name: rawSearch,
+      maxPages: 1,
+      pageSize: Number.POSITIVE_INFINITY,
+      request: () => ({
+        url: `${SEARCH_URL}?page=1&salaryCurrency=EUR&salaryPeriod=month&region=${region}`,
+        init: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ rawSearch, page: 1 }),
+        },
       }),
-    );
+    }));
   },
 
   parseListings(body) {
@@ -92,7 +90,10 @@ export const nofluffjobs: Source = {
   parseDescription(body) {
     const data = JSON.parse(body) as PostingResponse;
     const list = (items: Array<{ value?: string }> | undefined) =>
-      (items ?? []).map((item) => item.value).filter(Boolean).join(', ');
+      (items ?? [])
+        .map((item) => item.value)
+        .filter(Boolean)
+        .join(', ');
     const sections = [
       data.basics?.seniority?.length ? `Seniority: ${data.basics.seniority.join(', ')}` : '',
       list(data.requirements?.musts) && `Must have: ${list(data.requirements?.musts)}`,

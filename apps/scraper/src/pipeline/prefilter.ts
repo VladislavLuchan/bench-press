@@ -45,7 +45,8 @@ export interface DescriptionVerdict {
 }
 
 /** Salary regex kept narrow: a currency sign or code must sit next to the number. */
-const SALARY_IN_TEXT = /(?:[$€]\s?\d[\d\s,.]*k?(?:\s?[-–]\s?[$€]?\s?\d[\d\s,.]*k?)?|\d[\d\s,.]*k?\s?(?:USD|EUR|usd|eur|\$|€))/g;
+const SALARY_IN_TEXT =
+  /(?:[$€]\s?\d[\d\s,.]*k?(?:\s?[-–]\s?[$€]?\s?\d[\d\s,.]*k?)?|\d[\d\s,.]*k?\s?(?:USD|EUR|usd|eur|\$|€))/g;
 
 /**
  * Checks that need the full description. Runs after the description is fetched and

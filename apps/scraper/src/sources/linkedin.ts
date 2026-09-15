@@ -84,7 +84,9 @@ export const linkedin: Source = {
     const description = htmlToText($('.show-more-less-html__markup').first().html() ?? '');
     const criteria = $('.description__job-criteria-item')
       .map((_, item) => {
-        const label = normalizeWhitespace($(item).find('.description__job-criteria-subheader').text());
+        const label = normalizeWhitespace(
+          $(item).find('.description__job-criteria-subheader').text(),
+        );
         const value = normalizeWhitespace($(item).find('.description__job-criteria-text').text());
         return label && value ? `${label}: ${value}` : '';
       })

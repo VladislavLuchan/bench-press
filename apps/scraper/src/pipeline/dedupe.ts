@@ -61,7 +61,8 @@ export function excludeExisting(
   const updates = new Map<number, SourceName[]>();
 
   for (const job of jobs) {
-    const known = existing.canonicalUrls.get(job.canonicalUrl) ?? existing.dedupeKeys.get(job.dedupeKey);
+    const known =
+      existing.canonicalUrls.get(job.canonicalUrl) ?? existing.dedupeKeys.get(job.dedupeKey);
     if (!known) {
       fresh.push(job);
       continue;

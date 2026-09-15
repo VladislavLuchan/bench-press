@@ -50,28 +50,28 @@ export function createHttpClient(options = config.http): HttpClient {
   }
 
   async function request(url: string, init: RequestInit = {}): Promise<string> {
-      await throttle(new URL(url).host);
-      const headers = new Headers(init.headers);
-      headers.set('User-Agent', options.userAgent);
-      if (!headers.has('Accept')) {
-        headers.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
-      }
-      headers.set('Accept-Language', 'en-US,en;q=0.9,uk;q=0.8');
-      const response = await fetch(url, {
-        ...init,
-        headers,
-        redirect: 'follow',
-        signal: AbortSignal.timeout(options.timeoutMs),
-      });
+    await throttle(new URL(url).host);
+    const headers = new Headers(init.headers);
+    headers.set('User-Agent', options.userAgent);
+    if (!headers.has('Accept')) {
+      headers.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
+    }
+    headers.set('Accept-Language', 'en-US,en;q=0.9,uk;q=0.8');
+    const response = await fetch(url, {
+      ...init,
+      headers,
+      redirect: 'follow',
+      signal: AbortSignal.timeout(options.timeoutMs),
+    });
 
-      if (response.status === 429 || response.status === 403) {
-        throw new BlockedError(`HTTP ${response.status} (rate limited or blocked)`, url);
-      }
-      if (LOGIN_WALL.test(new URL(response.url).pathname)) {
-        throw new BlockedError(`Redirected to a login wall: ${response.url}`, url);
-      }
-      if (!response.ok) throw new HttpError(response.status, url);
-      return response.text();
+    if (response.status === 429 || response.status === 403) {
+      throw new BlockedError(`HTTP ${response.status} (rate limited or blocked)`, url);
+    }
+    if (LOGIN_WALL.test(new URL(response.url).pathname)) {
+      throw new BlockedError(`Redirected to a login wall: ${response.url}`, url);
+    }
+    if (!response.ok) throw new HttpError(response.status, url);
+    return response.text();
   }
 
   return { request, getText: (url) => request(url) };

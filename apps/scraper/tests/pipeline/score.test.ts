@@ -59,7 +59,10 @@ describe('parseScoreJson', () => {
 
   it('defaults a missing primary_stack to other and caps the fit', () => {
     const { primary_stack: _stack, ...withoutStack } = valid;
-    expect(parseScoreJson(JSON.stringify(withoutStack))).toMatchObject({ primary_stack: 'other', fit: 4 });
+    expect(parseScoreJson(JSON.stringify(withoutStack))).toMatchObject({
+      primary_stack: 'other',
+      fit: 4,
+    });
   });
 });
 

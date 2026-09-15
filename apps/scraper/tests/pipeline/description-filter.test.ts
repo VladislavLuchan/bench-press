@@ -17,11 +17,17 @@ describe('descriptionVerdict', () => {
   });
 
   it('ignores numbers that are not salaries', () => {
-    expect(descriptionVerdict(eu, `${long} 5+ years, 2020, team of 12, budget 1500 users`).reason).toBeNull();
+    expect(
+      descriptionVerdict(eu, `${long} 5+ years, 2020, team of 12, budget 1500 users`).reason,
+    ).toBeNull();
   });
 
   it('rejects office-only jobs without any remote option', () => {
-    expect(descriptionVerdict(eu, `${long} This is an office only position in Warsaw.`).reason).toMatch(/office/);
-    expect(descriptionVerdict(eu, `${long} Office only for the first month, then remote.`).reason).toBeNull();
+    expect(
+      descriptionVerdict(eu, `${long} This is an office only position in Warsaw.`).reason,
+    ).toMatch(/office/);
+    expect(
+      descriptionVerdict(eu, `${long} Office only for the first month, then remote.`).reason,
+    ).toBeNull();
   });
 });

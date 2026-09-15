@@ -31,10 +31,12 @@ export const DESCRIPTION_FILTERS = {
   /** Explicit salary in the description below this is skipped. USD/EUR treated alike. */
   salaryFloorUsd: { ua: 3500, eu: 4000 },
   /** Office-only wording that disqualifies unless remote is also mentioned. */
-  officeOnly: /\b(office[- ]only|on-?site only|no remote|not remote|relocation (is )?required|тільки офіс|без віддаленої|офіс(ний)? формат)\b/i,
+  officeOnly:
+    /\b(office[- ]only|on-?site only|no remote|not remote|relocation (is )?required|тільки офіс|без віддаленої|офіс(ний)? формат)\b/i,
   remoteMention: /\b(remote|hybrid|віддалено|дистанційно|гібрид)\b/i,
   /** Descriptions shorter than this are scored but flagged as thin. */
   thinDescriptionChars: 300,
   /** Signals that the employer is Ukrainian, which selects the lower salary floor. */
-  ukraineSignal: /\b(ukraine|україн|київ|kyiv|львів|lviv|харків|kharkiv|дніпро|dnipro|одеса|odesa)\b/i,
+  ukraineSignal:
+    /\b(ukraine|україн|київ|kyiv|львів|lviv|харків|kharkiv|дніпро|dnipro|одеса|odesa)\b/i,
 } as const;

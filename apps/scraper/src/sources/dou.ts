@@ -14,16 +14,14 @@ export const dou: Source = {
   name: 'dou',
 
   searches() {
-    return config.sources.dou.categories.map(
-      (category): Search => ({
-        name: category,
-        maxPages: 1,
-        pageSize: Number.POSITIVE_INFINITY,
-        request: () => ({
-          url: `https://jobs.dou.ua/vacancies/feeds/?category=${encodeURIComponent(category)}`,
-        }),
+    return config.sources.dou.categories.map((category): Search => ({
+      name: category,
+      maxPages: 1,
+      pageSize: Number.POSITIVE_INFINITY,
+      request: () => ({
+        url: `https://jobs.dou.ua/vacancies/feeds/?category=${encodeURIComponent(category)}`,
       }),
-    );
+    }));
   },
 
   parseListings(body) {

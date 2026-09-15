@@ -54,8 +54,12 @@ describe('excludeExisting', () => {
       job({ source: 'dou', url: 'https://jobs.dou.ua/x/4', title: 'Frontend Developer' }),
     );
     const result = excludeExisting([known, fresh, sameOpening], {
-      canonicalUrls: new Map<string, ExistingJobRef>([[known.canonicalUrl, { id: 7, sources: ['djinni'] }]]),
-      dedupeKeys: new Map<string, ExistingJobRef>([[known.dedupeKey, { id: 7, sources: ['djinni'] }]]),
+      canonicalUrls: new Map<string, ExistingJobRef>([
+        [known.canonicalUrl, { id: 7, sources: ['djinni'] }],
+      ]),
+      dedupeKeys: new Map<string, ExistingJobRef>([
+        [known.dedupeKey, { id: 7, sources: ['djinni'] }],
+      ]),
     });
     expect(result.fresh).toEqual([fresh]);
     expect(result.sourceUpdates).toEqual([{ id: 7, sources: ['djinni', 'dou'] }]);

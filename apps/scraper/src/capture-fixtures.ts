@@ -23,7 +23,10 @@ export async function captureFixtures(http: HttpClient): Promise<void> {
     const { url, init } = search.request(0);
 
     const listBody = await http.request(url, init);
-    await writeFile(new URL(`${source.name}-list.${extensionFor(source.name, url)}`, FIXTURES_DIR), listBody);
+    await writeFile(
+      new URL(`${source.name}-list.${extensionFor(source.name, url)}`, FIXTURES_DIR),
+      listBody,
+    );
 
     const listings = source.parseListings(listBody, url);
     log.info(`Captured ${source.name} listing page`, { parsed: listings.length });

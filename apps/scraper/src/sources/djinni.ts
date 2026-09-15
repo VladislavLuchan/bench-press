@@ -16,16 +16,14 @@ export const djinni: Source = {
 
   searches() {
     const { keywords, params, maxPages, pageSize } = config.sources.djinni;
-    return keywords.map(
-      (keyword): Search => ({
-        name: keyword,
-        maxPages,
-        pageSize,
-        request: (page) => ({
-          url: `https://djinni.co/jobs/?primary_keyword=${encodeURIComponent(keyword)}&${params}&page=${page + 1}`,
-        }),
+    return keywords.map((keyword): Search => ({
+      name: keyword,
+      maxPages,
+      pageSize,
+      request: (page) => ({
+        url: `https://djinni.co/jobs/?primary_keyword=${encodeURIComponent(keyword)}&${params}&page=${page + 1}`,
       }),
-    );
+    }));
   },
 
   parseListings(body, pageUrl) {

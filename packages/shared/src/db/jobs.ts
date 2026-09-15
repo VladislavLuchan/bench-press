@@ -107,7 +107,10 @@ async function selectExisting(
 export async function findExistingJobKeys(
   db: Db,
   keys: { canonicalUrls: string[]; dedupeKeys: string[] },
-): Promise<{ canonicalUrls: Map<string, ExistingJobRef>; dedupeKeys: Map<string, ExistingJobRef> }> {
+): Promise<{
+  canonicalUrls: Map<string, ExistingJobRef>;
+  dedupeKeys: Map<string, ExistingJobRef>;
+}> {
   return {
     canonicalUrls: await selectExisting(db, 'canonical_url', keys.canonicalUrls),
     dedupeKeys: await selectExisting(db, 'dedupe_key', keys.dedupeKeys),

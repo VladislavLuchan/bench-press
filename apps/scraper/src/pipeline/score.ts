@@ -150,7 +150,10 @@ async function scoreOne(
   meter?: UsageMeter,
 ): Promise<BatchOutcome> {
   try {
-    return { ok: true, score: await scoreJob(job, systemPrompt, chat, config.scoring.maxRetries, meter) };
+    return {
+      ok: true,
+      score: await scoreJob(job, systemPrompt, chat, config.scoring.maxRetries, meter),
+    };
   } catch (error) {
     return { ok: false, error: errorMessage(error) };
   }

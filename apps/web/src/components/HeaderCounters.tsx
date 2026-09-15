@@ -8,7 +8,10 @@ export function HeaderCounters() {
 
   useEffect(() => {
     const load = () => {
-      api.stats().then(setStats).catch(() => undefined);
+      api
+        .stats()
+        .then(setStats)
+        .catch(() => undefined);
     };
     load();
     const timer = setInterval(load, 60_000);

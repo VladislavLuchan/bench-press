@@ -55,7 +55,13 @@ export function JobDetail({ job, onJobChange }: Props) {
             </a>
           </h2>
           <p className="job-detail__meta">
-            {[job.company, job.location, job.salaryRaw ?? job.salaryLlm, job.seniority, job.primaryStack]
+            {[
+              job.company,
+              job.location,
+              job.salaryRaw ?? job.salaryLlm,
+              job.seniority,
+              job.primaryStack,
+            ]
               .filter(Boolean)
               .join(' · ')}
           </p>
