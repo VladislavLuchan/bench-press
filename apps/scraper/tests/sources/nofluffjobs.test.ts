@@ -3,8 +3,14 @@ import { describe, expect, it } from 'vitest';
 import { nofluffjobs } from '../../src/sources/nofluffjobs.ts';
 
 const SEARCH_URL = 'https://nofluffjobs.com/api/search/posting?page=1';
-const listJson = readFileSync(new URL('../fixtures/nofluffjobs-list.json', import.meta.url), 'utf8');
-const detailJson = readFileSync(new URL('../fixtures/nofluffjobs-detail.json', import.meta.url), 'utf8');
+const listJson = readFileSync(
+  new URL('../fixtures/nofluffjobs-list.json', import.meta.url),
+  'utf8',
+);
+const detailJson = readFileSync(
+  new URL('../fixtures/nofluffjobs-detail.json', import.meta.url),
+  'utf8',
+);
 
 describe('nofluffjobs.parseListings', () => {
   const jobs = nofluffjobs.parseListings(listJson, SEARCH_URL);
