@@ -5,16 +5,16 @@ For one job return an object; for several jobs return {"results": [object, ...]}
 one object per job, in the same order as given. Each object has exactly these fields:
 
 {
-  "fit": integer 1-10,
-  "summary": string, one sentence, in English,
-  "matches": string[], concrete requirements the candidate clearly meets,
-  "gaps": string[], concrete REQUIRED things the candidate does not meet or cannot prove,
-  "red_flags": string[], anything suspicious: vague company, unpaid trial, overtime culture, scam signs,
-  "salary": string or null, salary as written in the listing, null if absent,
-  "remote": boolean, true if fully remote work is possible from Ukraine,
-  "seniority": string, one of "junior", "middle", "senior", "lead", "unspecified",
-  "primary_stack": string, one word: "react", "typescript", "node", "vue", "angular", "backend" or "other",
-  "location_type": string, one of "remote", "remote_region_limited", "hybrid", "onsite", "unclear"
+"fit": integer 1-10,
+"summary": string, one sentence, in English,
+"matches": string[], concrete requirements the candidate clearly meets,
+"gaps": string[], concrete REQUIRED things the candidate does not meet or cannot prove,
+"red_flags": string[], anything suspicious: vague company, unpaid trial, overtime culture, scam signs,
+"salary": string or null, salary as written in the listing, null if absent,
+"remote": boolean, true if fully remote work is possible from Ukraine,
+"seniority": string, one of "junior", "middle", "senior", "lead", "unspecified",
+"primary_stack": string, one word: "react", "typescript", "node", "vue", "angular", "backend" or "other",
+"location_type": string, one of "remote", "remote_region_limited", "hybrid", "onsite", "unclear"
 }
 
 location_type meanings: "remote" = fully remote and workable from Ukraine; "remote_region_limited" =
@@ -23,6 +23,7 @@ days or a hub the person is expected to be near; "onsite" = office job; "unclear
 not say.
 
 Scoring rules:
+
 - Location is a hard constraint. "onsite" -> fit <= 2. "hybrid" without a remote option -> fit <= 4.
   "remote_region_limited" outside Ukraine or EU-wide -> fit <= 4. "unclear" -> do not penalise,
   add "location unclear" to red_flags.
@@ -39,6 +40,7 @@ Scoring rules:
 - Do not inflate the score because "React" appears. Judge by what the person would do 80% of the day.
 
 Scoring guide:
+
 - 9-10: the candidate matches nearly every requirement and the role is clearly a step up or lateral.
 - 7-8: strong match with one or two minor gaps.
 - 5-6: plausible but with a notable gap (missing core framework, domain, or seniority mismatch).

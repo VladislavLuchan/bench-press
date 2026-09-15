@@ -67,8 +67,8 @@ export function JobDetail({ job, onJobChange }: Props) {
               .join(' · ')}
           </p>
           <p className="job-detail__meta">
-            <LocationBadge type={job.locationType} />{' '}
-            {job.sources.join(', ')} · seen {formatDateTime(job.firstSeenAt)}
+            <LocationBadge type={job.locationType} /> {job.sources.join(', ')} · seen{' '}
+            {formatDateTime(job.firstSeenAt)}
             {job.filterReason && ` · filtered: ${job.filterReason}`}
             {job.filterMatch && ` (matched "${job.filterMatch}")`}
             {job.appliedAt && ` · applied ${formatDateTime(job.appliedAt)}`}

@@ -12,7 +12,8 @@ function escapeHtml(text: string): string {
 
 /** One compact message per match; fit first so it can be scanned on a phone. */
 export function formatJobMessage(job: JobSummary, dashboardUrl: string | undefined): string {
-  const fit = job.fitRaw !== null && job.fitRaw !== job.fit ? `${job.fitRaw}→${job.fit}` : `${job.fit}`;
+  const fit =
+    job.fitRaw !== null && job.fitRaw !== job.fit ? `${job.fitRaw}→${job.fit}` : `${job.fit}`;
   const header = `<b>${fit}/10</b> ${escapeHtml(job.title)}`;
   const company = [job.company, job.salaryRaw ?? job.salaryLlm, job.locationType]
     .filter(Boolean)

@@ -43,7 +43,13 @@ export interface ScoreResult {
   location_type: LocationType;
 }
 
-export const LOCATION_TYPES = ['remote', 'remote_region_limited', 'hybrid', 'onsite', 'unclear'] as const;
+export const LOCATION_TYPES = [
+  'remote',
+  'remote_region_limited',
+  'hybrid',
+  'onsite',
+  'unclear',
+] as const;
 export type LocationType = (typeof LOCATION_TYPES)[number];
 
 /** What the regex pre-filter concluded from the text; `soft` means an office or hub was mentioned. */

@@ -31,7 +31,9 @@ describe('checkLocation', () => {
   });
 
   it('reports the phrase that triggered the verdict', () => {
-    expect(checkLocation('Office attendance is mandatory.').match).toBe('Office attendance is mandatory');
+    expect(checkLocation('Office attendance is mandatory.').match).toBe(
+      'Office attendance is mandatory',
+    );
     expect(checkLocation('can be based in our tech hub in Tallinn').match).toBe('can be based in');
     expect(checkLocation('fully remote').match).toBeNull();
   });

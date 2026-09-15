@@ -22,7 +22,9 @@ const QUERY_STORAGE_KEY = 'bench-press.filters';
 function loadQuery(mode: Props['mode']): JobsQuery {
   try {
     const saved = localStorage.getItem(`${QUERY_STORAGE_KEY}.${mode}`);
-    return saved ? { ...DEFAULT_QUERY[mode], ...(JSON.parse(saved) as JobsQuery) } : DEFAULT_QUERY[mode];
+    return saved
+      ? { ...DEFAULT_QUERY[mode], ...(JSON.parse(saved) as JobsQuery) }
+      : DEFAULT_QUERY[mode];
   } catch {
     return DEFAULT_QUERY[mode];
   }
@@ -121,7 +123,8 @@ export function JobsPage({ mode, selectedId }: Props) {
       }
       if (event.key !== 'j' && event.key !== 'k') return;
       const index = jobs.findIndex((job) => job.id === selectedId);
-      const next = event.key === 'j' ? Math.min(jobs.length - 1, index + 1) : Math.max(0, index - 1);
+      const next =
+        event.key === 'j' ? Math.min(jobs.length - 1, index + 1) : Math.max(0, index - 1);
       const job = jobs[next];
       if (job) navigate(`${base}/${job.id}`);
     };
@@ -138,7 +141,9 @@ export function JobsPage({ mode, selectedId }: Props) {
           <span className="jobs__hint"> · j / k to move, Esc to close</span>
         </p>
         {error && <p className="jobs__error">{error}</p>}
-        {!loading && jobs.length === 0 && <p className="jobs__empty">Nothing matches these filters.</p>}
+        {!loading && jobs.length === 0 && (
+          <p className="jobs__empty">Nothing matches these filters.</p>
+        )}
         {jobs.map((job) => (
           <JobCard
             key={job.id}

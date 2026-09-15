@@ -63,7 +63,10 @@ function extractJson(raw: string): unknown {
  * per removal), then the hard caps for location and stack apply, so a bonus can never lift
  * a job above a cap. Every change is recorded so the dashboard can show "7 -> 4" and why.
  */
-export function postValidate(raw: ScoreResult, locationFlag: LocationFlag = 'none'): ValidatedScore {
+export function postValidate(
+  raw: ScoreResult,
+  locationFlag: LocationFlag = 'none',
+): ValidatedScore {
   const notes: string[] = [];
   let fit = raw.fit;
 
