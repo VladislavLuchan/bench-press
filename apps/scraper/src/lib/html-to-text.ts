@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 
-const BLOCK_SELECTOR = 'p, div, li, ul, ol, h1, h2, h3, h4, h5, h6, tr, section, article, blockquote';
+const BLOCK_SELECTOR =
+  'p, div, li, ul, ol, h1, h2, h3, h4, h5, h6, tr, section, article, blockquote';
 
 /** Converts an HTML fragment to readable plain text, keeping paragraph and list breaks. */
 export function htmlToText(html: string): string {

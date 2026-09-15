@@ -26,8 +26,12 @@ describe('prefilterReason', () => {
   });
 
   it('skips junior and middle titles', () => {
-    expect(prefilterReason(job({ title: 'Junior React Developer' }), undefined, now)).toMatch(/junior/);
-    expect(prefilterReason(job({ title: 'Middle Frontend Dev' }), undefined, now)).toMatch(/middle/);
+    expect(prefilterReason(job({ title: 'Junior React Developer' }), undefined, now)).toMatch(
+      /junior/,
+    );
+    expect(prefilterReason(job({ title: 'Middle Frontend Dev' }), undefined, now)).toMatch(
+      /middle/,
+    );
   });
 
   it('skips listings older than the limit', () => {

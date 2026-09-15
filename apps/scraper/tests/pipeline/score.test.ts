@@ -31,7 +31,13 @@ describe('parseScoreJson', () => {
 });
 
 describe('scoreJob', () => {
-  const job = { title: 'Frontend', company: 'Acme', location: null, salaryRaw: null, description: 'React' } as Job;
+  const job = {
+    title: 'Frontend',
+    company: 'Acme',
+    location: null,
+    salaryRaw: null,
+    description: 'React',
+  } as Job;
 
   it('retries once on a malformed answer and then succeeds', async () => {
     const answers = ['{"fit": "high"}', JSON.stringify(valid)];

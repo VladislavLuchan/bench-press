@@ -3,7 +3,14 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['**/node_modules/**', '**/dist/**', '**/.vercel/**', 'apps/scraper/tests/fixtures/**'] },
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.vercel/**',
+      'apps/scraper/tests/fixtures/**',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

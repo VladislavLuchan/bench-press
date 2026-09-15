@@ -40,8 +40,7 @@ export function createHttpClient(options = config.http): HttpClient {
   const lastRequestAt = new Map<string, number>();
 
   async function throttle(host: string): Promise<void> {
-    const delay =
-      options.minDelayMs + Math.random() * (options.maxDelayMs - options.minDelayMs);
+    const delay = options.minDelayMs + Math.random() * (options.maxDelayMs - options.minDelayMs);
     const readyAt = (lastRequestAt.get(host) ?? 0) + delay;
     const wait = readyAt - Date.now();
     if (wait > 0) await sleep(wait);

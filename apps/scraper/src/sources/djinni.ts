@@ -29,7 +29,8 @@ export const djinni: Source = {
         card.find('.job-item__location, .location-text, [class*="location"]').first().text(),
       );
       const dateNode = card.find('[data-original-title], time, [title]').first();
-      const dateText = dateNode.attr('datetime') ?? dateNode.attr('data-original-title') ?? dateNode.attr('title');
+      const dateText =
+        dateNode.attr('datetime') ?? dateNode.attr('data-original-title') ?? dateNode.attr('title');
 
       jobs.push({
         source: 'djinni',
@@ -38,10 +39,15 @@ export const djinni: Source = {
         title,
         company:
           normalizeWhitespace(
-            card.find('a[data-analytics="company_page"], .job-item__company, [class*="company"]').first().text(),
+            card
+              .find('a[data-analytics="company_page"], .job-item__company, [class*="company"]')
+              .first()
+              .text(),
           ) || null,
         location: location || null,
-        salaryRaw: normalizeWhitespace(card.find('.public-salary-item, .text-success').first().text()) || null,
+        salaryRaw:
+          normalizeWhitespace(card.find('.public-salary-item, .text-success').first().text()) ||
+          null,
         postedAt: parseDate(dateText),
         remote: REMOTE.test(location) ? true : null,
         description: null,

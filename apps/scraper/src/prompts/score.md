@@ -3,17 +3,18 @@ Compare the candidate profile with the job description and return ONLY a JSON ob
 exactly these fields:
 
 {
-  "fit": integer 1-10,
-  "summary": string, two sentences max, in English,
-  "matches": string[], concrete requirements the candidate clearly meets,
-  "gaps": string[], concrete requirements the candidate does not meet or cannot prove,
-  "red_flags": string[], anything suspicious: vague company, unpaid trial, overtime culture, scam signs,
-  "salary": string or null, salary as written in the listing, null if absent,
-  "remote": boolean, true if fully remote work is possible from Ukraine,
-  "seniority": string, one of "junior", "middle", "senior", "lead", "unspecified"
+"fit": integer 1-10,
+"summary": string, two sentences max, in English,
+"matches": string[], concrete requirements the candidate clearly meets,
+"gaps": string[], concrete requirements the candidate does not meet or cannot prove,
+"red_flags": string[], anything suspicious: vague company, unpaid trial, overtime culture, scam signs,
+"salary": string or null, salary as written in the listing, null if absent,
+"remote": boolean, true if fully remote work is possible from Ukraine,
+"seniority": string, one of "junior", "middle", "senior", "lead", "unspecified"
 }
 
 Scoring guide:
+
 - 9-10: the candidate matches nearly every requirement and the role is clearly a step up or lateral.
 - 7-8: strong match with one or two minor gaps.
 - 5-6: plausible but with a notable gap (missing core framework, domain, or seniority mismatch).

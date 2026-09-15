@@ -197,10 +197,13 @@ export async function runPipeline({ http, env, dryRun }: RunOptions): Promise<Ru
     stats.discovered = discovered.length;
     const prepared = await prepareNewJobs(discovered, null);
     for (const job of prepared) {
-      log.info(`${job.status.padEnd(8)} ${job.source.padEnd(8)} ${job.title} @ ${job.company ?? '?'}`, {
-        reason: job.filterReason,
-        url: job.canonicalUrl,
-      });
+      log.info(
+        `${job.status.padEnd(8)} ${job.source.padEnd(8)} ${job.title} @ ${job.company ?? '?'}`,
+        {
+          reason: job.filterReason,
+          url: job.canonicalUrl,
+        },
+      );
     }
     stats.filtered = prepared.filter((job) => job.status === 'filtered').length;
     log.info('Dry run finished', { ...stats });

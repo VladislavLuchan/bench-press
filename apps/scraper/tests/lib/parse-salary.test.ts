@@ -7,7 +7,11 @@ describe('parseSalary', () => {
   });
 
   it('reads thousands with separators and a currency word', () => {
-    expect(parseSalary('від 4 000 до 6 000 USD')).toEqual({ min: 4000, max: 6000, currency: 'USD' });
+    expect(parseSalary('від 4 000 до 6 000 USD')).toEqual({
+      min: 4000,
+      max: 6000,
+      currency: 'USD',
+    });
   });
 
   it('expands k suffixes', () => {

@@ -39,6 +39,7 @@ export function excludeExisting(
   existing: { canonicalUrls: Set<string>; dedupeKeys: Set<string> },
 ): KeyedJob[] {
   return jobs.filter(
-    (job) => !existing.canonicalUrls.has(job.canonicalUrl) && !existing.dedupeKeys.has(job.dedupeKey),
+    (job) =>
+      !existing.canonicalUrls.has(job.canonicalUrl) && !existing.dedupeKeys.has(job.dedupeKey),
   );
 }

@@ -10,7 +10,9 @@ export async function loadScorePrompt(profile: string): Promise<string> {
   return template.replace('{{profile}}', profile.trim());
 }
 
-export function formatJobForScoring(job: Pick<Job, 'title' | 'company' | 'location' | 'salaryRaw' | 'description'>): string {
+export function formatJobForScoring(
+  job: Pick<Job, 'title' | 'company' | 'location' | 'salaryRaw' | 'description'>,
+): string {
   return [
     `Title: ${job.title}`,
     `Company: ${job.company ?? 'unknown'}`,

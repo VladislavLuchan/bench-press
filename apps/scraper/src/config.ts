@@ -42,7 +42,16 @@ export const config = {
     /** Listings whose maximum salary is clearly below this (in USD) are skipped. */
     salaryFloorUsd: 3000,
     /** Location must mention one of these, unless the listing is marked remote. */
-    locationKeywords: ['remote', 'ukraine', 'україна', 'київ', 'kyiv', 'львів', 'lviv', 'віддалено'],
+    locationKeywords: [
+      'remote',
+      'ukraine',
+      'україна',
+      'київ',
+      'kyiv',
+      'львів',
+      'lviv',
+      'віддалено',
+    ],
   },
 
   describe: {
