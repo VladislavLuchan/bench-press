@@ -1,7 +1,10 @@
 import { useSyncExternalStore } from 'react';
 
 export type Route =
-  { name: 'jobs'; jobId: number | null } | { name: 'stats' } | { name: 'settings' };
+  | { name: 'jobs'; jobId: number | null }
+  | { name: 'filtered'; jobId: number | null }
+  | { name: 'stats' }
+  | { name: 'settings' };
 
 /** Hash routes keep the dashboard a single static file with no server-side rewrites. */
 export function parseHash(hash: string): Route {
