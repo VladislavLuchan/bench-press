@@ -89,10 +89,14 @@ export const config = {
     perRunLimit: 100,
     /** Any OpenAI-compatible endpoint; the key comes from LLM_API_KEY. */
     baseUrl: 'https://openrouter.ai/api/v1',
-    model: 'deepseek/deepseek-chat',
+    /**
+     * `deepseek/deepseek-chat` is an alias for the 2024 V3. V4.1 Flash is the current
+     * generation and cheaper; `deepseek/deepseek-v4-pro-0813` is the stronger, pricier option.
+     */
+    model: 'deepseek/deepseek-v4.1-flash',
     maxRetries: 1,
     /** OpenRouter list price for the model above, used only for the cost estimate in logs. */
-    usdPerMillionTokens: { input: 0.27, output: 1.1 },
+    usdPerMillionTokens: { input: 0.15, output: 0.6 },
   },
 
   notify: {

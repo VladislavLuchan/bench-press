@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Job } from '@bench-press/shared/types';
 import { api, errorMessage } from '../api/client.ts';
 import { useClipboard } from '../hooks/useClipboard.ts';
+import { useHotkeyAction } from '../hooks/useHotkeys.ts';
 
 interface Props {
   job: Job;
@@ -42,12 +43,15 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
   };
 
   const handleCopyAndOpen = () => {
+    if (busy) return;
     window.open(job.url, '_blank', 'noopener,noreferrer');
     const run = text ? Promise.resolve(text) : generate(false);
     run
       .then((letter) => clipboard.copy(letter))
       .catch((err: unknown) => setError(errorMessage(err)));
   };
+  // The keyboard shortcut runs inside the keydown handler, so window.open is still a user gesture.
+  useHotkeyAction('copy-open', handleCopyAndOpen);
 
   const handleRegenerate = () => {
     generate(true).catch((err: unknown) => setError(errorMessage(err)));

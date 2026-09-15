@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { tokenStore, UNAUTHORIZED_EVENT } from './api/client.ts';
 import { FetchNowButton } from './components/FetchNowButton.tsx';
 import { HeaderCounters } from './components/HeaderCounters.tsx';
+import { HotkeysHelp } from './components/HotkeysHelp.tsx';
+import { useHotkeys } from './hooks/useHotkeys.ts';
 import { TokenGate } from './components/TokenGate.tsx';
 import { JobsPage } from './pages/JobsPage.tsx';
 import { SettingsPage } from './pages/SettingsPage.tsx';
 import { StatsPage } from './pages/StatsPage.tsx';
-import { useRoute } from './router.ts';
+import { navigate, useRoute } from './router.ts';
 
 const NAV = [
   { hash: '#/', label: 'Jobs', name: 'jobs' },
@@ -18,6 +20,24 @@ const NAV = [
 export function App() {
   const route = useRoute();
   const [hasToken, setHasToken] = useState(() => tokenStore.get() !== null);
+  const [helpOpen, setHelpOpen] = useState(false);
+
+  const hotkeys = useMemo(
+    () => [
+      { key: '?', description: 'help', action: () => setHelpOpen((open) => !open) },
+      ...NAV.map((item, index) => ({
+        key: String(index + 1),
+        description: item.label,
+        action: () => navigate(item.hash),
+      })),
+    ],
+    [],
+  );
+  useHotkeys(hotkeys, hasToken);
+  useHotkeys(
+    useMemo(() => [{ key: 'Escape', description: 'close help', action: () => setHelpOpen(false) }], []),
+    helpOpen,
+  );
 
   useEffect(() => {
     const onUnauthorized = () => setHasToken(false);
@@ -43,7 +63,16 @@ export function App() {
         <span className="nav__spacer" />
         <HeaderCounters />
         <FetchNowButton />
+        <button
+          type="button"
+          className="btn btn--ghost btn--small"
+          title="Keyboard shortcuts (?)"
+          onClick={() => setHelpOpen((open) => !open)}
+        >
+          ?
+        </button>
       </nav>
+      <HotkeysHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
       <main className="app__main">
         {route.name === 'jobs' && <JobsPage key="jobs" mode="jobs" selectedId={route.jobId} />}
         {route.name === 'filtered' && (

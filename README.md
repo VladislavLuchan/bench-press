@@ -40,7 +40,7 @@ Pipeline, in order:
    apply description-level checks: salary below the regional floor, and location wording
    (hard "office-based / on-site only" phrases filter, softer "hub / hybrid" phrases only
    flag the job for the scorer). Short descriptions are scored but flagged.
-6. **Score** in batches of five with an LLM (DeepSeek via OpenRouter by default) against the
+6. **Score** in batches of five with an LLM (DeepSeek V4.1 Flash via OpenRouter by default) against the
    CV and the scoring guidance from Settings. Strict JSON validated with zod; a bad batch
    answer falls back to one request per job. Code has the last word: on-site roles are
    capped at 2, hybrid and region-limited remote at 4, off-stack roles at 4, and "nice to

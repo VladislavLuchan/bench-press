@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Job, JobStatus, JobSummary } from '@bench-press/shared/types';
 import { api, errorMessage, JOBS_CHANGED_EVENT, type JobsQuery } from '../api/client.ts';
 import { JobCard } from '../components/JobCard.tsx';
 import { JobDetail } from '../components/JobDetail.tsx';
 import { JobFilters } from '../components/JobFilters.tsx';
+import { emitHotkeyAction, useHotkeys } from '../hooks/useHotkeys.ts';
 import { navigate } from '../router.ts';
 
 interface Props {
@@ -112,25 +113,42 @@ export function JobsPage({ mode, selectedId }: Props) {
     [selectedId],
   );
 
-  // j / k move the selection, Escape closes the detail panel.
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      if (target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
-      if (event.key === 'Escape') {
-        navigate(base);
-        return;
-      }
-      if (event.key !== 'j' && event.key !== 'k') return;
+  const selectedJob = jobs.find((job) => job.id === selectedId) ?? null;
+  const hotkeys = useMemo(() => {
+    const move = (delta: number) => {
       const index = jobs.findIndex((job) => job.id === selectedId);
-      const next =
-        event.key === 'j' ? Math.min(jobs.length - 1, index + 1) : Math.max(0, index - 1);
+      const next = index === -1 ? 0 : Math.min(jobs.length - 1, Math.max(0, index + delta));
       const job = jobs[next];
       if (job) navigate(`${base}/${job.id}`);
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [jobs, selectedId, base]);
+    const setStatus = (status: JobStatus) => {
+      if (selectedJob && mode === 'jobs') quickStatus(selectedJob.id, status);
+    };
+    return [
+      { key: 'j', description: 'next job', action: () => move(1) },
+      { key: 'k', description: 'previous job', action: () => move(-1) },
+      { key: 'Enter', description: 'select first job', action: () => move(0) },
+      { key: 'Escape', description: 'close detail', action: () => navigate(base) },
+      {
+        key: '/',
+        description: 'focus filters',
+        action: () => document.querySelector<HTMLElement>('.filters input, .filters select')?.focus(),
+      },
+      {
+        key: 'o',
+        description: 'open listing',
+        action: () => {
+          if (selectedJob) window.open(selectedJob.url, '_blank', 'noopener,noreferrer');
+        },
+      },
+      { key: 'c', description: 'copy cover letter and open', action: () => emitHotkeyAction('copy-open') },
+      { key: 'a', description: 'applied', action: () => setStatus('applied') },
+      { key: 'r', description: 'replied', action: () => setStatus('replied') },
+      { key: 's', description: 'skipped', action: () => setStatus('skipped') },
+      { key: 'n', description: 'reset to new', action: () => setStatus('new') },
+    ];
+  }, [jobs, selectedId, selectedJob, base, mode, quickStatus]);
+  useHotkeys(hotkeys);
 
   return (
     <div className="jobs">
@@ -138,7 +156,7 @@ export function JobsPage({ mode, selectedId }: Props) {
         <JobFilters query={query} onChange={setQuery} lockStatus={mode === 'filtered'} />
         <p className="jobs__count">
           {loading ? 'Loading…' : `${jobs.length} job${jobs.length === 1 ? '' : 's'}`}
-          <span className="jobs__hint"> · j / k to move, Esc to close</span>
+          <span className="jobs__hint"> · press ? for shortcuts</span>
         </p>
         {error && <p className="jobs__error">{error}</p>}
         {!loading && jobs.length === 0 && (
