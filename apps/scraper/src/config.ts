@@ -78,15 +78,15 @@ export const config = {
 
   describe: {
     maxAttempts: 3,
-    perRunLimit: 60,
+    perRunLimit: 100,
   },
 
   scoring: {
     /** Jobs per request; a bad batch answer falls back to one request per job. */
     batchSize: 5,
     /** Batches in flight at once. */
-    concurrency: 2,
-    perRunLimit: 60,
+    concurrency: 3,
+    perRunLimit: 100,
     /** Any OpenAI-compatible endpoint; the key comes from LLM_API_KEY. */
     baseUrl: 'https://openrouter.ai/api/v1',
     model: 'deepseek/deepseek-chat',
