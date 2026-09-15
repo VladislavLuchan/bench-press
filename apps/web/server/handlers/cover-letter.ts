@@ -1,8 +1,8 @@
 import { getJob, getSetting, saveCoverLetter } from '@bench-press/shared';
-import { generateCoverLetter } from '../_lib/llm.ts';
-import { HttpError, idParam, json, readJson } from '../_lib/http.ts';
-import { detectLanguage } from '../_lib/language.ts';
-import type { Handler } from '../_lib/router.ts';
+import { generateCoverLetter } from '../lib/llm.ts';
+import { HttpError, idParam, json, readJson } from '../lib/http.ts';
+import { detectLanguage } from '../lib/language.ts';
+import type { Handler } from '../lib/router.ts';
 
 /**
  * POST /api/jobs/:id/cover-letter  { force?: boolean }

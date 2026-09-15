@@ -33,7 +33,7 @@ export function createRouter(routes: Route[]) {
 
       const match = path.match(route.pattern);
       const params = { ...(match?.groups ?? {}) };
-      return await route.handler({ request, url, params, db: getDb() });
+      return await route.handler({ request, url, params, db: await getDb() });
     } catch (error) {
       if (error instanceof HttpError) return json({ error: error.message }, error.status);
       console.error(error);

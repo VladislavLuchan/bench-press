@@ -6,8 +6,8 @@ import {
   updateJobSchema,
   updateJobStatus,
 } from '@bench-press/shared';
-import { HttpError, idParam, json, readJson } from '../_lib/http.ts';
-import type { Handler } from '../_lib/router.ts';
+import { HttpError, idParam, json, readJson } from '../lib/http.ts';
+import type { Handler } from '../lib/router.ts';
 
 export const listJobsHandler: Handler = async ({ url, db }) => {
   const query = jobListQuerySchema.safeParse(Object.fromEntries(url.searchParams));

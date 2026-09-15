@@ -1,16 +1,17 @@
-import { coverLetterHandler } from './_handlers/cover-letter.ts';
-import { getJobHandler, listJobsHandler, updateJobHandler } from './_handlers/jobs.ts';
+import { coverLetterHandler } from './handlers/cover-letter.ts';
+import { getJobHandler, listJobsHandler, updateJobHandler } from './handlers/jobs.ts';
 import {
   getSettingsHandler,
   runsHandler,
   statsHandler,
   updateSettingsHandler,
-} from './_handlers/misc.ts';
-import { createRouter, route } from './_lib/router.ts';
+} from './handlers/misc.ts';
+import { createRouter, route } from './lib/router.ts';
 
 /**
  * Single Vercel function for the whole API. vercel.json rewrites /api/* here, which keeps
  * one bundle, one cold start and one place to enforce the auth token.
+ * Built by scripts/build-api.mjs into api/index.js; the api/ directory holds only that output.
  */
 const handle = createRouter([
   route('GET', /^\/jobs$/, listJobsHandler),

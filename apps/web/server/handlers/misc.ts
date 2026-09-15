@@ -6,8 +6,8 @@ import {
   settingsUpdateSchema,
   SETTING_KEYS,
 } from '@bench-press/shared';
-import { HttpError, json, readJson } from '../_lib/http.ts';
-import type { Handler } from '../_lib/router.ts';
+import { HttpError, json, readJson } from '../lib/http.ts';
+import type { Handler } from '../lib/router.ts';
 
 export const statsHandler: Handler = async ({ db }) => json(await getDashboardStats(db));
 

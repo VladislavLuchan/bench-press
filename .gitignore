@@ -8,3 +8,6 @@ dist/
 !.env.example
 coverage/
 .DS_Store
+
+# Bundled Vercel function (built from apps/web/server)
+apps/web/api/*.js

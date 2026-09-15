@@ -214,7 +214,7 @@ export async function runPipeline({ http, env, dryRun }: RunOptions): Promise<Ru
     return stats;
   }
 
-  const db = createDb({ url: env.tursoUrl, authToken: env.tursoAuthToken });
+  const db = await createDb({ url: env.tursoUrl, authToken: env.tursoAuthToken });
   await ensureSchema(db);
   const runId = await startRun(db);
 
