@@ -252,6 +252,7 @@ async function scoreJobs(
         if (outcome.ok) {
           await saveScore(db, job.id, outcome.score);
           stats.scored++;
+          onScored?.(job, outcome.score.score.fit);
         } else {
           await saveScoreError(db, job.id, outcome.error);
           stats.scoreErrors++;
