@@ -28,6 +28,13 @@ export function parseDate(text: string | null | undefined, now: Date = new Date(
     if (unit) return new Date(now.getTime() - Number(amount) * unit[1]).toISOString();
   }
 
+  // Djinni tooltips: "11:49 15.09.2026". Treated as UTC; day-level accuracy is enough.
+  const dotted = value.match(/^(?:(\d{2}):(\d{2})\s+)?(\d{2})\.(\d{2})\.(\d{4})$/);
+  if (dotted) {
+    const [, hh = '00', mm = '00', day, month, year] = dotted;
+    return new Date(`${year}-${month}-${day}T${hh}:${mm}:00.000Z`).toISOString();
+  }
+
   const absolute = new Date(value);
   return Number.isNaN(absolute.getTime()) ? null : absolute.toISOString();
 }

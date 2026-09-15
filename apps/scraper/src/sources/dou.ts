@@ -24,7 +24,7 @@ export const dou: Source = {
       const rawTitle = normalizeWhitespace(item.find('title').text());
       if (!url || !rawTitle) return;
 
-      const { title, company, location } = splitTitle(rawTitle);
+      const { title, company, location, salary } = splitTitle(rawTitle);
       const description = htmlToText(item.find('description').text());
 
       jobs.push({
@@ -34,7 +34,7 @@ export const dou: Source = {
         title,
         company,
         location,
-        salaryRaw: null,
+        salaryRaw: salary,
         postedAt: parseDate(item.find('pubDate').text()),
         remote: REMOTE.test(location ?? '') ? true : null,
         description: description || null,
@@ -53,19 +53,28 @@ export const dou: Source = {
   },
 };
 
-export function splitTitle(rawTitle: string): {
+export interface SplitTitle {
   title: string;
   company: string | null;
   location: string | null;
-} {
+  salary: string | null;
+}
+
+const SALARY_PART = /[$€₴]\s*\d|\d\s*[$€₴]/;
+
+/** "Senior Frontend Engineer в Orange Uni, $2000–2500, віддалено" -> its four parts. */
+export function splitTitle(rawTitle: string): SplitTitle {
   const match = rawTitle.match(/^(.+?)\s+в\s+(.+)$/u);
-  if (!match) return { title: rawTitle, company: null, location: null };
+  if (!match) return { title: rawTitle, company: null, location: null, salary: null };
 
   const [, title = rawTitle, rest = ''] = match;
-  const [company, ...locationParts] = rest.split(',').map((part) => part.trim());
+  const [company, ...tail] = rest.split(',').map((part) => part.trim());
+  const salary = tail.find((part) => SALARY_PART.test(part)) ?? null;
+  const locationParts = tail.filter((part) => part !== salary);
   return {
     title,
     company: company || null,
     location: locationParts.length > 0 ? locationParts.join(', ') : null,
+    salary,
   };
 }

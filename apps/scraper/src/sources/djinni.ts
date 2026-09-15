@@ -7,8 +7,9 @@ import type { DiscoveredJob, Source } from './types.ts';
 const REMOTE = /remote|віддалено|дистанційно/i;
 
 /**
- * Djinni public listing pages. No login: the list and the detail page are both public.
- * Selectors follow the current markup and are pinned by tests on saved fixtures.
+ * Djinni public listing pages. No login needed. The listing card already carries the full
+ * description (hidden behind "More"), so a detail fetch is only a fallback.
+ * Selectors are pinned by tests on saved fixtures.
  */
 export const djinni: Source = {
   name: 'djinni',
@@ -18,39 +19,32 @@ export const djinni: Source = {
     const $ = cheerio.load(body);
     const jobs: DiscoveredJob[] = [];
 
-    $('li[id^="job-item-"]').each((_, element) => {
+    $('[id^="job-item-"]').each((_, element) => {
       const card = $(element);
-      const link = card.find('.job-item__position a, a.job-item__title-link').first();
-      const href = link.attr('href');
-      const title = normalizeWhitespace(link.text());
+      const href = card.find('a.job_item__header-link').attr('href');
+      const title = normalizeWhitespace(card.find('.job-item__position').first().text());
       if (!href || !title) return;
 
-      const location = normalizeWhitespace(
-        card.find('.job-item__location, .location-text, [class*="location"]').first().text(),
-      );
-      const dateNode = card.find('[data-original-title], time, [title]').first();
-      const dateText =
-        dateNode.attr('datetime') ?? dateNode.attr('data-original-title') ?? dateNode.attr('title');
+      // "Full Remote · Countries of Europe or Ukraine · 5 years of experience · English - B2"
+      const conditions = normalizeWhitespace(card.find('.job_item__header-link + .fw-medium').text());
+      const location = normalizeWhitespace(card.find('.location-text').first().text());
+      // Public salaries render as "$3000-5000"; otherwise Djinni shows a "$$$" level, which
+      // carries no digits and is ignored.
+      const salaryText = normalizeWhitespace(card.find('header .col-auto').last().text());
+      const dateText = card.find('span[title][data-bs-toggle="tooltip"]').last().attr('title');
+      const descriptionHtml = card.find('.js-original-text').first().html();
 
       jobs.push({
         source: 'djinni',
         externalId: card.attr('id')?.replace('job-item-', '') ?? null,
         url: new URL(href, pageUrl).toString(),
         title,
-        company:
-          normalizeWhitespace(
-            card
-              .find('a[data-analytics="company_page"], .job-item__company, [class*="company"]')
-              .first()
-              .text(),
-          ) || null,
+        company: normalizeWhitespace(card.find('header span.small').first().text()) || null,
         location: location || null,
-        salaryRaw:
-          normalizeWhitespace(card.find('.public-salary-item, .text-success').first().text()) ||
-          null,
+        salaryRaw: /\d/.test(salaryText) ? salaryText : null,
         postedAt: parseDate(dateText),
-        remote: REMOTE.test(location) ? true : null,
-        description: null,
+        remote: REMOTE.test(conditions) ? true : null,
+        description: descriptionHtml ? htmlToText(descriptionHtml) || null : null,
       });
     });
 
