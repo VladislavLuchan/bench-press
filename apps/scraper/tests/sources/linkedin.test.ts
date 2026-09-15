@@ -5,7 +5,10 @@ import { linkedin } from '../../src/sources/linkedin.ts';
 const SEARCH_URL =
   'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=Frontend&location=Ukraine';
 const listHtml = readFileSync(new URL('../fixtures/linkedin-list.html', import.meta.url), 'utf8');
-const detailHtml = readFileSync(new URL('../fixtures/linkedin-detail.html', import.meta.url), 'utf8');
+const detailHtml = readFileSync(
+  new URL('../fixtures/linkedin-detail.html', import.meta.url),
+  'utf8',
+);
 
 describe('linkedin.parseListings', () => {
   const jobs = linkedin.parseListings(listHtml, SEARCH_URL);

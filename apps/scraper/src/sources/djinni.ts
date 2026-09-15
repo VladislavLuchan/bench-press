@@ -26,7 +26,9 @@ export const djinni: Source = {
       if (!href || !title) return;
 
       // "Full Remote · Countries of Europe or Ukraine · 5 years of experience · English - B2"
-      const conditions = normalizeWhitespace(card.find('.job_item__header-link + .fw-medium').text());
+      const conditions = normalizeWhitespace(
+        card.find('.job_item__header-link + .fw-medium').text(),
+      );
       const location = normalizeWhitespace(card.find('.location-text').first().text());
       // Public salaries render as "$3000-5000"; otherwise Djinni shows a "$$$" level, which
       // carries no digits and is ignored.

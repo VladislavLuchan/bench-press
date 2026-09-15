@@ -16,7 +16,9 @@ describe('splitTitle', () => {
   });
 
   it('pulls a salary out of the tail', () => {
-    expect(splitTitle('Senior Frontend Engineer (Vue.js) в Orange Uni, $2000–2500, віддалено')).toEqual({
+    expect(
+      splitTitle('Senior Frontend Engineer (Vue.js) в Orange Uni, $2000–2500, віддалено'),
+    ).toEqual({
       title: 'Senior Frontend Engineer (Vue.js)',
       company: 'Orange Uni',
       location: 'віддалено',
@@ -34,7 +36,10 @@ describe('splitTitle', () => {
   });
 
   it('returns the raw title when the pattern does not match', () => {
-    expect(splitTitle('Frontend Developer')).toMatchObject({ title: 'Frontend Developer', company: null });
+    expect(splitTitle('Frontend Developer')).toMatchObject({
+      title: 'Frontend Developer',
+      company: null,
+    });
   });
 });
 
