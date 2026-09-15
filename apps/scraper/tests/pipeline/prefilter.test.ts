@@ -34,6 +34,11 @@ describe('prefilterReason', () => {
     );
   });
 
+  it('skips roles that are not front-end at all', () => {
+    expect(prefilterReason(job({ title: 'ABAP Developer' }), undefined, now)).toMatch(/not a front-end/);
+    expect(prefilterReason(job({ title: 'Senior Full Stack Engineer (Node + React)' }), undefined, now)).toBeNull();
+  });
+
   it('skips listings older than the limit', () => {
     expect(prefilterReason(job({ postedAt: '2026-09-01T00:00:00.000Z' }), undefined, now)).toMatch(
       /older/,

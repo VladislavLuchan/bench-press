@@ -19,6 +19,9 @@ export function prefilterReason(
   const title = job.title.toLowerCase();
   const keyword = options.excludeTitleKeywords.find((word) => title.includes(word));
   if (keyword) return `title contains "${keyword}"`;
+  if (!options.requireTitleKeywords.some((word) => title.includes(word))) {
+    return 'title is not a front-end role';
+  }
 
   if (job.postedAt) {
     const ageDays = (now.getTime() - new Date(job.postedAt).getTime()) / DAY_MS;

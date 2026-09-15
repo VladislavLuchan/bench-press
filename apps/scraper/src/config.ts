@@ -14,9 +14,9 @@ export const config = {
 
   sources: {
     djinni: {
+      /** "JavaScript" is Djinni's front-end category; unknown keywords silently return all jobs. */
       listingUrls: [
         'https://djinni.co/jobs/?primary_keyword=JavaScript&exp_level=3y&exp_level=5y&employment=remote',
-        'https://djinni.co/jobs/?primary_keyword=React&exp_level=3y&exp_level=5y&employment=remote',
       ],
     },
     linkedin: {
@@ -35,6 +35,22 @@ export const config = {
   sourceBackoffHours: 12,
 
   prefilter: {
+    /** A title must contain one of these; keyword search on boards returns plenty of unrelated roles. */
+    requireTitleKeywords: [
+      'front',
+      'react',
+      'vue',
+      'angular',
+      'javascript',
+      'typescript',
+      'js',
+      'web',
+      'full-stack',
+      'fullstack',
+      'full stack',
+      'next',
+      'nuxt',
+    ],
     /** Case-insensitive; a title containing any of these is skipped before the LLM. */
     excludeTitleKeywords: ['junior', 'middle', 'intern', 'trainee', 'student', 'джуніор', 'стажер'],
     /** Listings older than this are skipped. */
