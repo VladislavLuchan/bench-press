@@ -78,7 +78,9 @@ export const config = {
   scoring: {
     concurrency: 3,
     perRunLimit: 40,
-    model: 'deepseek-chat',
+    /** Any OpenAI-compatible endpoint; the key comes from LLM_API_KEY. */
+    baseUrl: 'https://openrouter.ai/api/v1',
+    model: 'deepseek/deepseek-chat',
     maxRetries: 2,
   },
 

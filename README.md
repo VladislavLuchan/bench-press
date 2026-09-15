@@ -18,7 +18,7 @@ GitHub Actions cron (every 2h)                     Vercel
 │  Djinni ─┐                            │          │  React dashboard (Vite)   │
 │  LinkedIn ├─ fetch → dedupe → prefilter│──Turso──│  /api/* (one function)    │
 │  DOU ────┘        ↓                   │  (SQLite)│   list / status / stats   │
-│           describe → score (DeepSeek) │          │   cover letter (Claude)   │
+│           describe → score (LLM)      │          │   cover letter (Claude)   │
 │                     ↓                 │          └───────────────────────────┘
 │              Telegram (fit ≥ 7)       │
 └──────────────────────────────────────┘
@@ -36,7 +36,8 @@ Pipeline, in order:
 4. **Insert** new jobs first, score later. If scoring fails mid-run nothing is lost; the next
    run picks up unscored rows.
 5. **Describe**: fetch the full description where the listing did not include it.
-6. **Score** each job with DeepSeek against the CV. Strict JSON, validated with zod, retried.
+6. **Score** each job with an LLM (DeepSeek via OpenRouter by default) against the CV.
+   Strict JSON, validated with zod, retried.
 7. **Notify** on Telegram for `fit >= 7`, once per job.
 
 Every run writes a row to `runs` with per-source counts, shown on the Stats page, so a silently
@@ -70,7 +71,7 @@ No ORM, no UI library, no framework on the API side. SQL is written by hand agai
 1. **Turso**: create a database, note the `https://` URL and an auth token. The scraper
    creates the tables on first run.
 2. **GitHub Secrets** (Settings → Secrets and variables → Actions):
-   `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `DEEPSEEK_API_KEY`, `TELEGRAM_BOT_TOKEN`,
+   `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `LLM_API_KEY` (OpenRouter), `TELEGRAM_BOT_TOKEN`,
    `TELEGRAM_CHAT_ID`. Optional: `PROXY_URL` (residential proxy, used through Node's
    `NODE_USE_ENV_PROXY`). Variable: `DASHBOARD_URL` for links in Telegram messages.
 3. **Vercel**: import the repo, set Root Directory to `apps/web`, add env vars
@@ -95,6 +96,6 @@ Locally the usual commands still work: `npm install`, `npm test`, `npm run typec
 
 ## Costs
 
-DeepSeek scores a handful of jobs per run for fractions of a cent. Claude writes a cover
+DeepSeek (through OpenRouter) scores a handful of jobs per run for fractions of a cent. Claude writes a cover
 letter only when asked, about two cents each. Turso, GitHub Actions and Vercel stay on free
 tiers at this scale.

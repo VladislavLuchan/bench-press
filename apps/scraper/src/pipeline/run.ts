@@ -28,7 +28,7 @@ import type { ScraperEnv } from '../env.ts';
 import { mapWithConcurrency } from '../lib/concurrency.ts';
 import { BlockedError, type HttpClient } from '../lib/http.ts';
 import { errorMessage, log } from '../lib/logger.ts';
-import { createDeepSeekClient } from '../llm/deepseek.ts';
+import { createChatClient } from '../llm/chat-client.ts';
 import { fetchDescription, fetchListings } from '../sources/fetch.ts';
 import { sources } from '../sources/index.ts';
 import type { DiscoveredJob, Source } from '../sources/types.ts';
@@ -150,7 +150,11 @@ async function scoreJobs(db: Db, env: ScraperEnv, stats: RunStats): Promise<void
   const pending = await findJobsToScore(db, config.scoring.perRunLimit);
   if (pending.length === 0) return;
 
-  const chat = createDeepSeekClient({ apiKey: env.deepseekApiKey, model: config.scoring.model });
+  const chat = createChatClient({
+    apiKey: env.llmApiKey,
+    model: config.scoring.model,
+    baseUrl: config.scoring.baseUrl,
+  });
   const systemPrompt = await loadScorePrompt(profile);
 
   await mapWithConcurrency(pending, config.scoring.concurrency, async (job) => {

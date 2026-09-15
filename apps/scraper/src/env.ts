@@ -1,7 +1,7 @@
 export interface ScraperEnv {
   tursoUrl: string;
   tursoAuthToken: string | undefined;
-  deepseekApiKey: string;
+  llmApiKey: string;
   telegramBotToken: string | undefined;
   telegramChatId: string | undefined;
   dashboardUrl: string | undefined;
@@ -18,7 +18,7 @@ export function readEnv(env: NodeJS.ProcessEnv = process.env): ScraperEnv {
   return {
     tursoUrl: required(env, 'TURSO_DATABASE_URL'),
     tursoAuthToken: env.TURSO_AUTH_TOKEN,
-    deepseekApiKey: required(env, 'DEEPSEEK_API_KEY'),
+    llmApiKey: required(env, 'LLM_API_KEY'),
     telegramBotToken: env.TELEGRAM_BOT_TOKEN,
     telegramChatId: env.TELEGRAM_CHAT_ID,
     dashboardUrl: env.DASHBOARD_URL,

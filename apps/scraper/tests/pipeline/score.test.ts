@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Job } from '@bench-press/shared';
-import type { ChatClient } from '../../src/llm/deepseek.ts';
+import type { ChatClient } from '../../src/llm/chat-client.ts';
 import { parseScoreJson, scoreJob } from '../../src/pipeline/score.ts';
 
 const valid = {
