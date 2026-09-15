@@ -4,6 +4,7 @@ import { api, errorMessage, JOBS_CHANGED_EVENT } from '../api/client.ts';
 import { formatDateTime } from '../lib/format.ts';
 import { CoverLetterPanel } from './CoverLetterPanel.tsx';
 import { FitBadge } from './FitBadge.tsx';
+import { LocationBadge } from './LocationBadge.tsx';
 
 interface Props {
   job: Job;
@@ -47,7 +48,7 @@ export function JobDetail({ job, onJobChange }: Props) {
   return (
     <div className="job-detail">
       <header className="job-detail__header">
-        <FitBadge fit={job.fit} />
+        <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
         <div>
           <h2 className="job-detail__title">
             <a href={job.url} target="_blank" rel="noopener noreferrer">
@@ -66,8 +67,10 @@ export function JobDetail({ job, onJobChange }: Props) {
               .join(' · ')}
           </p>
           <p className="job-detail__meta">
+            <LocationBadge type={job.locationType} />{' '}
             {job.sources.join(', ')} · seen {formatDateTime(job.firstSeenAt)}
             {job.filterReason && ` · filtered: ${job.filterReason}`}
+            {job.filterMatch && ` (matched "${job.filterMatch}")`}
             {job.appliedAt && ` · applied ${formatDateTime(job.appliedAt)}`}
             {job.repliedAt && ` · replied ${formatDateTime(job.repliedAt)}`}
           </p>
@@ -90,6 +93,13 @@ export function JobDetail({ job, onJobChange }: Props) {
       {error && <p className="job-detail__error">{error}</p>}
 
       {job.summary && <p className="job-detail__summary">{job.summary}</p>}
+      {job.fitNotes.length > 0 && (
+        <ul className="job-detail__notes">
+          {job.fitNotes.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      )}
       {job.scoreError && <p className="job-detail__error">Scoring failed: {job.scoreError}</p>}
       <div className="job-detail__lists">
         <List title="Matches" items={job.matches} tone="good" />

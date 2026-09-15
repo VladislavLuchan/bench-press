@@ -1,5 +1,10 @@
 import { config } from '../config.ts';
-import { checkTitle, DESCRIPTION_FILTERS } from '../config/filters.ts';
+import {
+  checkLocation,
+  checkTitle,
+  DESCRIPTION_FILTERS,
+  type LocationFlag,
+} from '../config/filters.ts';
 import { parseSalary, salaryMaxInUsd } from '../lib/parse-salary.ts';
 import type { DiscoveredJob } from '../sources/types.ts';
 
@@ -41,7 +46,11 @@ export function prefilterReason(
 
 export interface DescriptionVerdict {
   reason: string | null;
+  /** The phrase behind `reason` when a regex produced it. */
+  match: string | null;
   thin: boolean;
+  /** `soft` when the text hints at an office or hub without ruling out remote work. */
+  locationFlag: Exclude<LocationFlag, 'hard'>;
 }
 
 /** Salary regex kept narrow: a currency sign or code must sit next to the number. */
@@ -53,11 +62,16 @@ const SALARY_IN_TEXT =
  * before scoring, so the LLM never sees jobs that fail on facts stated in the text.
  */
 export function descriptionVerdict(
-  job: { source: string; location: string | null; company: string | null },
+  job: { source: string; title: string; location: string | null; company: string | null },
   description: string,
   filters = DESCRIPTION_FILTERS,
 ): DescriptionVerdict {
   const thin = description.length < filters.thinDescriptionChars;
+  const location = checkLocation([job.title, job.location ?? '', description].join('\n'));
+  if (location.flag === 'hard') {
+    return { reason: 'on-site', match: location.match, thin, locationFlag: 'none' };
+  }
+  const locationFlag = location.flag;
 
   const isUkrainian =
     job.source === 'dou' ||
@@ -69,12 +83,10 @@ export function descriptionVerdict(
   const salaries = mentions.map((mention) => parseSalary(mention)).filter((s) => s !== null);
   if (salaries.length > 0) {
     const best = Math.max(...salaries.map(salaryMaxInUsd));
-    if (best < floor) return { reason: `description: salary below ${floor} USD`, thin };
+    if (best < floor) {
+      return { reason: `description: salary below ${floor} USD`, match: null, thin, locationFlag };
+    }
   }
 
-  if (filters.officeOnly.test(description) && !filters.remoteMention.test(description)) {
-    return { reason: 'description: office only', thin };
-  }
-
-  return { reason: null, thin };
+  return { reason: null, match: location.match, thin, locationFlag };
 }

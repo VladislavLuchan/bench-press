@@ -6,9 +6,9 @@ import type { Job, JobStatus, JobSummary, NewJob, ScoreResult, SourceName } from
 
 const SUMMARY_COLUMNS = `
   id, source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,
-  salary_raw, describe_attempts, thin_description, posted_at, first_seen_at, fit, summary,
-  matches, gaps, red_flags, salary_llm, remote, seniority, primary_stack, scored_at,
-  score_error, status, filter_reason,
+  salary_raw, describe_attempts, thin_description, posted_at, first_seen_at, fit, fit_raw,
+  fit_notes, summary, matches, gaps, red_flags, salary_llm, remote, seniority, primary_stack,
+  location_type, location_flag, scored_at, score_error, status, filter_reason, filter_match,
   cover_letter IS NOT NULL AS has_cover_letter, cover_letter_lang, cover_letter_generated_at,
   notified_at, applied_at, replied_at, updated_at`;
 
@@ -38,6 +38,8 @@ function rowToSummary(row: Row): JobSummary {
     postedAt: text(row, 'posted_at'),
     firstSeenAt: textRequired(row, 'first_seen_at'),
     fit: integer(row, 'fit'),
+    fitRaw: integer(row, 'fit_raw'),
+    fitNotes: jsonArray(row, 'fit_notes'),
     summary: text(row, 'summary'),
     matches: jsonArray(row, 'matches'),
     gaps: jsonArray(row, 'gaps'),
@@ -46,10 +48,13 @@ function rowToSummary(row: Row): JobSummary {
     remote: bool(row, 'remote'),
     seniority: text(row, 'seniority'),
     primaryStack: text(row, 'primary_stack'),
+    locationType: text(row, 'location_type') as LocationType | null,
+    locationFlag: (text(row, 'location_flag') ?? 'none') as LocationFlag,
     scoredAt: text(row, 'scored_at'),
     scoreError: text(row, 'score_error'),
     status: textRequired(row, 'status') as JobStatus,
     filterReason: text(row, 'filter_reason'),
+    filterMatch: text(row, 'filter_match'),
     hasCoverLetter: bool(row, 'has_cover_letter') ?? false,
     coverLetterLang: text(row, 'cover_letter_lang'),
     coverLetterGeneratedAt: text(row, 'cover_letter_generated_at'),
@@ -141,9 +146,9 @@ export async function insertJobs(db: Db, jobs: NewJob[]): Promise<number> {
     jobs.map((job) => ({
       sql: `INSERT OR IGNORE INTO jobs (
         source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,
-        salary_raw, description, thin_description, posted_at, remote, first_seen_at, status,
-        filter_reason, updated_at
-      ) VALUES (${placeholders(18)})`,
+        salary_raw, description, thin_description, location_flag, posted_at, remote,
+        first_seen_at, status, filter_reason, filter_match, updated_at
+      ) VALUES (${placeholders(20)})`,
       args: [
         job.source,
         JSON.stringify(job.sources ?? [job.source]),
@@ -157,11 +162,13 @@ export async function insertJobs(db: Db, jobs: NewJob[]): Promise<number> {
         job.salaryRaw,
         job.description,
         Number(job.thinDescription),
+        job.locationFlag,
         job.postedAt,
         job.remote === null ? null : Number(job.remote),
         now,
         job.status,
         job.filterReason,
+        job.filterMatch,
         now,
       ],
     })),
@@ -191,6 +198,16 @@ export async function listJobs(db: Db, query: JobListQuery): Promise<JobSummary[
   if (query.since) {
     where.push('first_seen_at >= ?');
     args.push(query.since);
+  }
+  if (query.locationType && query.locationType.length > 0) {
+    const types = query.locationType.filter((type) => type !== 'unscored');
+    const clauses: string[] = [];
+    if (types.length > 0) {
+      clauses.push(`location_type IN (${placeholders(types.length)})`);
+      args.push(...types);
+    }
+    if (query.locationType.includes('unscored')) clauses.push('location_type IS NULL');
+    where.push(`(${clauses.join(' OR ')})`);
   }
 
   const orderBy =
@@ -265,20 +282,43 @@ export async function saveDescription(
   db: Db,
   id: number,
   description: string,
-  options: { thin: boolean },
+  options: { thin: boolean; locationFlag: LocationFlag },
 ): Promise<void> {
   await db.execute({
-    sql: `UPDATE jobs SET description = ?, thin_description = ?, describe_attempts = describe_attempts + 1,
-      updated_at = ? WHERE id = ?`,
-    args: [description, Number(options.thin), nowIso(), id],
+    sql: `UPDATE jobs SET description = ?, thin_description = ?, location_flag = ?,
+      describe_attempts = describe_attempts + 1, updated_at = ? WHERE id = ?`,
+    args: [description, Number(options.thin), options.locationFlag, nowIso(), id],
   });
 }
 
 /** Moves a job out of the scoring queue after a description-level check failed. */
-export async function markFiltered(db: Db, id: number, reason: string): Promise<void> {
+export async function markFiltered(
+  db: Db,
+  id: number,
+  filter: { reason: string; match: string | null },
+): Promise<void> {
   await db.execute({
-    sql: `UPDATE jobs SET status = 'filtered', filter_reason = ?, updated_at = ? WHERE id = ? AND status = 'new'`,
-    args: [reason, nowIso(), id],
+    sql: `UPDATE jobs SET status = 'filtered', filter_reason = ?, filter_match = ?, updated_at = ?
+      WHERE id = ? AND status = 'new'`,
+    args: [filter.reason, filter.match, nowIso(), id],
+  });
+}
+
+/** Scored, still-open jobs with a description: the set a rescore run re-evaluates. */
+export async function findJobsToRescore(db: Db, limit: number): Promise<Job[]> {
+  const result = await db.execute({
+    sql: `SELECT ${FULL_COLUMNS} FROM jobs
+      WHERE status = 'new' AND description IS NOT NULL
+      ORDER BY first_seen_at DESC LIMIT ?`,
+    args: [limit],
+  });
+  return result.rows.map(rowToJob);
+}
+
+export async function updateLocationFlag(db: Db, id: number, flag: LocationFlag): Promise<void> {
+  await db.execute({
+    sql: `UPDATE jobs SET location_flag = ?, updated_at = ? WHERE id = ?`,
+    args: [flag, nowIso(), id],
   });
 }
 
@@ -299,15 +339,26 @@ export async function findJobsToScore(db: Db, limit: number): Promise<Job[]> {
   return result.rows.map(rowToJob);
 }
 
-export async function saveScore(db: Db, id: number, score: ScoreResult): Promise<void> {
+export interface ValidatedScore {
+  score: ScoreResult;
+  /** The model's fit before post-validation. */
+  fitRaw: number;
+  notes: string[];
+}
+
+export async function saveScore(db: Db, id: number, validated: ValidatedScore): Promise<void> {
+  const { score, fitRaw, notes } = validated;
   const now = nowIso();
   await db.execute({
     sql: `UPDATE jobs SET
-      fit = ?, summary = ?, matches = ?, gaps = ?, red_flags = ?, salary_llm = ?, remote = ?,
-      seniority = ?, primary_stack = ?, scored_at = ?, score_error = NULL, updated_at = ?
+      fit = ?, fit_raw = ?, fit_notes = ?, summary = ?, matches = ?, gaps = ?, red_flags = ?,
+      salary_llm = ?, remote = ?, seniority = ?, primary_stack = ?, location_type = ?,
+      scored_at = ?, score_error = NULL, updated_at = ?
     WHERE id = ?`,
     args: [
       score.fit,
+      fitRaw,
+      JSON.stringify(notes),
       score.summary,
       JSON.stringify(score.matches),
       JSON.stringify(score.gaps),
@@ -316,6 +367,7 @@ export async function saveScore(db: Db, id: number, score: ScoreResult): Promise
       Number(score.remote),
       score.seniority,
       score.primary_stack,
+      score.location_type,
       now,
       now,
       id,

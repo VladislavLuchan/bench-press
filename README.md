@@ -37,11 +37,14 @@ Pipeline, in order:
 4. **Insert** new jobs first, score later. If scoring fails mid-run nothing is lost; the next
    run picks up unscored rows.
 5. **Describe**: fetch the full description where the listing did not include it, then
-   apply description-level checks: salary below the regional floor, office-only wording.
-   Short descriptions are scored but flagged.
+   apply description-level checks: salary below the regional floor, and location wording
+   (hard "office-based / on-site only" phrases filter, softer "hub / hybrid" phrases only
+   flag the job for the scorer). Short descriptions are scored but flagged.
 6. **Score** in batches of five with an LLM (DeepSeek via OpenRouter by default) against the
    CV and the scoring guidance from Settings. Strict JSON validated with zod; a bad batch
-   answer falls back to one request per job. Off-stack roles are capped at fit 4 in code.
+   answer falls back to one request per job. Code has the last word: on-site roles are
+   capped at 2, hybrid and region-limited remote at 4, off-stack roles at 4, and "nice to
+   have" items are struck from the gaps. The model's raw fit is kept next to the final one.
    Token usage and an estimated cost are logged per run.
 7. **Notify** on Telegram for `fit >= 7`, once per job.
 
@@ -89,6 +92,8 @@ No ORM, no UI library, no framework on the API side. SQL is written by hand agai
    week; the cron takes over from there with 24 hour windows.
 
 Tune search URLs, the salary floor and title keywords in `apps/scraper/src/config.ts`.
+After changing filters or the prompt, run the **Scrape** workflow with `rescore` checked (or
+press "Rescore all" on the Settings page) to re-evaluate every open job.
 
 ## Development
 

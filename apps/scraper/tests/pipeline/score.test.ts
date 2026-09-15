@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type { ChatClient, ChatCompletion } from '@bench-press/shared';
 import {
-  applyStackCap,
   parseScoreBatchJson,
   parseScoreJson,
+  postValidate,
   scoreBatch,
   scoreJob,
   UsageMeter,
@@ -20,6 +20,7 @@ const valid = {
   remote: true,
   seniority: 'senior',
   primary_stack: 'react',
+  location_type: 'remote',
 };
 
 const job = (title: string): ScorableJob => ({
@@ -29,6 +30,7 @@ const job = (title: string): ScorableJob => ({
   salaryRaw: null,
   source: 'djinni',
   description: 'React',
+  locationFlag: 'none',
 });
 
 function chatWith(answers: string[]): ChatClient & { calls: number } {
@@ -101,7 +103,7 @@ describe('scoreBatch', () => {
   it('uses one request for a good batch answer', async () => {
     const chat = chatWith([JSON.stringify({ results: [valid, { ...valid, fit: 6 }] })]);
     const outcomes = await scoreBatch([job('A'), job('B')], 'system', chat);
-    expect(outcomes.map((o) => (o.ok ? o.score.fit : null))).toEqual([8, 6]);
+    expect(outcomes.map((o) => (o.ok ? o.score.score.fit : null))).toEqual([8, 6]);
     expect(chat.calls).toBe(1);
   });
 
@@ -113,7 +115,7 @@ describe('scoreBatch', () => {
       'garbage',
     ]);
     const outcomes = await scoreBatch([job('A'), job('B')], 'system', chat);
-    expect(outcomes[0]).toEqual({ ok: true, score: valid });
+    expect(outcomes[0]).toEqual({ ok: true, score: { score: valid, fitRaw: 8, notes: [] } });
     expect(outcomes[1]?.ok).toBe(false);
     expect(chat.calls).toBe(4);
   });

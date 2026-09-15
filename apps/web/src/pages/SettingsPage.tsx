@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api, errorMessage, type Settings } from '../api/client.ts';
+import { DispatchButton } from '../components/DispatchButton.tsx';
 
 const FIELDS: Array<{ key: keyof Settings; label: string; hint: string }> = [
   {

@@ -141,3 +141,28 @@
 .settings__status {
   color: var(--text-muted);
 }
+
+.settings__section {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.settings__title {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.dispatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dispatch__error {
+  color: var(--bad);
+  font-size: 12px;
+}

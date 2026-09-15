@@ -13,6 +13,10 @@ on:
         description: 'Widen date windows to 7 days (first run / catch-up)'
         type: boolean
         default: false
+      rescore:
+        description: 'Re-evaluate open jobs under the current rules instead of fetching'
+        type: boolean
+        default: false
 
 concurrency:
   group: scrape
@@ -30,7 +34,7 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - name: Run scraper
-        run: npm run scrape -w @bench-press/scraper -- ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: npm run scrape -w @bench-press/scraper -- ${{ inputs.dry_run && '--dry-run' || '' }} ${{ inputs.rescore && '--rescore' || '' }}
         env:
           BACKFILL: ${{ inputs.backfill && '1' || '' }}
           TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}

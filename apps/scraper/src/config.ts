@@ -98,6 +98,11 @@ export const config = {
   notify: {
     minFit: 7,
   },
+
+  rescore: {
+    /** Open jobs re-evaluated per rescore run, newest first. */
+    limit: 600,
+  },
 } as const;
 
 export type Config = typeof config;

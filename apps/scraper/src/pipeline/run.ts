@@ -6,6 +6,7 @@ import {
   findExistingJobKeys,
   findJobsMissingDescription,
   findJobsToNotify,
+  findJobsToRescore,
   findJobsToScore,
   finishRun,
   getSetting,
@@ -20,6 +21,7 @@ import {
   saveScore,
   saveScoreError,
   startRun,
+  updateLocationFlag,
   type Db,
   type Job,
   type NewJob,
@@ -150,20 +152,27 @@ async function prepareNewJobs(
 
   return unique.map((job) => {
     let reason = prefilterReason(job);
+    let match: string | null = null;
     let thin = false;
-    if (!reason && job.description) {
-      const verdict = descriptionVerdict(job, job.description);
+    let locationFlag: NewJob['locationFlag'] = 'none';
+    if (!reason) {
+      // Without a description only the title and location field can be checked.
+      const verdict = descriptionVerdict(job, job.description ?? '');
       reason = verdict.reason;
-      thin = verdict.thin;
+      match = verdict.match;
+      thin = job.description ? verdict.thin : false;
+      locationFlag = verdict.locationFlag;
       if (reason) stats.descriptionFiltered++;
     }
     return {
       ...job,
       status: reason ? 'filtered' : 'new',
       filterReason: reason,
+      filterMatch: match,
       // Filtered rows are kept only for dedupe; their description would be dead weight.
       description: reason ? null : job.description,
       thinDescription: thin,
+      locationFlag,
     };
   });
 }
@@ -189,11 +198,14 @@ async function describeJobs(db: Db, http: HttpClient, stats: RunStats): Promise<
       }
       const verdict = descriptionVerdict(job, description);
       if (verdict.reason) {
-        await markFiltered(db, job.id, verdict.reason);
+        await markFiltered(db, job.id, { reason: verdict.reason, match: verdict.match });
         stats.descriptionFiltered++;
         continue;
       }
-      await saveDescription(db, job.id, description, { thin: verdict.thin });
+      await saveDescription(db, job.id, description, {
+        thin: verdict.thin,
+        locationFlag: verdict.locationFlag,
+      });
       stats.described++;
     } catch (error) {
       await recordDescribeFailure(db, job.id);
@@ -204,7 +216,13 @@ async function describeJobs(db: Db, http: HttpClient, stats: RunStats): Promise<
 }
 
 /** Step 5: LLM scoring in batches for jobs that have a description but no verdict yet. */
-async function scoreJobs(db: Db, env: ScraperEnv, stats: RunStats): Promise<void> {
+async function scoreJobs(
+  db: Db,
+  env: ScraperEnv,
+  stats: RunStats,
+  pending: Job[],
+  onScored?: (job: Job, fit: number) => void,
+): Promise<void> {
   const [profile, guidance] = await Promise.all([
     getSetting(db, 'profile'),
     getSetting(db, 'scoring_guidance'),
@@ -213,7 +231,6 @@ async function scoreJobs(db: Db, env: ScraperEnv, stats: RunStats): Promise<void
     log.warn('No profile in settings; skipping scoring. Add it on the dashboard Settings page.');
     return;
   }
-  const pending: Job[] = await findJobsToScore(db, config.scoring.perRunLimit);
   stats.sentToScoring = pending.length;
   if (pending.length === 0) return;
 
@@ -289,6 +306,52 @@ export interface RunOptions {
   backfill: boolean;
 }
 
+/**
+ * Re-evaluates every open, described job under the current filters, prompt and
+ * post-validation. Applied, replied and skipped jobs are never touched. Runs as its own
+ * `runs` row so the outcome is visible on the Stats page.
+ */
+export async function rescoreAll(env: ScraperEnv): Promise<RunStats> {
+  const stats = emptyStats();
+  const db = await createDb({ url: env.tursoUrl, authToken: env.tursoAuthToken });
+  await ensureSchema(db);
+  const runId = await startRun(db);
+
+  try {
+    const jobs = await findJobsToRescore(db, config.rescore.limit);
+    const previousFit = new Map(jobs.map((job) => [job.id, job.fit]));
+    const toScore: Job[] = [];
+
+    for (const job of jobs) {
+      const verdict = descriptionVerdict(job, job.description ?? '');
+      if (verdict.reason) {
+        await markFiltered(db, job.id, { reason: verdict.reason, match: verdict.match });
+        stats.descriptionFiltered++;
+        stats.filtered++;
+        continue;
+      }
+      if (verdict.locationFlag !== job.locationFlag) {
+        await updateLocationFlag(db, job.id, verdict.locationFlag);
+      }
+      toScore.push({ ...job, locationFlag: verdict.locationFlag });
+    }
+
+    let fitChanged = 0;
+    await scoreJobs(db, env, stats, toScore, (job, fit) => {
+      if (previousFit.get(job.id) !== fit) fitChanged++;
+    });
+    stats.rescore = { rescored: stats.scored, fitChanged, filtered: stats.filtered };
+    if (stats.tokens) log.info('Scoring usage', stats.tokens);
+
+    await finishRun(db, runId, { stats, error: null });
+    log.info('Rescore finished', { ...stats.rescore, scoreErrors: stats.scoreErrors });
+    return stats;
+  } catch (error) {
+    await finishRun(db, runId, { stats, error: errorMessage(error) });
+    throw error;
+  }
+}
+
 /** Full pipeline. In dry-run mode nothing is written and no LLM or Telegram call is made. */
 export async function runPipeline({ http, env, dryRun, backfill }: RunOptions): Promise<RunStats> {
   const stats = emptyStats();
@@ -328,7 +391,7 @@ export async function runPipeline({ http, env, dryRun, backfill }: RunOptions): 
     await describeJobs(db, http, stats);
     logStage('described', stats);
 
-    await scoreJobs(db, env, stats);
+    await scoreJobs(db, env, stats, await findJobsToScore(db, config.scoring.perRunLimit));
     logStage('scored', stats);
     if (stats.tokens) log.info('Scoring usage', stats.tokens);
 

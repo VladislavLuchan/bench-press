@@ -73,6 +73,8 @@ export interface JobsQuery {
   source?: string;
   status?: string;
   since?: string;
+  /** Location types to show; `unscored` means jobs without a verdict yet. */
+  locationType?: string[];
   sort?: 'fit' | 'date';
 }
 
@@ -97,7 +99,11 @@ export const api = {
     list(query: JobsQuery): Promise<JobSummary[]> {
       const params = new URLSearchParams();
       for (const [key, value] of Object.entries(query)) {
-        if (value !== undefined && value !== '') params.set(key, String(value));
+        if (Array.isArray(value)) {
+          if (value.length > 0) params.set(key, value.join(','));
+        } else if (value !== undefined && value !== '') {
+          params.set(key, String(value));
+        }
       }
       return request(`/jobs?${params}`);
     },
@@ -116,6 +122,10 @@ export const api = {
   fetchNow: {
     status: (): Promise<FetchStatus> => request('/fetch-now'),
     trigger: (): Promise<FetchStatus> => request('/fetch-now', { method: 'POST' }),
+  },
+  rescore: {
+    status: (): Promise<FetchStatus> => request('/rescore'),
+    trigger: (): Promise<FetchStatus> => request('/rescore', { method: 'POST' }),
   },
   runs: (): Promise<Run[]> => request('/runs'),
   settings: {

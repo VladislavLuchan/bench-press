@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { JOB_STATUSES, SETTING_KEYS, SOURCE_NAMES } from './types.ts';
+import { JOB_STATUSES, LOCATION_TYPES, SETTING_KEYS, SOURCE_NAMES } from './types.ts';
 
 export const sourceNameSchema = z.enum(SOURCE_NAMES);
 export const jobStatusSchema = z.enum(JOB_STATUSES);
@@ -16,6 +16,7 @@ export const scoreResultSchema = z.object({
   remote: z.boolean(),
   seniority: z.string(),
   primary_stack: z.string().trim().toLowerCase().default('other'),
+  location_type: z.enum(LOCATION_TYPES).catch('unclear'),
 });
 export const scoreResultListSchema = z.array(scoreResultSchema);
 
@@ -25,6 +26,11 @@ export const jobListQuerySchema = z.object({
   status: jobStatusSchema.optional(),
   /** ISO date (YYYY-MM-DD); only jobs first seen on or after this day. */
   since: z.iso.date().optional(),
+  /** Comma-separated location types; `unscored` includes jobs without a verdict yet. */
+  locationType: z
+    .string()
+    .optional()
+    .transform((value) => (value ? value.split(',').filter(Boolean) : undefined)),
   sort: z.enum(['fit', 'date']).default('fit'),
   limit: z.coerce.number().int().min(1).max(500).default(200),
 });

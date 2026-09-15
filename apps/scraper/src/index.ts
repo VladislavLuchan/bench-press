@@ -2,11 +2,12 @@ import { captureFixtures } from './capture-fixtures.ts';
 import { readEnv } from './env.ts';
 import { createHttpClient } from './lib/http.ts';
 import { errorMessage, log } from './lib/logger.ts';
-import { runPipeline } from './pipeline/run.ts';
+import { rescoreAll, runPipeline } from './pipeline/run.ts';
 
-const USAGE = `Usage: scrape [--dry-run] [--backfill] [--capture-fixtures]
+const USAGE = `Usage: scrape [--dry-run] [--backfill] [--rescore] [--capture-fixtures]
   --dry-run           Fetch and filter, print what would be stored; no DB, LLM or Telegram.
   --backfill          Widen source date windows to a week (same as BACKFILL=1).
+  --rescore           Re-evaluate open jobs under the current rules; no fetching.
   --capture-fixtures  Save one listing and one detail page per source into tests/fixtures.`;
 
 async function main(): Promise<void> {
@@ -19,6 +20,11 @@ async function main(): Promise<void> {
   const http = createHttpClient();
   if (args.has('--capture-fixtures')) {
     await captureFixtures(http);
+    return;
+  }
+
+  if (args.has('--rescore') || process.env.RESCORE === '1') {
+    await rescoreAll(readEnv());
     return;
   }
 

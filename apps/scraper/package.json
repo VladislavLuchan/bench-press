@@ -6,7 +6,8 @@
   "scripts": {
     "scrape": "tsx src/index.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "rescore": "tsx src/index.ts --rescore"
   },
   "dependencies": {
     "@bench-press/shared": "*",

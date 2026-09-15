@@ -1,5 +1,10 @@
 import { coverLetterHandler } from './handlers/cover-letter.ts';
-import { fetchNowHandler, fetchStatusHandler } from './handlers/fetch-now.ts';
+import {
+  fetchNowHandler,
+  fetchStatusHandler,
+  rescoreHandler,
+  rescoreStatusHandler,
+} from './handlers/fetch-now.ts';
 import { getJobHandler, listJobsHandler, updateJobHandler } from './handlers/jobs.ts';
 import {
   getSettingsHandler,
@@ -25,6 +30,8 @@ const handle = createRouter([
   route('PUT', /^\/settings$/, updateSettingsHandler),
   route('GET', /^\/fetch-now$/, fetchStatusHandler),
   route('POST', /^\/fetch-now$/, fetchNowHandler),
+  route('GET', /^\/rescore$/, rescoreStatusHandler),
+  route('POST', /^\/rescore$/, rescoreHandler),
 ]);
 
 export const GET = handle;

@@ -1,4 +1,4 @@
-import { JOB_STATUSES, SOURCE_NAMES } from '@bench-press/shared/types';
+import { JOB_STATUSES, LOCATION_TYPES, SOURCE_NAMES } from '@bench-press/shared/types';
 import type { JobsQuery } from '../api/client.ts';
 
 interface Props {
@@ -8,8 +8,25 @@ interface Props {
   lockStatus?: boolean;
 }
 
+const LOCATION_OPTIONS = [...LOCATION_TYPES, 'unscored'] as const;
+const LOCATION_LABELS: Record<(typeof LOCATION_OPTIONS)[number], string> = {
+  remote: 'remote',
+  remote_region_limited: 'region-limited',
+  hybrid: 'hybrid',
+  onsite: 'on-site',
+  unclear: 'unclear',
+  unscored: 'not scored yet',
+};
+
 export function JobFilters({ query, onChange, lockStatus = false }: Props) {
   const update = (patch: Partial<JobsQuery>) => onChange({ ...query, ...patch });
+  const locations = query.locationType ?? [];
+  const toggleLocation = (type: string) =>
+    update({
+      locationType: locations.includes(type)
+        ? locations.filter((item) => item !== type)
+        : [...locations, type],
+    });
 
   return (
     <div className="filters">
@@ -66,6 +83,21 @@ export function JobFilters({ query, onChange, lockStatus = false }: Props) {
           onChange={(event) => update({ since: event.target.value || undefined })}
         />
       </label>
+      {!lockStatus && (
+        <fieldset className="field field--inline filters__locations">
+          <legend className="field__label">Location</legend>
+          {LOCATION_OPTIONS.map((type) => (
+            <label key={type} className={`chip ${locations.includes(type) ? 'chip--on' : ''}`}>
+              <input
+                type="checkbox"
+                checked={locations.includes(type)}
+                onChange={() => toggleLocation(type)}
+              />
+              {LOCATION_LABELS[type]}
+            </label>
+          ))}
+        </fieldset>
+      )}
       <label className="field field--inline">
         <span className="field__label">Sort</span>
         <select

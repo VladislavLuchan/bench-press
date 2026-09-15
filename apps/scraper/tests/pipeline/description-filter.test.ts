@@ -1,13 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import { descriptionVerdict } from '../../src/pipeline/prefilter.ts';
 
-const eu = { source: 'linkedin', location: 'Poland', company: 'Acme' };
-const ua = { source: 'djinni', location: 'Ukraine', company: 'Acme' };
+const eu = { source: 'linkedin', title: 'Frontend Engineer', location: 'Poland', company: 'Acme' };
+const ua = { source: 'djinni', title: 'Frontend Engineer', location: 'Ukraine', company: 'Acme' };
 const long = 'x'.repeat(400);
 
 describe('descriptionVerdict', () => {
   it('flags thin descriptions but does not reject them', () => {
-    expect(descriptionVerdict(eu, 'React developer wanted.')).toEqual({ reason: null, thin: true });
+    expect(descriptionVerdict(eu, 'React developer wanted.')).toEqual({
+      reason: null,
+      match: null,
+      thin: true,
+      locationFlag: 'none',
+    });
   });
 
   it('rejects an explicit salary below the regional floor', () => {

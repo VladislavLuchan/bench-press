@@ -71,4 +71,9 @@ export const COLUMN_MIGRATIONS: ReadonlyArray<{ table: string; column: string; d
   { table: 'jobs', column: 'sources', ddl: 'sources TEXT' },
   { table: 'jobs', column: 'thin_description', ddl: 'thin_description INTEGER NOT NULL DEFAULT 0' },
   { table: 'jobs', column: 'primary_stack', ddl: 'primary_stack TEXT' },
+  { table: 'jobs', column: 'fit_raw', ddl: 'fit_raw INTEGER' },
+  { table: 'jobs', column: 'fit_notes', ddl: 'fit_notes TEXT' },
+  { table: 'jobs', column: 'location_type', ddl: 'location_type TEXT' },
+  { table: 'jobs', column: 'location_flag', ddl: "location_flag TEXT NOT NULL DEFAULT 'none'" },
+  { table: 'jobs', column: 'filter_match', ddl: 'filter_match TEXT' },
 ];

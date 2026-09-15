@@ -9,6 +9,7 @@ export const SETTING_KEYS = [
   'cover_letter_template',
   'scoring_guidance',
   'fetch_requested_at',
+  'rescore_requested_at',
 ] as const;
 export type SettingKey = (typeof SETTING_KEYS)[number];
 
@@ -39,7 +40,14 @@ export interface ScoreResult {
   seniority: string;
   /** One word: react, vue, angular, backend, other. Drives the post-validation fit cap. */
   primary_stack: string;
+  location_type: LocationType;
 }
+
+export const LOCATION_TYPES = ['remote', 'remote_region_limited', 'hybrid', 'onsite', 'unclear'] as const;
+export type LocationType = (typeof LOCATION_TYPES)[number];
+
+/** What the regex pre-filter concluded from the text; `soft` means an office or hub was mentioned. */
+export type LocationFlag = 'none' | 'soft';
 
 /** A row of the `jobs` table. */
 export interface Job {
@@ -62,6 +70,10 @@ export interface Job {
   postedAt: string | null;
   firstSeenAt: string;
   fit: number | null;
+  /** The model's fit before code post-validation; equals `fit` when nothing was adjusted. */
+  fitRaw: number | null;
+  /** Why post-validation changed the fit, one note per adjustment. */
+  fitNotes: string[];
   summary: string | null;
   matches: string[];
   gaps: string[];
@@ -70,10 +82,14 @@ export interface Job {
   remote: boolean | null;
   seniority: string | null;
   primaryStack: string | null;
+  locationType: LocationType | null;
+  locationFlag: LocationFlag;
   scoredAt: string | null;
   scoreError: string | null;
   status: JobStatus;
   filterReason: string | null;
+  /** The phrase that triggered a regex filter, for reviewing false positives. */
+  filterMatch: string | null;
   coverLetter: string | null;
   coverLetterLang: string | null;
   coverLetterGeneratedAt: string | null;
@@ -96,8 +112,10 @@ export interface NewJob extends JobListing {
   sources?: SourceName[];
   description: string | null;
   thinDescription: boolean;
+  locationFlag: LocationFlag;
   status: Extract<JobStatus, 'new' | 'filtered'>;
   filterReason: string | null;
+  filterMatch: string | null;
 }
 
 export interface SourceRunStats {
@@ -125,6 +143,8 @@ export interface RunStats {
   scoreErrors: number;
   notified: number;
   tokens: { prompt: number; completion: number; estimatedUsd: number } | null;
+  /** Set on rescore runs: how many stored verdicts changed. */
+  rescore?: { rescored: number; fitChanged: number; filtered: number };
 }
 
 export interface Run {
