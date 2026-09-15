@@ -2,7 +2,16 @@ import type { InValue, Row } from '@libsql/client';
 import { nowIso, type Db } from './client.ts';
 import { bool, integer, integerRequired, jsonArray, text, textRequired } from './row.ts';
 import type { JobListQuery } from '../schemas.ts';
-import type { Job, JobStatus, JobSummary, NewJob, ScoreResult, SourceName } from '../types.ts';
+import type {
+  Job,
+  JobStatus,
+  JobSummary,
+  LocationFlag,
+  LocationType,
+  NewJob,
+  ScoreResult,
+  SourceName,
+} from '../types.ts';
 
 const SUMMARY_COLUMNS = `
   id, source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,

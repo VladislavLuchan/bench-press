@@ -59,20 +59,59 @@ describe('parseScoreJson', () => {
     expect(() => parseScoreJson('not json')).toThrow();
   });
 
-  it('defaults a missing primary_stack to other and caps the fit', () => {
-    const { primary_stack: _stack, ...withoutStack } = valid;
-    expect(parseScoreJson(JSON.stringify(withoutStack))).toMatchObject({
+  it('defaults missing primary_stack and location_type', () => {
+    const { primary_stack: _stack, location_type: _location, ...rest } = valid;
+    expect(parseScoreJson(JSON.stringify(rest))).toMatchObject({
       primary_stack: 'other',
-      fit: 4,
+      location_type: 'unclear',
     });
+    expect(parseScoreJson(JSON.stringify({ ...valid, location_type: 'moon' })).location_type).toBe('unclear');
   });
 });
 
-describe('applyStackCap', () => {
+describe('postValidate', () => {
+  it('leaves a clean remote react verdict alone', () => {
+    expect(postValidate(valid)).toEqual({ score: valid, fitRaw: 8, notes: [] });
+  });
+
+  it('caps by location type', () => {
+    expect(postValidate({ ...valid, location_type: 'onsite' }).score.fit).toBe(2);
+    expect(postValidate({ ...valid, location_type: 'hybrid' }).score.fit).toBe(4);
+    expect(postValidate({ ...valid, location_type: 'remote_region_limited' }).score.fit).toBe(4);
+    expect(postValidate({ ...valid, location_type: 'hybrid' }).notes).toEqual(['capped at 4: location is hybrid']);
+  });
+
   it('caps off-stack roles at 4 and leaves core stacks alone', () => {
-    expect(applyStackCap({ ...valid, primary_stack: 'angular' }).fit).toBe(4);
-    expect(applyStackCap({ ...valid, primary_stack: 'backend', fit: 3 }).fit).toBe(3);
-    expect(applyStackCap({ ...valid, primary_stack: 'typescript' }).fit).toBe(8);
+    expect(postValidate({ ...valid, primary_stack: 'angular' }).score.fit).toBe(4);
+    expect(postValidate({ ...valid, primary_stack: 'backend', fit: 3 }).score.fit).toBe(3);
+    expect(postValidate({ ...valid, primary_stack: 'typescript' }).score.fit).toBe(8);
+  });
+
+  it('drops optional requirements from gaps and adds one point each, up to 9', () => {
+    const result = postValidate({
+      ...valid,
+      fit: 7,
+      gaps: ['Backend experience is a plus', 'GraphQL nice to have', 'Must have Redux', 'Docker (bonus)'],
+    });
+    expect(result.score.gaps).toEqual(['Must have Redux']);
+    expect(result.score.fit).toBe(9);
+    expect(result.fitRaw).toBe(7);
+    expect(result.notes).toEqual(['+2: 3 optional requirement(s) removed from gaps']);
+  });
+
+  it('never lets the gap bonus beat a location cap', () => {
+    const result = postValidate({ ...valid, fit: 6, location_type: 'hybrid', gaps: ['Go is a plus'] });
+    expect(result.score.fit).toBe(4);
+    expect(result.notes).toEqual([
+      '+1: 1 optional requirement(s) removed from gaps',
+      'capped at 4: location is hybrid',
+    ]);
+  });
+
+  it('flags a remote verdict when the regex saw a hub, and unclear locations', () => {
+    expect(postValidate(valid, 'soft').score.red_flags).toEqual(['verify location (hub mentioned)']);
+    expect(postValidate({ ...valid, location_type: 'unclear' }).score.red_flags).toEqual(['location unclear']);
+    expect(postValidate({ ...valid, location_type: 'unclear' }).score.fit).toBe(8);
   });
 });
 

@@ -26,14 +26,41 @@ export function checkTitle(title: string): TitleVerdict {
   return { ok: true };
 }
 
+/**
+ * Location rules, checked on title + location + description. Kept deliberately loose:
+ * a doubtful listing should reach the LLM rather than disappear into `filtered`.
+ */
+export const LOCATION_HARD_NO =
+  /\b(office[- ]based|on[- ]site only|onsite only|in[- ]office|office attendance (is )?(mandatory|required)|must be (located|based) in|no remote|not remote|relocation (is )?required|work from (our )?office|\d+ days? (a|per) week (in|at) (the )?office|тільки офіс|без віддаленої роботи)\b/i;
+
+export const LOCATION_SOFT =
+  /\b(hybrid|can be based in|based in our (office|hub)|tech hub|relocat\w*|willing to relocate|preferably (located|based) in|гібрид\w*)\b/i;
+
+export const LOCATION_REMOTE =
+  /\b(fully remote|100% remote|remote[- ]first|remote (within|from) (the )?(eu|europe|ukraine|anywhere)|work from anywhere|remote ok|remote friendly|повністю віддалено|віддалено з будь-якої)\b/i;
+
+export type LocationFlag = 'hard' | 'soft' | 'none';
+
+export interface LocationVerdict {
+  flag: LocationFlag;
+  /** The phrase that triggered the verdict, for review on the Filtered tab. */
+  match: string | null;
+}
+
+/** HARD_NO without a remote phrase blocks; SOFT without a remote phrase only flags. */
+export function checkLocation(text: string): LocationVerdict {
+  const remote = LOCATION_REMOTE.test(text);
+  const hard = text.match(LOCATION_HARD_NO);
+  if (hard && !remote) return { flag: 'hard', match: hard[0] };
+  const soft = text.match(LOCATION_SOFT);
+  if (soft && !remote) return { flag: 'soft', match: soft[0] };
+  return { flag: 'none', match: null };
+}
+
 /** Description-level filters, applied after the full text is fetched. */
 export const DESCRIPTION_FILTERS = {
   /** Explicit salary in the description below this is skipped. USD/EUR treated alike. */
   salaryFloorUsd: { ua: 3500, eu: 4000 },
-  /** Office-only wording that disqualifies unless remote is also mentioned. */
-  officeOnly:
-    /\b(office[- ]only|on-?site only|no remote|not remote|relocation (is )?required|тільки офіс|без віддаленої|офіс(ний)? формат)\b/i,
-  remoteMention: /\b(remote|hybrid|віддалено|дистанційно|гібрид)\b/i,
   /** Descriptions shorter than this are scored but flagged as thin. */
   thinDescriptionChars: 300,
   /** Signals that the employer is Ukrainian, which selects the lower salary floor. */
