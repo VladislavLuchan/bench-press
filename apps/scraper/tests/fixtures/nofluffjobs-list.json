@@ -1,0 +1,4987 @@
+{
+  "criteriaSearch": {
+    "country": [],
+    "withSalaryMatch": [],
+    "city": [
+      "remote"
+    ],
+    "more": [],
+    "employment": [],
+    "requirement": [],
+    "salary": [],
+    "jobPosition": [],
+    "applicationStatus": [],
+    "province": [],
+    "company": [],
+    "id": [],
+    "category": [
+      "frontend"
+    ],
+    "keyword": [],
+    "jobLanguage": [],
+    "seniority": []
+  },
+  "postings": [
+    {
+      "id": "junior-angular-developer-link-group-Remote-1",
+      "name": "Link Group",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "junior-angular-developer-link-group-remote-1"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "junior-angular-developer-link-group-lower-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "junior-angular-developer-link-group-kuyavian-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "junior-angular-developer-link-group-lodz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "junior-angular-developer-link-group-lublin-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "junior-angular-developer-link-group-lubusz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "junior-angular-developer-link-group-lesser-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "junior-angular-developer-link-group-masovian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "junior-angular-developer-link-group-opole-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "junior-angular-developer-link-group-subcarpathian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "junior-angular-developer-link-group-podlaskie-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "junior-angular-developer-link-group-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "junior-angular-developer-link-group-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "junior-angular-developer-link-group-holy-cross-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "junior-angular-developer-link-group-warmian-masurian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "junior-angular-developer-link-group-greater-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "junior-angular-developer-link-group-west-pomeranian-1",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1788262401316,
+      "renewed": 1789299201316,
+      "title": "Junior Angular Developer",
+      "technology": "Angular",
+      "logo": {
+        "original": "companies/logos/original/link_group_240px_20231016_112023.png",
+        "jobs_details": "companies/logos/jobs_details/link_group_240px_20231016_112023.png",
+        "jobs_listing": "companies/logos/jobs_listing/link_group_240px_20231016_112023.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/link_group_240px_20231016_112023.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/link_group_240px_20231016_112023.png",
+        "companies_details": "companies/logos/companies_details/link_group_240px_20231016_112023.png",
+        "companies_listing": "companies/logos/companies_listing/link_group_240px_20231016_112023.png",
+        "jobs_details_webp": "companies/logos/jobs_details/link_group_240px_20231016_112023.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/link_group_240px_20231016_112023.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/link_group_240px_20231016_112023.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/link_group_240px_20231016_112023.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/link_group_240px_20231016_112023.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/link_group_240px_20231016_112023.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/link_group_240px_20231016_112023.png",
+        "companies_details_webp": "companies/logos/companies_details/link_group_240px_20231016_112023.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/link_group_240px_20231016_112023.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/link_group_240px_20231016_112023.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/link_group_240px_20231016_112023.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Junior"
+      ],
+      "url": "junior-angular-developer-link-group-remote-1",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 1848,
+        "to": 3024,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": true,
+      "highlighted": true,
+      "help4Ua": false,
+      "reference": "MUNXCO3B",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "Angular",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "HTML",
+            "type": "requirement"
+          },
+          {
+            "value": "CSS",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "junior-angular-developer-link-group-Remote-1",
+      "name": "Link Group",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "junior-angular-developer-link-group-remote-1"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "junior-angular-developer-link-group-lower-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "junior-angular-developer-link-group-kuyavian-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "junior-angular-developer-link-group-lodz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "junior-angular-developer-link-group-lublin-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "junior-angular-developer-link-group-lubusz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "junior-angular-developer-link-group-lesser-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "junior-angular-developer-link-group-masovian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "junior-angular-developer-link-group-opole-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "junior-angular-developer-link-group-subcarpathian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "junior-angular-developer-link-group-podlaskie-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "junior-angular-developer-link-group-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "junior-angular-developer-link-group-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "junior-angular-developer-link-group-holy-cross-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "junior-angular-developer-link-group-warmian-masurian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "junior-angular-developer-link-group-greater-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "junior-angular-developer-link-group-west-pomeranian-1",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1788262401316,
+      "renewed": 1789299201316,
+      "title": "Junior Angular Developer",
+      "technology": "Angular",
+      "logo": {
+        "original": "companies/logos/original/link_group_240px_20231016_112023.png",
+        "jobs_details": "companies/logos/jobs_details/link_group_240px_20231016_112023.png",
+        "jobs_listing": "companies/logos/jobs_listing/link_group_240px_20231016_112023.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/link_group_240px_20231016_112023.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/link_group_240px_20231016_112023.png",
+        "companies_details": "companies/logos/companies_details/link_group_240px_20231016_112023.png",
+        "companies_listing": "companies/logos/companies_listing/link_group_240px_20231016_112023.png",
+        "jobs_details_webp": "companies/logos/jobs_details/link_group_240px_20231016_112023.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/link_group_240px_20231016_112023.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/link_group_240px_20231016_112023.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/link_group_240px_20231016_112023.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/link_group_240px_20231016_112023.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/link_group_240px_20231016_112023.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/link_group_240px_20231016_112023.png",
+        "companies_details_webp": "companies/logos/companies_details/link_group_240px_20231016_112023.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/link_group_240px_20231016_112023.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/link_group_240px_20231016_112023.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/link_group_240px_20231016_112023.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Junior"
+      ],
+      "url": "junior-angular-developer-link-group-remote-1",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 1848,
+        "to": 3024,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": true,
+      "highlighted": true,
+      "help4Ua": false,
+      "reference": "MUNXCO3B",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "Angular",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "HTML",
+            "type": "requirement"
+          },
+          {
+            "value": "CSS",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "remote-senior-react-developer-inwedo-Remote",
+      "name": "Inwedo Sp. z o.o.",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "remote-senior-react-developer-inwedo"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Łódź",
+            "street": "Wólczańska 143",
+            "postalCode": "90-525",
+            "geoLocation": {
+              "latitude": 51.75744049999999,
+              "longitude": 19.4533954
+            },
+            "url": "remote-senior-react-developer-inwedo-lodz"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "remote-senior-react-developer-inwedo-lower-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "remote-senior-react-developer-inwedo-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "remote-senior-react-developer-inwedo-lublin",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "remote-senior-react-developer-inwedo-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "remote-senior-react-developer-inwedo-lesser-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "remote-senior-react-developer-inwedo-masovian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "remote-senior-react-developer-inwedo-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "remote-senior-react-developer-inwedo-subcarpathian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "remote-senior-react-developer-inwedo-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "remote-senior-react-developer-inwedo-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "remote-senior-react-developer-inwedo-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "remote-senior-react-developer-inwedo-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "remote-senior-react-developer-inwedo-warmian-masurian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "remote-senior-react-developer-inwedo-greater-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "remote-senior-react-developer-inwedo-west-pomeranian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1789030374056,
+      "renewed": 1789462374056,
+      "title": "Remote Senior React Developer",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details": "companies/logos/jobs_details/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_listing": "companies/logos/jobs_listing/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_details": "companies/logos/companies_details/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_listing": "companies/logos/companies_listing/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details_webp": "companies/logos/jobs_details/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_details_webp": "companies/logos/companies_details/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "remote-senior-react-developer-inwedo",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 4143,
+        "to": 5754,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": true,
+      "highlighted": true,
+      "help4Ua": false,
+      "reference": "N3R7BMP8",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "Tailwind CSS",
+            "type": "requirement"
+          },
+          {
+            "value": "Material UI",
+            "type": "requirement"
+          },
+          {
+            "value": "Node.js",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "remote-senior-react-developer-inwedo-Remote",
+      "name": "Inwedo Sp. z o.o.",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "remote-senior-react-developer-inwedo"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Łódź",
+            "street": "Wólczańska 143",
+            "postalCode": "90-525",
+            "geoLocation": {
+              "latitude": 51.75744049999999,
+              "longitude": 19.4533954
+            },
+            "url": "remote-senior-react-developer-inwedo-lodz"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "remote-senior-react-developer-inwedo-lower-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "remote-senior-react-developer-inwedo-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "remote-senior-react-developer-inwedo-lublin",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "remote-senior-react-developer-inwedo-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "remote-senior-react-developer-inwedo-lesser-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "remote-senior-react-developer-inwedo-masovian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "remote-senior-react-developer-inwedo-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "remote-senior-react-developer-inwedo-subcarpathian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "remote-senior-react-developer-inwedo-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "remote-senior-react-developer-inwedo-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "remote-senior-react-developer-inwedo-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "remote-senior-react-developer-inwedo-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "remote-senior-react-developer-inwedo-warmian-masurian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "remote-senior-react-developer-inwedo-greater-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "remote-senior-react-developer-inwedo-west-pomeranian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1789030374056,
+      "renewed": 1789462374056,
+      "title": "Remote Senior React Developer",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details": "companies/logos/jobs_details/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_listing": "companies/logos/jobs_listing/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_details": "companies/logos/companies_details/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_listing": "companies/logos/companies_listing/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details_webp": "companies/logos/jobs_details/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/fb_logo_obszar_roboczy_1_20230302_085634.jpg",
+        "companies_details_webp": "companies/logos/companies_details/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/fb_logo_obszar_roboczy_1_20230302_085634.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "remote-senior-react-developer-inwedo",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 4143,
+        "to": 5754,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": true,
+      "highlighted": true,
+      "help4Ua": false,
+      "reference": "N3R7BMP8",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "Tailwind CSS",
+            "type": "requirement"
+          },
+          {
+            "value": "Material UI",
+            "type": "requirement"
+          },
+          {
+            "value": "Node.js",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-Remote",
+      "name": "Vistulo (for a major N. American bank)",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-remote"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Kraków",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 50.06465009999999,
+              "longitude": 19.9449799
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-krakow"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Wrocław",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 51.10929480000001,
+              "longitude": 17.0386019
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-wroclaw"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Poznań",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.40567859999999,
+              "longitude": 16.9312766
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-poznan"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Warszawa",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.2296756,
+              "longitude": 21.0122287
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-warszawa"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Katowice",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 50.26489189999999,
+              "longitude": 19.0237815
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-katowice"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Gdańsk",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 54.35202520000001,
+              "longitude": 18.6466384
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-gdansk"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Lublin",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 51.2509458,
+              "longitude": 22.5747275
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-lublin"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Łódź",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 51.7592924,
+              "longitude": 19.4558778
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-lodz"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Szczecin",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 53.4285438,
+              "longitude": 14.5528116
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-szczecin"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Rzeszów",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 50.0411867,
+              "longitude": 21.9991196
+            },
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-rzeszow"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-warmian-masurian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1787738941656,
+      "renewed": 1789294141656,
+      "title": "Senior React Frontend Developer",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/logo_with_name_20260113_123802.png",
+        "jobs_details": "companies/logos/jobs_details/logo_with_name_20260113_123802.png",
+        "jobs_listing": "companies/logos/jobs_listing/logo_with_name_20260113_123802.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/logo_with_name_20260113_123802.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/logo_with_name_20260113_123802.png",
+        "companies_details": "companies/logos/companies_details/logo_with_name_20260113_123802.png",
+        "companies_listing": "companies/logos/companies_listing/logo_with_name_20260113_123802.png",
+        "jobs_details_webp": "companies/logos/jobs_details/logo_with_name_20260113_123802.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/logo_with_name_20260113_123802.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/logo_with_name_20260113_123802.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/logo_with_name_20260113_123802.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/logo_with_name_20260113_123802.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/logo_with_name_20260113_123802.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/logo_with_name_20260113_123802.png",
+        "companies_details_webp": "companies/logos/companies_details/logo_with_name_20260113_123802.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/logo_with_name_20260113_123802.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/logo_with_name_20260113_123802.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/logo_with_name_20260113_123802.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "senior-react-frontend-developer-vistulo-for-a-major-n-american-bank-remote",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 7728,
+        "to": 8736,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "O4IKSL4Q",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "JavaScript",
+            "type": "requirement"
+          },
+          {
+            "value": "Algorithms",
+            "type": "requirement"
+          },
+          {
+            "value": "Java",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-Remote",
+      "name": "Vistulo (for a major N. American bank)",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-remote"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Kraków",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 50.06465009999999,
+              "longitude": 19.9449799
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-krakow"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Wrocław",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 51.10929480000001,
+              "longitude": 17.0386019
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-wroclaw"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Poznań",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.40567859999999,
+              "longitude": 16.9312766
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-poznan"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Warszawa",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.2296756,
+              "longitude": 21.0122287
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-warszawa"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Katowice",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 50.26489189999999,
+              "longitude": 19.0237815
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-katowice"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Gdańsk",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 54.35202520000001,
+              "longitude": 18.6466384
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-gdansk"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Lublin",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 51.2509458,
+              "longitude": 22.5747275
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-lublin"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Łódź",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 51.7592924,
+              "longitude": 19.4558778
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-lodz"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Szczecin",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 53.4285438,
+              "longitude": 14.5528116
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-szczecin"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Rzeszów",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 50.0411867,
+              "longitude": 21.9991196
+            },
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-rzeszow"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-warmian-masurian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1788040834250,
+      "renewed": 1789077634250,
+      "title": "Senior React Frontend Developer with Fixed Income experience",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/logo_with_name_20260113_123802.png",
+        "jobs_details": "companies/logos/jobs_details/logo_with_name_20260113_123802.png",
+        "jobs_listing": "companies/logos/jobs_listing/logo_with_name_20260113_123802.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/logo_with_name_20260113_123802.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/logo_with_name_20260113_123802.png",
+        "companies_details": "companies/logos/companies_details/logo_with_name_20260113_123802.png",
+        "companies_listing": "companies/logos/companies_listing/logo_with_name_20260113_123802.png",
+        "jobs_details_webp": "companies/logos/jobs_details/logo_with_name_20260113_123802.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/logo_with_name_20260113_123802.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/logo_with_name_20260113_123802.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/logo_with_name_20260113_123802.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/logo_with_name_20260113_123802.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/logo_with_name_20260113_123802.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/logo_with_name_20260113_123802.png",
+        "companies_details_webp": "companies/logos/companies_details/logo_with_name_20260113_123802.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/logo_with_name_20260113_123802.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/logo_with_name_20260113_123802.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/logo_with_name_20260113_123802.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "senior-react-frontend-developer-with-fixed-income-experience-vistulo-for-a-major-n-american-bank-remote",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 8.4E+3,
+        "to": 9576,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "UOARCZ3C",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "JavaScript",
+            "type": "requirement"
+          },
+          {
+            "value": "Algorithms",
+            "type": "requirement"
+          },
+          {
+            "value": "Fixed Income",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-frontend-vue-architect-tech-lead-bluebinary-Remote",
+      "name": "BLUEBINARY",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-remote"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Wrocław",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 51.10929480000001,
+              "longitude": 17.0386019
+            },
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-wroclaw"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Warszawa",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.2296756,
+              "longitude": 21.0122287
+            },
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-warszawa"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Gdańsk",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 54.35202520000001,
+              "longitude": 18.6466384
+            },
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-gdansk"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Kraków",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 50.06465009999999,
+              "longitude": 19.9449799
+            },
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-krakow"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Poznań",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.40567859999999,
+              "longitude": 16.9312766
+            },
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-poznan"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-lodz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-lublin",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-subcarpathian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-warmian-masurian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "senior-frontend-vue-architect-tech-lead-bluebinary-west-pomeranian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1789336816419,
+      "renewed": 1789423216419,
+      "title": "Senior Frontend Vue Architect/Tech Lead",
+      "logo": {
+        "original": "companies/logos/original/bluebinary_io_logo_20250922_143702.jpeg",
+        "jobs_details": "companies/logos/jobs_details/bluebinary_io_logo_20250922_143702.jpeg",
+        "jobs_listing": "companies/logos/jobs_listing/bluebinary_io_logo_20250922_143702.jpeg",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/bluebinary_io_logo_20250922_143702.jpeg",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/bluebinary_io_logo_20250922_143702.jpeg",
+        "companies_details": "companies/logos/companies_details/bluebinary_io_logo_20250922_143702.jpeg",
+        "companies_listing": "companies/logos/companies_listing/bluebinary_io_logo_20250922_143702.jpeg",
+        "jobs_details_webp": "companies/logos/jobs_details/bluebinary_io_logo_20250922_143702.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/bluebinary_io_logo_20250922_143702.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/bluebinary_io_logo_20250922_143702.jpeg",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/bluebinary_io_logo_20250922_143702.jpeg",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/bluebinary_io_logo_20250922_143702.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/bluebinary_io_logo_20250922_143702.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/bluebinary_io_logo_20250922_143702.jpeg",
+        "companies_details_webp": "companies/logos/companies_details/bluebinary_io_logo_20250922_143702.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/bluebinary_io_logo_20250922_143702.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/bluebinary_io_logo_20250922_143702.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/bluebinary_io_logo_20250922_143702.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Lead"
+      ],
+      "url": "senior-frontend-vue-architect-tech-lead-bluebinary-remote",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 5754,
+        "to": 8056,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "2FOEOW7C",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "Next.js",
+            "type": "requirement"
+          },
+          {
+            "value": "Docker",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-react-developer-it-contracting-michael-page-Remote",
+      "name": "Michael Page",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-react-developer-it-contracting-michael-page-remote"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Warsaw",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.2296756,
+              "longitude": 21.0122287
+            },
+            "url": "senior-react-developer-it-contracting-michael-page-warsaw"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "senior-react-developer-it-contracting-michael-page-lower-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-react-developer-it-contracting-michael-page-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "senior-react-developer-it-contracting-michael-page-lodz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "senior-react-developer-it-contracting-michael-page-lublin",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-react-developer-it-contracting-michael-page-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "senior-react-developer-it-contracting-michael-page-lesser-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-react-developer-it-contracting-michael-page-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "senior-react-developer-it-contracting-michael-page-subcarpathian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-react-developer-it-contracting-michael-page-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "senior-react-developer-it-contracting-michael-page-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "senior-react-developer-it-contracting-michael-page-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-react-developer-it-contracting-michael-page-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-react-developer-it-contracting-michael-page-warmian-masurian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "senior-react-developer-it-contracting-michael-page-greater-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "senior-react-developer-it-contracting-michael-page-west-pomeranian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1787801670242,
+      "renewed": 1789356870242,
+      "title": "Senior React Developer - IT Contracting",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/michael_page_logopng_20260804_143147.png",
+        "jobs_details": "companies/logos/jobs_details/michael_page_logopng_20260804_143147.png",
+        "jobs_listing": "companies/logos/jobs_listing/michael_page_logopng_20260804_143147.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/michael_page_logopng_20260804_143147.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/michael_page_logopng_20260804_143147.png",
+        "companies_details": "companies/logos/companies_details/michael_page_logopng_20260804_143147.png",
+        "companies_listing": "companies/logos/companies_listing/michael_page_logopng_20260804_143147.png",
+        "jobs_details_webp": "companies/logos/jobs_details/michael_page_logopng_20260804_143147.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/michael_page_logopng_20260804_143147.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/michael_page_logopng_20260804_143147.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/michael_page_logopng_20260804_143147.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/michael_page_logopng_20260804_143147.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/michael_page_logopng_20260804_143147.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/michael_page_logopng_20260804_143147.png",
+        "companies_details_webp": "companies/logos/companies_details/michael_page_logopng_20260804_143147.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/michael_page_logopng_20260804_143147.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/michael_page_logopng_20260804_143147.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/michael_page_logopng_20260804_143147.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "senior-react-developer-it-contracting-michael-page-remote",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 3864,
+        "to": 5208,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "LKHYABSW",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "Next.js",
+            "type": "requirement"
+          },
+          {
+            "value": "SSR",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "junior-react-developer-link-group-Remote-4",
+      "name": "Link Group",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "junior-react-developer-link-group-remote-4"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "junior-react-developer-link-group-lower-silesian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "junior-react-developer-link-group-kuyavian-pomeranian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "junior-react-developer-link-group-lodz-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "junior-react-developer-link-group-lublin-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "junior-react-developer-link-group-lubusz-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "junior-react-developer-link-group-lesser-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "junior-react-developer-link-group-masovian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "junior-react-developer-link-group-opole-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "junior-react-developer-link-group-subcarpathian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "junior-react-developer-link-group-podlaskie-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "junior-react-developer-link-group-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "junior-react-developer-link-group-silesian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "junior-react-developer-link-group-holy-cross-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "junior-react-developer-link-group-warmian-masurian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "junior-react-developer-link-group-greater-poland-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "junior-react-developer-link-group-west-pomeranian-3",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1788267680693,
+      "renewed": 1789304480693,
+      "title": "Junior React Developer",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/link_group_240px_20240110_120451.png",
+        "jobs_details": "companies/logos/jobs_details/link_group_240px_20240110_120451.png",
+        "jobs_listing": "companies/logos/jobs_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.png",
+        "companies_details": "companies/logos/companies_details/link_group_240px_20240110_120451.png",
+        "companies_listing": "companies/logos/companies_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_webp": "companies/logos/jobs_details/link_group_240px_20240110_120451.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/link_group_240px_20240110_120451.png",
+        "companies_details_webp": "companies/logos/companies_details/link_group_240px_20240110_120451.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Junior"
+      ],
+      "url": "junior-react-developer-link-group-remote-4",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 1848,
+        "to": 3024,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "C3KQY814",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "ReactJS",
+            "type": "requirement"
+          },
+          {
+            "value": "Web Apps",
+            "type": "requirement"
+          },
+          {
+            "value": "Clean Code",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-frontend-engineer-react-angular-iteamly-Remote-1",
+      "name": "Iteamly",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-frontend-engineer-react-angular-iteamly-remote-1"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-lower-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-kuyavian-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "senior-frontend-engineer-react-angular-iteamly-lodz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "senior-frontend-engineer-react-angular-iteamly-lublin-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-frontend-engineer-react-angular-iteamly-lubusz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "senior-frontend-engineer-react-angular-iteamly-lesser-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-masovian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-frontend-engineer-react-angular-iteamly-opole-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-subcarpathian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-frontend-engineer-react-angular-iteamly-podlaskie-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-frontend-engineer-react-angular-iteamly-holy-cross-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-warmian-masurian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "senior-frontend-engineer-react-angular-iteamly-greater-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "senior-frontend-engineer-react-angular-iteamly-west-pomeranian-1",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1787320083643,
+      "renewed": 1789220883643,
+      "title": "Senior Frontend Engineer (React \u0026 Angular)",
+      "logo": {
+        "original": "companies/logos/original/iteamly_logo_20260805_162312.jpeg",
+        "jobs_details": "companies/logos/jobs_details/iteamly_logo_20260805_162312.jpeg",
+        "jobs_listing": "companies/logos/jobs_listing/iteamly_logo_20260805_162312.jpeg",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/iteamly_logo_20260805_162312.jpeg",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/iteamly_logo_20260805_162312.jpeg",
+        "companies_details": "companies/logos/companies_details/iteamly_logo_20260805_162312.jpeg",
+        "companies_listing": "companies/logos/companies_listing/iteamly_logo_20260805_162312.jpeg",
+        "jobs_details_webp": "companies/logos/jobs_details/iteamly_logo_20260805_162312.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/iteamly_logo_20260805_162312.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/iteamly_logo_20260805_162312.jpeg",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/iteamly_logo_20260805_162312.jpeg",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/iteamly_logo_20260805_162312.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/iteamly_logo_20260805_162312.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/iteamly_logo_20260805_162312.jpeg",
+        "companies_details_webp": "companies/logos/companies_details/iteamly_logo_20260805_162312.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/iteamly_logo_20260805_162312.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/iteamly_logo_20260805_162312.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/iteamly_logo_20260805_162312.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "senior-frontend-engineer-react-angular-iteamly-remote-1",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 5294,
+        "to": 6905,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "EOX5VXYJ",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "JavaScript",
+            "type": "requirement"
+          },
+          {
+            "value": "HTML",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-Remote-1",
+      "name": "AVENGA (Agencja Pracy, nr KRAZ: 8448)",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-remote-1"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-lower-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-kuyavian-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-lodz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-lublin-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-lubusz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-lesser-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-masovian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-opole-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-subcarpathian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-podlaskie-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-holy-cross-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-warmian-masurian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-greater-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-west-pomeranian-1",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1787650651002,
+      "renewed": 1789205851002,
+      "title": "Senior Angular Developer",
+      "technology": "Angular",
+      "logo": {
+        "original": "companies/logos/original/pl_avenga_logo_20250526_112255.webp",
+        "jobs_details": "companies/logos/jobs_details/pl_avenga_logo_20250526_112255.webp",
+        "jobs_listing": "companies/logos/jobs_listing/pl_avenga_logo_20250526_112255.webp",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/pl_avenga_logo_20250526_112255.webp",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/pl_avenga_logo_20250526_112255.webp",
+        "companies_details": "companies/logos/companies_details/pl_avenga_logo_20250526_112255.webp",
+        "companies_listing": "companies/logos/companies_listing/pl_avenga_logo_20250526_112255.webp",
+        "jobs_details_webp": "companies/logos/jobs_details/pl_avenga_logo_20250526_112255.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/pl_avenga_logo_20250526_112255.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/pl_avenga_logo_20250526_112255.webp",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/pl_avenga_logo_20250526_112255.webp",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/pl_avenga_logo_20250526_112255.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/pl_avenga_logo_20250526_112255.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/pl_avenga_logo_20250526_112255.webp",
+        "companies_details_webp": "companies/logos/companies_details/pl_avenga_logo_20250526_112255.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/pl_avenga_logo_20250526_112255.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/pl_avenga_logo_20250526_112255.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/pl_avenga_logo_20250526_112255.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "senior-angular-developer-avenga-agencja-pracy-nr-kraz-8448-remote-1",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 5712,
+        "to": 6552,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "D4BI1KYJ",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "Angular",
+            "type": "requirement"
+          },
+          {
+            "value": "AWS",
+            "type": "requirement"
+          },
+          {
+            "value": "SQL",
+            "type": "requirement"
+          },
+          {
+            "value": "NoSQL",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "react-native-developer-connectis--Remote-3",
+      "name": "Connectis_",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "react-native-developer-connectis--remote-3"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "react-native-developer-connectis--lower-silesian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "react-native-developer-connectis--kuyavian-pomeranian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "react-native-developer-connectis--lodz-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "react-native-developer-connectis--lublin-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "react-native-developer-connectis--lubusz-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "react-native-developer-connectis--lesser-poland-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "react-native-developer-connectis--masovian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "react-native-developer-connectis--opole-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "react-native-developer-connectis--subcarpathian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "react-native-developer-connectis--podlaskie-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "react-native-developer-connectis--pomeranian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "react-native-developer-connectis--silesian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "react-native-developer-connectis--holy-cross-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "react-native-developer-connectis--warmian-masurian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "react-native-developer-connectis--greater-poland-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "react-native-developer-connectis--west-pomeranian-3",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1787577013004,
+      "renewed": 1789132213004,
+      "title": " React Native Developer",
+      "technology": "React Native",
+      "logo": {
+        "original": "companies/logos/original/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "jobs_details": "companies/logos/jobs_details/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "jobs_listing": "companies/logos/jobs_listing/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "companies_details": "companies/logos/companies_details/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "companies_listing": "companies/logos/companies_listing/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "jobs_details_webp": "companies/logos/jobs_details/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/310603439_445328284362740_3512791753649939778_n_20250414_113625.png",
+        "companies_details_webp": "companies/logos/companies_details/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/310603439_445328284362740_3512791753649939778_n_20250414_113625.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Mid"
+      ],
+      "url": "react-native-developer-connectis--remote-3",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 5712,
+        "to": 6.72E+3,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "OD8Q3X0R",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "React native",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "TanStack Query",
+            "type": "requirement"
+          },
+          {
+            "value": "Nitro",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-react-developer-link-group-Remote-5",
+      "name": "Link Group",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-react-developer-link-group-remote-8"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "senior-react-developer-link-group-lower-silesian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-react-developer-link-group-kuyavian-pomeranian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "senior-react-developer-link-group-lodz-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "senior-react-developer-link-group-lublin-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-react-developer-link-group-lubusz-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "senior-react-developer-link-group-lesser-poland-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "senior-react-developer-link-group-masovian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-react-developer-link-group-opole-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "senior-react-developer-link-group-subcarpathian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-react-developer-link-group-podlaskie-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "senior-react-developer-link-group-pomeranian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "senior-react-developer-link-group-silesian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-react-developer-link-group-holy-cross-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-react-developer-link-group-warmian-masurian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "senior-react-developer-link-group-greater-poland-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "senior-react-developer-link-group-west-pomeranian-4",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1786917665104,
+      "renewed": 1788991265104,
+      "title": "Senior React Developer",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/link_group_240px_20240110_120451.png",
+        "jobs_details": "companies/logos/jobs_details/link_group_240px_20240110_120451.png",
+        "jobs_listing": "companies/logos/jobs_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.png",
+        "companies_details": "companies/logos/companies_details/link_group_240px_20240110_120451.png",
+        "companies_listing": "companies/logos/companies_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_webp": "companies/logos/jobs_details/link_group_240px_20240110_120451.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/link_group_240px_20240110_120451.png",
+        "companies_details_webp": "companies/logos/companies_details/link_group_240px_20240110_120451.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "senior-react-developer-link-group-remote-8",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 4143,
+        "to": 5294,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "BEANVYSJ",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "JavaScript",
+            "type": "requirement"
+          },
+          {
+            "value": "Redux",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "senior-angular-developer-link-group-Remote-1",
+      "name": "Link Group",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "senior-angular-developer-link-group-remote-15"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "senior-angular-developer-link-group-lower-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "senior-angular-developer-link-group-kuyavian-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "senior-angular-developer-link-group-lodz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "senior-angular-developer-link-group-lublin-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "senior-angular-developer-link-group-lubusz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "senior-angular-developer-link-group-lesser-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "senior-angular-developer-link-group-masovian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "senior-angular-developer-link-group-opole-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "senior-angular-developer-link-group-subcarpathian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "senior-angular-developer-link-group-podlaskie-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "senior-angular-developer-link-group-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "senior-angular-developer-link-group-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "senior-angular-developer-link-group-holy-cross-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "senior-angular-developer-link-group-warmian-masurian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "senior-angular-developer-link-group-greater-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "senior-angular-developer-link-group-west-pomeranian-1",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1786917655122,
+      "renewed": 1788991255122,
+      "title": "Senior Angular Developer",
+      "technology": "Angular",
+      "logo": {
+        "original": "companies/logos/original/link_group_240px_20230907_142205.png",
+        "jobs_details": "companies/logos/jobs_details/link_group_240px_20230907_142205.png",
+        "jobs_listing": "companies/logos/jobs_listing/link_group_240px_20230907_142205.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/link_group_240px_20230907_142205.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/link_group_240px_20230907_142205.png",
+        "companies_details": "companies/logos/companies_details/link_group_240px_20230907_142205.png",
+        "companies_listing": "companies/logos/companies_listing/link_group_240px_20230907_142205.png",
+        "jobs_details_webp": "companies/logos/jobs_details/link_group_240px_20230907_142205.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/link_group_240px_20230907_142205.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/link_group_240px_20230907_142205.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/link_group_240px_20230907_142205.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/link_group_240px_20230907_142205.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/link_group_240px_20230907_142205.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/link_group_240px_20230907_142205.png",
+        "companies_details_webp": "companies/logos/companies_details/link_group_240px_20230907_142205.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/link_group_240px_20230907_142205.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/link_group_240px_20230907_142205.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/link_group_240px_20230907_142205.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "senior-angular-developer-link-group-remote-15",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 4603,
+        "to": 5754,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "KZKFG1K4",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "Angular",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "HTML",
+            "type": "requirement"
+          },
+          {
+            "value": "CSS",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mid-angular-developer-link-group-Remote-2",
+      "name": "Link Group",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "mid-angular-developer-link-group-remote-2"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "mid-angular-developer-link-group-lower-silesian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "mid-angular-developer-link-group-kuyavian-pomeranian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "mid-angular-developer-link-group-lodz-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "mid-angular-developer-link-group-lublin-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "mid-angular-developer-link-group-lubusz-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "mid-angular-developer-link-group-lesser-poland-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "mid-angular-developer-link-group-masovian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "mid-angular-developer-link-group-opole-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "mid-angular-developer-link-group-subcarpathian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "mid-angular-developer-link-group-podlaskie-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "mid-angular-developer-link-group-pomeranian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "mid-angular-developer-link-group-silesian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "mid-angular-developer-link-group-holy-cross-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "mid-angular-developer-link-group-warmian-masurian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "mid-angular-developer-link-group-greater-poland-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "mid-angular-developer-link-group-west-pomeranian-2",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1786917641503,
+      "renewed": 1788991241503,
+      "title": "Mid Angular Developer",
+      "technology": "Angular",
+      "logo": {
+        "original": "companies/logos/original/link_group_240px_20240110_120451.png",
+        "jobs_details": "companies/logos/jobs_details/link_group_240px_20240110_120451.png",
+        "jobs_listing": "companies/logos/jobs_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.png",
+        "companies_details": "companies/logos/companies_details/link_group_240px_20240110_120451.png",
+        "companies_listing": "companies/logos/companies_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_webp": "companies/logos/jobs_details/link_group_240px_20240110_120451.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/link_group_240px_20240110_120451.png",
+        "companies_details_webp": "companies/logos/companies_details/link_group_240px_20240110_120451.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Mid"
+      ],
+      "url": "mid-angular-developer-link-group-remote-2",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 2992,
+        "to": 4143,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "ORY9DPJD",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "Angular",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "HTML",
+            "type": "requirement"
+          },
+          {
+            "value": "CSS",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mid-react-developer-link-group-Remote-4",
+      "name": "Link Group",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "mid-react-developer-link-group-remote-5"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "mid-react-developer-link-group-lower-silesian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "mid-react-developer-link-group-kuyavian-pomeranian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "mid-react-developer-link-group-lodz-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "mid-react-developer-link-group-lublin-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "mid-react-developer-link-group-lubusz-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "mid-react-developer-link-group-lesser-poland-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "mid-react-developer-link-group-masovian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "mid-react-developer-link-group-opole-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "mid-react-developer-link-group-subcarpathian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "mid-react-developer-link-group-podlaskie-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "mid-react-developer-link-group-pomeranian-2",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "mid-react-developer-link-group-silesian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "mid-react-developer-link-group-holy-cross-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "mid-react-developer-link-group-warmian-masurian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "mid-react-developer-link-group-greater-poland-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "mid-react-developer-link-group-west-pomeranian-4",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1786917621610,
+      "renewed": 1788991221610,
+      "title": "Mid React Developer",
+      "technology": "React",
+      "logo": {
+        "original": "companies/logos/original/link_group_240px_20240110_120451.png",
+        "jobs_details": "companies/logos/jobs_details/link_group_240px_20240110_120451.png",
+        "jobs_listing": "companies/logos/jobs_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.png",
+        "companies_details": "companies/logos/companies_details/link_group_240px_20240110_120451.png",
+        "companies_listing": "companies/logos/companies_listing/link_group_240px_20240110_120451.png",
+        "jobs_details_webp": "companies/logos/jobs_details/link_group_240px_20240110_120451.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/link_group_240px_20240110_120451.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/link_group_240px_20240110_120451.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/link_group_240px_20240110_120451.png",
+        "companies_details_webp": "companies/logos/companies_details/link_group_240px_20240110_120451.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/link_group_240px_20240110_120451.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/link_group_240px_20240110_120451.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/link_group_240px_20240110_120451.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Mid"
+      ],
+      "url": "mid-react-developer-link-group-remote-5",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 2992,
+        "to": 3797,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "IWELZAOJ",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "React",
+            "type": "requirement"
+          },
+          {
+            "value": "JavaScript",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "Redux",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "qt-qml-software-engineer-with-french-spyrosoft-Remote",
+      "name": "Spyrosoft",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-remote"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Wrocław",
+            "street": "plac Nowy Targ 28",
+            "postalCode": "50-141",
+            "geoLocation": {
+              "latitude": 51.1104135,
+              "longitude": 17.0385273
+            },
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-wroclaw"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-lodz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-lublin",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-lesser-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-masovian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-subcarpathian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-warmian-masurian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-greater-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "qt-qml-software-engineer-with-french-spyrosoft-west-pomeranian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1788498754996,
+      "renewed": 1788930754996,
+      "title": "Qt/QML Software Engineer with French",
+      "logo": {
+        "original": "companies/logos/original/spyrosoft_20200313_111958_20220812_123617.png",
+        "jobs_details": "companies/logos/jobs_details/spyrosoft_20200313_111958_20220812_123617.png",
+        "jobs_listing": "companies/logos/jobs_listing/spyrosoft_20200313_111958_20220812_123617.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/spyrosoft_20200313_111958_20220812_123617.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/spyrosoft_20200313_111958_20220812_123617.png",
+        "companies_details": "companies/logos/companies_details/spyrosoft_20200313_111958_20220812_123617.png",
+        "companies_listing": "companies/logos/companies_listing/spyrosoft_20200313_111958_20220812_123617.png",
+        "jobs_details_webp": "companies/logos/jobs_details/spyrosoft_20200313_111958_20220812_123617.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/spyrosoft_20200313_111958_20220812_123617.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/spyrosoft_20200313_111958_20220812_123617.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/spyrosoft_20200313_111958_20220812_123617.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/spyrosoft_20200313_111958_20220812_123617.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/spyrosoft_20200313_111958_20220812_123617.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/spyrosoft_20200313_111958_20220812_123617.png",
+        "companies_details_webp": "companies/logos/companies_details/spyrosoft_20200313_111958_20220812_123617.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/spyrosoft_20200313_111958_20220812_123617.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/spyrosoft_20200313_111958_20220812_123617.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/spyrosoft_20200313_111958_20220812_123617.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Senior"
+      ],
+      "url": "qt-qml-software-engineer-with-french-spyrosoft-remote",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 4536,
+        "to": 6.72E+3,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "Z3VZMYGT",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "QML",
+            "type": "requirement"
+          },
+          {
+            "value": "Qt",
+            "type": "requirement"
+          },
+          {
+            "value": "C++",
+            "type": "requirement"
+          },
+          {
+            "value": "Design Patterns",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "frontend-developer-angular-scalo-Remote-5",
+      "name": "Scalo",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "frontend-developer-angular-scalo-remote-6"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Wrocław",
+            "street": "",
+            "postalCode": "",
+            "url": "frontend-developer-angular-scalo-wroclaw-7"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "frontend-developer-angular-scalo-kuyavian-pomeranian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "frontend-developer-angular-scalo-lodz-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "frontend-developer-angular-scalo-lublin-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "frontend-developer-angular-scalo-lubusz-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "frontend-developer-angular-scalo-lesser-poland-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "frontend-developer-angular-scalo-masovian-3",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "frontend-developer-angular-scalo-opole-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "frontend-developer-angular-scalo-subcarpathian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "frontend-developer-angular-scalo-podlaskie-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "frontend-developer-angular-scalo-pomeranian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "frontend-developer-angular-scalo-silesian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "frontend-developer-angular-scalo-holy-cross-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "frontend-developer-angular-scalo-warmian-masurian-4",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "frontend-developer-angular-scalo-greater-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "frontend-developer-angular-scalo-west-pomeranian-4",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false
+      },
+      "posted": 1787695222402,
+      "renewed": 1788904822402,
+      "title": "Frontend Developer (Angular)",
+      "logo": {
+        "original": "companies/logos/original/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "jobs_details": "companies/logos/jobs_details/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "jobs_listing": "companies/logos/jobs_listing/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "companies_details": "companies/logos/companies_details/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "companies_listing": "companies/logos/companies_listing/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "jobs_details_webp": "companies/logos/jobs_details/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/370596805_758939386238896_3562752473761496030_n_20231031_111401.jpg",
+        "companies_details_webp": "companies/logos/companies_details/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/370596805_758939386238896_3562752473761496030_n_20231031_111401.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Mid",
+        "Senior"
+      ],
+      "url": "frontend-developer-angular-scalo-remote-6",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 4.2E+3,
+        "to": 4536,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "IYTUXHQI",
+      "searchBoost": true,
+      "onlineInterviewAvailable": false,
+      "tiles": {
+        "values": [
+          {
+            "value": "Angular",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "HTML",
+            "type": "requirement"
+          },
+          {
+            "value": "CSS",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "frontend-developer-angular-geek-soft-Remote",
+      "name": "Geek Soft",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "frontend-developer-angular-geek-soft-remote"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "frontend-developer-angular-geek-soft-lower-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "frontend-developer-angular-geek-soft-kuyavian-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "frontend-developer-angular-geek-soft-lodz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "frontend-developer-angular-geek-soft-lublin",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "frontend-developer-angular-geek-soft-lubusz",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "frontend-developer-angular-geek-soft-lesser-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "frontend-developer-angular-geek-soft-masovian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "frontend-developer-angular-geek-soft-opole",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "frontend-developer-angular-geek-soft-subcarpathian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "frontend-developer-angular-geek-soft-podlaskie",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "frontend-developer-angular-geek-soft-pomeranian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "frontend-developer-angular-geek-soft-silesian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "frontend-developer-angular-geek-soft-holy-cross",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "frontend-developer-angular-geek-soft-warmian-masurian",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "greater-poland",
+            "url": "frontend-developer-angular-geek-soft-greater-poland",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "frontend-developer-angular-geek-soft-west-pomeranian",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1788360397717,
+      "renewed": 1788878797717,
+      "title": "Frontend Developer - Angular",
+      "technology": "Angular",
+      "logo": {
+        "original": "companies/logos/original/geeksoftlogo_20230831_142646.jpg",
+        "jobs_details": "companies/logos/jobs_details/geeksoftlogo_20230831_142646.jpg",
+        "jobs_listing": "companies/logos/jobs_listing/geeksoftlogo_20230831_142646.jpg",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/geeksoftlogo_20230831_142646.jpg",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/geeksoftlogo_20230831_142646.jpg",
+        "companies_details": "companies/logos/companies_details/geeksoftlogo_20230831_142646.jpg",
+        "companies_listing": "companies/logos/companies_listing/geeksoftlogo_20230831_142646.jpg",
+        "jobs_details_webp": "companies/logos/jobs_details/geeksoftlogo_20230831_142646.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/geeksoftlogo_20230831_142646.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/geeksoftlogo_20230831_142646.jpg",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/geeksoftlogo_20230831_142646.jpg",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/geeksoftlogo_20230831_142646.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/geeksoftlogo_20230831_142646.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/geeksoftlogo_20230831_142646.jpg",
+        "companies_details_webp": "companies/logos/companies_details/geeksoftlogo_20230831_142646.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/geeksoftlogo_20230831_142646.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/geeksoftlogo_20230831_142646.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/geeksoftlogo_20230831_142646.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Mid"
+      ],
+      "url": "frontend-developer-angular-geek-soft-remote",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 3222,
+        "to": 4603,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "L98XEPON",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "Angular",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "RxJS",
+            "type": "requirement"
+          },
+          {
+            "value": "HTML",
+            "type": "requirement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "javascript-full-stack-engineer-full-stack-house-Remote-1",
+      "name": "Full Stack House",
+      "location": {
+        "places": [
+          {
+            "city": "Remote",
+            "url": "javascript-full-stack-engineer-full-stack-house-remote-1"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "city": "Poznań",
+            "street": "",
+            "postalCode": "",
+            "geoLocation": {
+              "latitude": 52.40567859999999,
+              "longitude": 16.9312766
+            },
+            "url": "javascript-full-stack-engineer-full-stack-house-poznan-1"
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lower-silesian",
+            "url": "javascript-full-stack-engineer-full-stack-house-lower-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "kuyavian-pomeranian",
+            "url": "javascript-full-stack-engineer-full-stack-house-kuyavian-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lodz",
+            "url": "javascript-full-stack-engineer-full-stack-house-lodz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lublin",
+            "url": "javascript-full-stack-engineer-full-stack-house-lublin-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lubusz",
+            "url": "javascript-full-stack-engineer-full-stack-house-lubusz-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "lesser-poland",
+            "url": "javascript-full-stack-engineer-full-stack-house-lesser-poland-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "masovian",
+            "url": "javascript-full-stack-engineer-full-stack-house-masovian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "opole",
+            "url": "javascript-full-stack-engineer-full-stack-house-opole-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "subcarpathian",
+            "url": "javascript-full-stack-engineer-full-stack-house-subcarpathian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "podlaskie",
+            "url": "javascript-full-stack-engineer-full-stack-house-podlaskie-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "pomeranian",
+            "url": "javascript-full-stack-engineer-full-stack-house-pomeranian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "silesian",
+            "url": "javascript-full-stack-engineer-full-stack-house-silesian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "holy-cross",
+            "url": "javascript-full-stack-engineer-full-stack-house-holy-cross-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "warmian-masurian",
+            "url": "javascript-full-stack-engineer-full-stack-house-warmian-masurian-1",
+            "provinceOnly": true
+          },
+          {
+            "country": {
+              "code": "POL",
+              "name": "Poland"
+            },
+            "province": "west-pomeranian",
+            "url": "javascript-full-stack-engineer-full-stack-house-west-pomeranian-1",
+            "provinceOnly": true
+          }
+        ],
+        "fullyRemote": true,
+        "covidTimeRemotely": false,
+        "hybridDesc": ""
+      },
+      "posted": 1786917673768,
+      "renewed": 1788472873768,
+      "title": "JavaScript Full-stack Engineer",
+      "technology": "JavaScript",
+      "logo": {
+        "original": "companies/logos/original/fshiconlight_20260717_152949.png",
+        "jobs_details": "companies/logos/jobs_details/fshiconlight_20260717_152949.png",
+        "jobs_listing": "companies/logos/jobs_listing/fshiconlight_20260717_152949.png",
+        "jobs_details_2x": "companies/logos/jobs_details_2x/fshiconlight_20260717_152949.png",
+        "jobs_listing_2x": "companies/logos/jobs_listing_2x/fshiconlight_20260717_152949.png",
+        "companies_details": "companies/logos/companies_details/fshiconlight_20260717_152949.png",
+        "companies_listing": "companies/logos/companies_listing/fshiconlight_20260717_152949.png",
+        "jobs_details_webp": "companies/logos/jobs_details/fshiconlight_20260717_152949.webp",
+        "jobs_listing_webp": "companies/logos/jobs_listing/fshiconlight_20260717_152949.webp",
+        "companies_details_2x": "companies/logos/companies_details_2x/fshiconlight_20260717_152949.png",
+        "companies_listing_2x": "companies/logos/companies_listing_2x/fshiconlight_20260717_152949.png",
+        "jobs_details_2x_webp": "companies/logos/jobs_details_2x/fshiconlight_20260717_152949.webp",
+        "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/fshiconlight_20260717_152949.webp",
+        "original_pixel_image": "companies/logos/original_pixel_image/fshiconlight_20260717_152949.png",
+        "companies_details_webp": "companies/logos/companies_details/fshiconlight_20260717_152949.webp",
+        "companies_listing_webp": "companies/logos/companies_listing/fshiconlight_20260717_152949.webp",
+        "companies_details_2x_webp": "companies/logos/companies_details_2x/fshiconlight_20260717_152949.webp",
+        "companies_listing_2x_webp": "companies/logos/companies_listing_2x/fshiconlight_20260717_152949.webp"
+      },
+      "category": "frontend",
+      "seniority": [
+        "Mid"
+      ],
+      "url": "javascript-full-stack-engineer-full-stack-house-remote-1",
+      "regions": [
+        "pl"
+      ],
+      "fullyRemote": false,
+      "salary": {
+        "from": 1848,
+        "to": 3864,
+        "type": "b2b",
+        "currency": "EUR",
+        "period": "Month",
+        "disclosedAt": "VISIBLE",
+        "flexibleUpperBound": false
+      },
+      "flavors": [
+        "it"
+      ],
+      "topInSearch": false,
+      "highlighted": false,
+      "help4Ua": false,
+      "reference": "LZNV5TFU",
+      "searchBoost": true,
+      "onlineInterviewAvailable": true,
+      "tiles": {
+        "values": [
+          {
+            "value": "JavaScript",
+            "type": "requirement"
+          },
+          {
+            "value": "TypeScript",
+            "type": "requirement"
+          },
+          {
+            "value": "Git",
+            "type": "requirement"
+          },
+          {
+            "value": "React",
+            "type": "requirement"
+          }
+        ]
+      }
+    }
+  ],
+  "totalCount": 20,
+  "totalPages": 3,
+  "exactMatchesPages": 1,
+  "rawSearch": "city\u003dremote category\u003dfrontend",
+  "locationCriteria": true,
+  "divs": 18,
+  "additionalSearch": [
+    {
+      "criteriaSearch": {},
+      "postings": [
+        {
+          "id": "senior-frontend-developer-air-space-intelligence-gdansk-1",
+          "name": "Air Space Intelligence",
+          "location": {
+            "places": [
+              {
+                "country": {
+                  "code": "POL",
+                  "name": "Poland"
+                },
+                "city": "Gdańsk",
+                "street": "al. Grunwaldzka 411",
+                "postalCode": "80-309",
+                "geoLocation": {
+                  "latitude": 54.39930709999999,
+                  "longitude": 18.5764901
+                },
+                "url": "senior-frontend-developer-air-space-intelligence-gdansk-1"
+              }
+            ],
+            "fullyRemote": false,
+            "covidTimeRemotely": false,
+            "hybridDesc": ""
+          },
+          "posted": 1788940541553,
+          "renewed": 1789372541553,
+          "title": "Senior Frontend Developer",
+          "technology": "React",
+          "logo": {
+            "original": "companies/logos/original/logo_2x2_lettermark_20231211_154803.png",
+            "jobs_details": "companies/logos/jobs_details/logo_2x2_lettermark_20231211_154803.png",
+            "jobs_listing": "companies/logos/jobs_listing/logo_2x2_lettermark_20231211_154803.png",
+            "jobs_details_2x": "companies/logos/jobs_details_2x/logo_2x2_lettermark_20231211_154803.png",
+            "jobs_listing_2x": "companies/logos/jobs_listing_2x/logo_2x2_lettermark_20231211_154803.png",
+            "companies_details": "companies/logos/companies_details/logo_2x2_lettermark_20231211_154803.png",
+            "companies_listing": "companies/logos/companies_listing/logo_2x2_lettermark_20231211_154803.png",
+            "jobs_details_webp": "companies/logos/jobs_details/logo_2x2_lettermark_20231211_154803.webp",
+            "jobs_listing_webp": "companies/logos/jobs_listing/logo_2x2_lettermark_20231211_154803.webp",
+            "companies_details_2x": "companies/logos/companies_details_2x/logo_2x2_lettermark_20231211_154803.png",
+            "companies_listing_2x": "companies/logos/companies_listing_2x/logo_2x2_lettermark_20231211_154803.png",
+            "jobs_details_2x_webp": "companies/logos/jobs_details_2x/logo_2x2_lettermark_20231211_154803.webp",
+            "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/logo_2x2_lettermark_20231211_154803.webp",
+            "original_pixel_image": "companies/logos/original_pixel_image/logo_2x2_lettermark_20231211_154803.png",
+            "companies_details_webp": "companies/logos/companies_details/logo_2x2_lettermark_20231211_154803.webp",
+            "companies_listing_webp": "companies/logos/companies_listing/logo_2x2_lettermark_20231211_154803.webp",
+            "companies_details_2x_webp": "companies/logos/companies_details_2x/logo_2x2_lettermark_20231211_154803.webp",
+            "companies_listing_2x_webp": "companies/logos/companies_listing_2x/logo_2x2_lettermark_20231211_154803.webp"
+          },
+          "category": "frontend",
+          "seniority": [
+            "Senior"
+          ],
+          "url": "senior-frontend-developer-air-space-intelligence-gdansk-1",
+          "regions": [
+            "pl"
+          ],
+          "fullyRemote": false,
+          "salary": {
+            "from": 3.51E+4,
+            "to": 3.51E+4,
+            "type": "b2b",
+            "currency": "PLN",
+            "period": "Month",
+            "disclosedAt": "VISIBLE",
+            "flexibleUpperBound": false
+          },
+          "flavors": [
+            "it"
+          ],
+          "topInSearch": false,
+          "highlighted": false,
+          "help4Ua": false,
+          "reference": "RDYNGLJN",
+          "searchBoost": false,
+          "onlineInterviewAvailable": true,
+          "tiles": {
+            "values": [
+              {
+                "value": "frontend",
+                "type": "category"
+              },
+              {
+                "value": "React",
+                "type": "requirement"
+              },
+              {
+                "value": "TypeScript",
+                "type": "requirement"
+              },
+              {
+                "value": "CSS",
+                "type": "requirement"
+              }
+            ]
+          }
+        },
+        {
+          "id": "react-developer-dynamics-365-dataverse-antal-krakow",
+          "name": "Antal",
+          "location": {
+            "places": [
+              {
+                "country": {
+                  "code": "POL",
+                  "name": "Poland"
+                },
+                "city": "Kraków",
+                "street": "",
+                "postalCode": "",
+                "geoLocation": {
+                  "latitude": 50.06465009999999,
+                  "longitude": 19.9449799
+                },
+                "url": "react-developer-dynamics-365-dataverse-antal-krakow"
+              }
+            ],
+            "fullyRemote": false,
+            "covidTimeRemotely": false,
+            "hybridDesc": ""
+          },
+          "posted": 1786831258906,
+          "renewed": 1788904858906,
+          "title": "React Developer (Dynamics 365 / Dataverse)",
+          "technology": "React",
+          "logo": {
+            "original": "companies/logos/original/antal_international_20230313_115903.png",
+            "jobs_details": "companies/logos/jobs_details/antal_international_20230313_115903.png",
+            "jobs_listing": "companies/logos/jobs_listing/antal_international_20230313_115903.png",
+            "jobs_details_2x": "companies/logos/jobs_details_2x/antal_international_20230313_115903.png",
+            "jobs_listing_2x": "companies/logos/jobs_listing_2x/antal_international_20230313_115903.png",
+            "companies_details": "companies/logos/companies_details/antal_international_20230313_115903.png",
+            "companies_listing": "companies/logos/companies_listing/antal_international_20230313_115903.png",
+            "jobs_details_webp": "companies/logos/jobs_details/antal_international_20230313_115903.webp",
+            "jobs_listing_webp": "companies/logos/jobs_listing/antal_international_20230313_115903.webp",
+            "companies_details_2x": "companies/logos/companies_details_2x/antal_international_20230313_115903.png",
+            "companies_listing_2x": "companies/logos/companies_listing_2x/antal_international_20230313_115903.png",
+            "jobs_details_2x_webp": "companies/logos/jobs_details_2x/antal_international_20230313_115903.webp",
+            "jobs_listing_2x_webp": "companies/logos/jobs_listing_2x/antal_international_20230313_115903.webp",
+            "original_pixel_image": "companies/logos/original_pixel_image/antal_international_20230313_115903.png",
+            "companies_details_webp": "companies/logos/companies_details/antal_international_20230313_115903.webp",
+            "companies_listing_webp": "companies/logos/companies_listing/antal_international_20230313_115903.webp",
+            "companies_details_2x_webp": "companies/logos/companies_details_2x/antal_international_20230313_115903.webp",
+            "companies_listing_2x_webp": "companies/logos/companies_listing_2x/antal_international_20230313_115903.webp"
+          },
+          "category": "frontend",
+          "seniority": [
+            "Senior"
+          ],
+          "url": "react-developer-dynamics-365-dataverse-antal-krakow",
+          "regions": [
+            "pl"
+          ],
+          "fullyRemote": false,
+          "salary": {
+            "from": 2.184E+4,
+            "to": 3.024E+4,
+            "type": "b2b",
+            "currency": "PLN",
+            "period": "Month",
+            "disclosedAt": "VISIBLE",
+            "flexibleUpperBound": false
+          },
+          "flavors": [
+            "it"
+          ],
+          "topInSearch": false,
+          "highlighted": false,
+          "help4Ua": false,
+          "reference": "XGA3A5VV",
+          "searchBoost": false,
+          "onlineInterviewAvailable": false,
+          "tiles": {
+            "values": [
+              {
+                "value": "frontend",
+                "type": "category"
+              },
+              {
+                "value": "React",
+                "type": "requirement"
+              },
+              {
+                "value": "JavaScript",
+                "type": "requirement"
+              },
+              {
+                "value": "TypeScript",
+                "type": "requirement"
+              }
+            ]
+          }
+        }
+      ],
+      "totalCount": 28,
+      "divs": 28,
+      "rawSearch": ""
+    }
+  ],
+  "salaryMatchBlock": {
+    "offers": [],
+    "totalCount": 0,
+    "divs": 0
+  },
+  "overridenSalaryFilter": {}
+}
