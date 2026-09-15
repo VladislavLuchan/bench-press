@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vercel/
+*.db
+*.db-journal
+.env
+.env.*
+!.env.example
+coverage/
+.DS_Store
