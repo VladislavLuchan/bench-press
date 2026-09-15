@@ -24,15 +24,18 @@ export function RunsHealth({ runs }: { runs: Run[] }) {
               <tr key={run.id} className={run.error ? 'table__row--bad' : ''}>
                 <td>{formatDateTime(run.startedAt)}</td>
                 <td>
-                  {Object.entries(run.stats?.sources ?? {}).map(([name, stats]) => stats && (
-                    <span
-                      key={name}
-                      className={`runs__source ${stats.error ? 'runs__source--bad' : ''} ${stats.skipped ? 'runs__source--skipped' : ''}`}
-                      title={stats.error ?? (stats.skipped ? 'backing off' : 'ok')}
-                    >
-                      {name} {stats.skipped ? '⏸' : stats.error ? '✗' : stats.listed}
-                    </span>
-                  ))}
+                  {Object.entries(run.stats?.sources ?? {}).map(
+                    ([name, stats]) =>
+                      stats && (
+                        <span
+                          key={name}
+                          className={`runs__source ${stats.error ? 'runs__source--bad' : ''} ${stats.skipped ? 'runs__source--skipped' : ''}`}
+                          title={stats.error ?? (stats.skipped ? 'backing off' : 'ok')}
+                        >
+                          {name} {stats.skipped ? '⏸' : stats.error ? '✗' : stats.listed}
+                        </span>
+                      ),
+                  )}
                 </td>
                 <td>{run.stats?.inserted ?? '–'}</td>
                 <td>{run.stats?.filtered ?? '–'}</td>
@@ -41,7 +44,9 @@ export function RunsHealth({ runs }: { runs: Run[] }) {
                   {run.stats?.scoreErrors ? ` (${run.stats.scoreErrors} failed)` : ''}
                 </td>
                 <td>{run.stats?.notified ?? '–'}</td>
-                <td className="table__cell--muted">{run.error ?? (run.finishedAt ? '' : 'running')}</td>
+                <td className="table__cell--muted">
+                  {run.error ?? (run.finishedAt ? '' : 'running')}
+                </td>
               </tr>
             ))}
           </tbody>

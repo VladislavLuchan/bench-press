@@ -98,7 +98,10 @@ export const api = {
       return request(`/jobs/${id}`, { method: 'PATCH', body: JSON.stringify(body) });
     },
     coverLetter(id: number, force = false): Promise<CoverLetterResponse> {
-      return request(`/jobs/${id}/cover-letter`, { method: 'POST', body: JSON.stringify({ force }) });
+      return request(`/jobs/${id}/cover-letter`, {
+        method: 'POST',
+        body: JSON.stringify({ force }),
+      });
     },
   },
   stats: (): Promise<DashboardStats> => request('/stats'),

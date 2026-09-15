@@ -60,7 +60,12 @@ export function SettingsPage() {
         </label>
       ))}
       <div className="settings__actions">
-        <button className="btn btn--primary" type="button" disabled={!dirty} onClick={() => void save()}>
+        <button
+          className="btn btn--primary"
+          type="button"
+          disabled={!dirty}
+          onClick={() => void save()}
+        >
           Save
         </button>
         {status && <span className="settings__status">{status}</span>}

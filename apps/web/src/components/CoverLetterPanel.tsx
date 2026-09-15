@@ -44,7 +44,9 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
   const handleCopyAndOpen = () => {
     window.open(job.url, '_blank', 'noopener,noreferrer');
     const run = text ? Promise.resolve(text) : generate(false);
-    run.then((letter) => clipboard.copy(letter)).catch((err: unknown) => setError(errorMessage(err)));
+    run
+      .then((letter) => clipboard.copy(letter))
+      .catch((err: unknown) => setError(errorMessage(err)));
   };
 
   const handleRegenerate = () => {
@@ -82,7 +84,12 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
         >
           Copy
         </button>
-        <button className="btn" type="button" disabled={!dirty || busy !== null} onClick={handleSave}>
+        <button
+          className="btn"
+          type="button"
+          disabled={!dirty || busy !== null}
+          onClick={handleSave}
+        >
           {busy === 'save' ? 'Saving…' : 'Save edits'}
         </button>
         <button
