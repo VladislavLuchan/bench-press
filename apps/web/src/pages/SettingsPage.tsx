@@ -82,8 +82,8 @@ export function SettingsPage() {
         <h2 className="settings__title">Rescore</h2>
         <p className="field__hint">
           Re-evaluates every open job with the current profile, guidance, filters and
-          post-validation. Applied, replied and skipped jobs are left alone. Runs on GitHub
-          Actions; the outcome shows up on the Stats page as a run.
+          post-validation. Applied, replied and skipped jobs are left alone. Runs on GitHub Actions;
+          the outcome shows up on the Stats page as a run.
         </p>
         <DispatchButton
           label="Rescore all"
