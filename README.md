@@ -44,11 +44,11 @@ blocked source is visible within hours.
 
 ## Sources
 
-| Source   | How                                                                 | Description     |
-| -------- | ------------------------------------------------------------------- | --------------- |
-| Djinni   | Public listing pages, no login                                       | inline in list  |
-| LinkedIn | Guest search endpoint, no cookies or session, ever                   | guest posting   |
-| DOU      | Official RSS feed                                                    | inline in feed  |
+| Source   | How                                                | Description    |
+| -------- | -------------------------------------------------- | -------------- |
+| Djinni   | Public listing pages, no login                     | inline in list |
+| LinkedIn | Guest search endpoint, no cookies or session, ever | guest posting  |
+| DOU      | Official RSS feed                                  | inline in feed |
 
 A source is a small module: a list of URLs plus pure parse functions. Fetching is shared, so
 parsers are tested against saved HTML fixtures and a markup change fails CI instead of
