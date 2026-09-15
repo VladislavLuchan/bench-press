@@ -132,7 +132,8 @@ export function JobsPage({ mode, selectedId }: Props) {
       {
         key: '/',
         description: 'focus filters',
-        action: () => document.querySelector<HTMLElement>('.filters input, .filters select')?.focus(),
+        action: () =>
+          document.querySelector<HTMLElement>('.filters input, .filters select')?.focus(),
       },
       {
         key: 'o',
@@ -141,7 +142,11 @@ export function JobsPage({ mode, selectedId }: Props) {
           if (selectedJob) window.open(selectedJob.url, '_blank', 'noopener,noreferrer');
         },
       },
-      { key: 'c', description: 'copy cover letter and open', action: () => emitHotkeyAction('copy-open') },
+      {
+        key: 'c',
+        description: 'copy cover letter and open',
+        action: () => emitHotkeyAction('copy-open'),
+      },
       { key: 'a', description: 'applied', action: () => setStatus('applied') },
       { key: 'r', description: 'replied', action: () => setStatus('replied') },
       { key: 's', description: 'skipped', action: () => setStatus('skipped') },

@@ -35,7 +35,10 @@ export function App() {
   );
   useHotkeys(hotkeys, hasToken);
   useHotkeys(
-    useMemo(() => [{ key: 'Escape', description: 'close help', action: () => setHelpOpen(false) }], []),
+    useMemo(
+      () => [{ key: 'Escape', description: 'close help', action: () => setHelpOpen(false) }],
+      [],
+    ),
     helpOpen,
   );
 
