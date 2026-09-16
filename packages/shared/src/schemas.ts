@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { JOB_STATUSES, LOCATION_TYPES, SETTING_KEYS, SOURCE_NAMES } from './types.ts';
+import { JOB_STAGES, JOB_STATUSES, LOCATION_TYPES, SETTING_KEYS, SOURCE_NAMES } from './types.ts';
 
 export const sourceNameSchema = z.enum(SOURCE_NAMES);
 export const jobStatusSchema = z.enum(JOB_STATUSES);
@@ -37,13 +37,18 @@ export const jobListQuerySchema = z.object({
 export type JobListQuery = z.infer<typeof jobListQuerySchema>;
 
 /** PATCH /api/jobs/:id body. `filtered` is scraper-owned and cannot be set from the dashboard. */
+export const jobStageSchema = z.enum(JOB_STAGES);
+
 export const updateJobSchema = z
   .object({
     status: jobStatusSchema.exclude(['filtered']).optional(),
+    /** Pipeline column; null moves the job back to the Applied column. */
+    stage: jobStageSchema.nullable().optional(),
+    notes: z.string().max(20_000).optional(),
     coverLetter: z.string().optional(),
   })
-  .refine((body) => body.status !== undefined || body.coverLetter !== undefined, {
-    message: 'Provide status or coverLetter',
+  .refine((body) => Object.values(body).some((value) => value !== undefined), {
+    message: 'Provide status, stage, notes or coverLetter',
   });
 export type UpdateJobInput = z.infer<typeof updateJobSchema>;
 

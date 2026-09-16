@@ -51,6 +51,10 @@ Pipeline, in order:
 Every run writes a row to `runs` with per-source counts, shown on the Stats page, so a silently
 blocked source is visible within hours.
 
+After applying, a job moves through the **Pipeline** board: Applied → Replied → Rejected /
+Advancing → HR interview → Tech interview → Offer. Every status or stage change is written to
+`job_events`, so nothing about an application is ever lost.
+
 ## Sources
 
 | Source   | How                                                | Description    |

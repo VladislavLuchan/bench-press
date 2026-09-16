@@ -4,6 +4,25 @@ export type SourceName = (typeof SOURCE_NAMES)[number];
 export const JOB_STATUSES = ['new', 'applied', 'skipped', 'replied', 'filtered'] as const;
 export type JobStatus = (typeof JOB_STATUSES)[number];
 
+/** Pipeline board columns after a reply. `null` stage with status `applied` is the first column. */
+export const JOB_STAGES = [
+  'replied',
+  'rejected',
+  'advancing',
+  'hr_interview',
+  'tech_interview',
+  'offer',
+] as const;
+export type JobStage = (typeof JOB_STAGES)[number];
+
+export interface JobEvent {
+  id: number;
+  jobId: number;
+  kind: 'status' | 'stage' | 'note';
+  value: string;
+  createdAt: string;
+}
+
 export const SETTING_KEYS = [
   'profile',
   'cover_letter_template',
@@ -93,6 +112,10 @@ export interface Job {
   scoredAt: string | null;
   scoreError: string | null;
   status: JobStatus;
+  stage: JobStage | null;
+  stageUpdatedAt: string | null;
+  /** Free-form notes: contacts, interview dates, impressions. */
+  notes: string | null;
   filterReason: string | null;
   /** The phrase that triggered a regex filter, for reviewing false positives. */
   filterMatch: string | null;

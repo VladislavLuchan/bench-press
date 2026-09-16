@@ -2,11 +2,23 @@
 import type {
   DashboardStats,
   Job,
+  JobEvent,
+  JobStage,
   JobStatus,
   JobSummary,
   Run,
   SettingKey,
 } from '@bench-press/shared/types';
+
+/** A job as returned by the detail and update endpoints: the row plus its history. */
+export type JobWithEvents = Job & { events: JobEvent[] };
+
+export interface JobUpdate {
+  status?: JobStatus;
+  stage?: JobStage | null;
+  notes?: string;
+  coverLetter?: string;
+}
 
 const TOKEN_KEY = 'bench-press.token';
 export const UNAUTHORIZED_EVENT = 'bench-press:unauthorized';
@@ -107,10 +119,11 @@ export const api = {
       }
       return request(`/jobs?${params}`);
     },
-    get: (id: number): Promise<Job> => request(`/jobs/${id}`),
-    update(id: number, body: { status?: JobStatus; coverLetter?: string }): Promise<Job> {
+    get: (id: number): Promise<JobWithEvents> => request(`/jobs/${id}`),
+    update(id: number, body: JobUpdate): Promise<JobWithEvents> {
       return request(`/jobs/${id}`, { method: 'PATCH', body: JSON.stringify(body) });
     },
+    pipeline: (): Promise<JobSummary[]> => request('/pipeline'),
     coverLetter(id: number, force = false): Promise<CoverLetterResponse> {
       return request(`/jobs/${id}/cover-letter`, {
         method: 'POST',

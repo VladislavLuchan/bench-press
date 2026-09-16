@@ -54,6 +54,14 @@ export const SCHEMA_STATEMENTS: readonly string[] = [
     last_success_at TEXT,
     last_error TEXT
   )`,
+  `CREATE TABLE IF NOT EXISTS job_events (
+    id INTEGER PRIMARY KEY,
+    job_id INTEGER NOT NULL,
+    kind TEXT NOT NULL,
+    value TEXT NOT NULL,
+    created_at TEXT NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS job_events_job_id ON job_events (job_id, id)`,
   `CREATE TABLE IF NOT EXISTS runs (
     id INTEGER PRIMARY KEY,
     started_at TEXT NOT NULL,
@@ -76,4 +84,7 @@ export const COLUMN_MIGRATIONS: ReadonlyArray<{ table: string; column: string; d
   { table: 'jobs', column: 'location_type', ddl: 'location_type TEXT' },
   { table: 'jobs', column: 'location_flag', ddl: "location_flag TEXT NOT NULL DEFAULT 'none'" },
   { table: 'jobs', column: 'filter_match', ddl: 'filter_match TEXT' },
+  { table: 'jobs', column: 'stage', ddl: 'stage TEXT' },
+  { table: 'jobs', column: 'stage_updated_at', ddl: 'stage_updated_at TEXT' },
+  { table: 'jobs', column: 'notes', ddl: 'notes TEXT' },
 ];

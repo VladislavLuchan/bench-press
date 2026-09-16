@@ -215,18 +215,6 @@
   color: var(--bad);
 }
 
-.job-detail__description summary {
-  cursor: pointer;
-  color: var(--text-muted);
-}
-
-.job-detail__description-text {
-  white-space: pre-wrap;
-  font: inherit;
-  margin: 8px 0 0;
-  color: var(--text);
-  opacity: 0.9;
-}
 
 /* Cover letter */
 .cover-letter {
@@ -391,4 +379,243 @@
   padding-left: 18px;
   color: var(--text-muted);
   font-size: 12px;
+}
+
+.job-detail__heading {
+  min-width: 0;
+}
+
+.job-detail__meta--muted {
+  opacity: 0.8;
+}
+
+.job-detail__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.job-detail__section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.job-detail__tag {
+  font-size: 11px;
+  color: var(--warn);
+  border: 1px solid var(--warn);
+  border-radius: 4px;
+  padding: 0 4px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.job-detail__notes-input {
+  width: 100%;
+  resize: vertical;
+}
+
+/* Description */
+.description {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.description__line {
+  margin: 0 0 6px;
+}
+
+.description__gap {
+  height: 6px;
+}
+
+.description__heading {
+  margin: 10px 0 4px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.description__bullet {
+  margin: 0 0 2px 18px;
+}
+
+.description__empty {
+  color: var(--text-muted);
+}
+
+.description__term {
+  background: transparent;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.description__term--good {
+  color: var(--good);
+  background: rgba(127, 209, 139, 0.12);
+}
+
+.description__term--bad {
+  color: var(--warn);
+  background: rgba(224, 175, 104, 0.12);
+}
+
+/* History */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.timeline__item {
+  display: grid;
+  grid-template-columns: 110px 60px 1fr;
+  gap: 8px;
+}
+
+.timeline__time {
+  color: var(--text-muted);
+  font-family: var(--mono);
+}
+
+.timeline__kind {
+  color: var(--text-muted);
+}
+
+.timeline__kind--stage {
+  color: var(--accent);
+}
+
+/* Board */
+.board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  min-height: 60vh;
+}
+
+.board__column {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 200px;
+}
+
+.board__column--rejected {
+  opacity: 0.75;
+}
+
+.board__column--offer {
+  border-color: var(--good);
+}
+
+.board__title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.board__count {
+  font-family: var(--mono);
+}
+
+.board__empty {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.board__card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.board__card:active {
+  cursor: grabbing;
+}
+
+.board__card-head {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.board__card-head .fit-badge {
+  width: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.board__card-title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.board__card-meta {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.board__card-notes {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text);
+  opacity: 0.85;
+  white-space: pre-wrap;
+}
+
+.board__card-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+/* Toasts */
+.toasts {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 20;
+  max-width: 360px;
+}
+
+.toast {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+.toast--error {
+  border-left-color: var(--bad);
 }

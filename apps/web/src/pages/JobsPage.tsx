@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Job, JobStatus, JobSummary } from '@bench-press/shared/types';
-import { api, errorMessage, JOBS_CHANGED_EVENT, type JobsQuery } from '../api/client.ts';
+import {
+  api,
+  errorMessage,
+  JOBS_CHANGED_EVENT,
+  type JobsQuery,
+  type JobWithEvents,
+} from '../api/client.ts';
+import { toastError } from '../lib/toast.ts';
 import { JobCard } from '../components/JobCard.tsx';
 import { JobDetail } from '../components/JobDetail.tsx';
 import { JobFilters } from '../components/JobFilters.tsx';
@@ -39,9 +46,10 @@ function saveQuery(mode: Props['mode'], query: JobsQuery): void {
   }
 }
 
-function toSummary(job: Job): JobSummary {
+function toSummary(job: Job | JobWithEvents): JobSummary {
   const { description: _description, coverLetter, ...rest } = job;
-  return { ...rest, hasCoverLetter: coverLetter !== null };
+  const { events: _events, ...summary } = rest as typeof rest & { events?: unknown };
+  return { ...summary, hasCoverLetter: coverLetter !== null };
 }
 
 export function JobsPage({ mode, selectedId }: Props) {
@@ -52,7 +60,7 @@ export function JobsPage({ mode, selectedId }: Props) {
     setQueryState(next);
   };
   const [jobs, setJobs] = useState<JobSummary[]>([]);
-  const [selected, setSelected] = useState<Job | null>(null);
+  const [selected, setSelected] = useState<JobWithEvents | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -94,8 +102,11 @@ export function JobsPage({ mode, selectedId }: Props) {
     };
   }, [selectedId]);
 
-  const handleJobChange = useCallback((job: Job) => {
-    setSelected(job);
+  const handleJobChange = useCallback((job: Job | JobWithEvents) => {
+    setSelected((current) => ({
+      ...job,
+      events: 'events' in job ? job.events : (current?.events ?? []),
+    }));
     setJobs((current) => current.map((item) => (item.id === job.id ? toSummary(job) : item)));
   }, []);
 
@@ -108,7 +119,7 @@ export function JobsPage({ mode, selectedId }: Props) {
           if (selectedId === id) setSelected(job);
           window.dispatchEvent(new Event(JOBS_CHANGED_EVENT));
         })
-        .catch((err: unknown) => setError(errorMessage(err)));
+        .catch((err: unknown) => toastError(`Could not update: ${errorMessage(err)}`));
     },
     [selectedId],
   );

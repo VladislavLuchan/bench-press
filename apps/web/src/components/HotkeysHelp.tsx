@@ -10,7 +10,7 @@ const GROUPS: Array<{ title: string; keys: Array<[string, string]> }> = [
       ['j / k', 'next / previous job'],
       ['Enter', 'open first job when none is selected'],
       ['Esc', 'close the detail panel or this help'],
-      ['1 2 3 4', 'Jobs, Filtered, Stats, Settings'],
+      ['1 … 5', 'Jobs, Pipeline, Filtered, Stats, Settings'],
       ['/', 'focus the filters'],
     ],
   },

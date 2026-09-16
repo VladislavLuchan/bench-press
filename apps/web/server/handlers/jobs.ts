@@ -1,9 +1,13 @@
 import {
   getJob,
   jobListQuerySchema,
+  listJobEvents,
   listJobs,
+  listPipelineJobs,
   saveCoverLetter,
+  saveJobNotes,
   updateJobSchema,
+  updateJobStage,
   updateJobStatus,
 } from '@bench-press/shared';
 import { HttpError, idParam, json, readJson } from '../lib/http.ts';
@@ -15,10 +19,14 @@ export const listJobsHandler: Handler = async ({ url, db }) => {
   return json(await listJobs(db, query.data));
 };
 
+export const pipelineHandler: Handler = async ({ db }) => json(await listPipelineJobs(db));
+
+/** Full job plus its change history. */
 export const getJobHandler: Handler = async ({ params, db }) => {
-  const job = await getJob(db, idParam(params.id));
+  const id = idParam(params.id);
+  const [job, events] = await Promise.all([getJob(db, id), listJobEvents(db, id)]);
   if (!job) throw new HttpError(404, 'Job not found');
-  return json(job);
+  return json({ ...job, events });
 };
 
 export const updateJobHandler: Handler = async ({ request, params, db }) => {
@@ -26,12 +34,15 @@ export const updateJobHandler: Handler = async ({ request, params, db }) => {
   const body = updateJobSchema.safeParse(await readJson(request));
   if (!body.success) throw new HttpError(400, body.error.message);
 
-  if (body.data.status) await updateJobStatus(db, id, body.data.status);
-  if (body.data.coverLetter !== undefined) {
-    await saveCoverLetter(db, id, { text: body.data.coverLetter, lang: null, generated: false });
+  const { status, stage, notes, coverLetter } = body.data;
+  if (status) await updateJobStatus(db, id, status);
+  if (stage !== undefined) await updateJobStage(db, id, stage);
+  if (notes !== undefined) await saveJobNotes(db, id, notes);
+  if (coverLetter !== undefined) {
+    await saveCoverLetter(db, id, { text: coverLetter, lang: null, generated: false });
   }
 
-  const job = await getJob(db, id);
+  const [job, events] = await Promise.all([getJob(db, id), listJobEvents(db, id)]);
   if (!job) throw new HttpError(404, 'Job not found');
-  return json(job);
+  return json({ ...job, events });
 };

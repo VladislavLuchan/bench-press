@@ -4,6 +4,8 @@ import { bool, integer, integerRequired, jsonArray, text, textRequired } from '.
 import type { JobListQuery } from '../schemas.ts';
 import type {
   Job,
+  JobEvent,
+  JobStage,
   JobStatus,
   JobSummary,
   LocationFlag,
@@ -17,7 +19,8 @@ const SUMMARY_COLUMNS = `
   id, source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,
   salary_raw, describe_attempts, thin_description, posted_at, first_seen_at, fit, fit_raw,
   fit_notes, summary, matches, gaps, red_flags, salary_llm, remote, seniority, primary_stack,
-  location_type, location_flag, scored_at, score_error, status, filter_reason, filter_match,
+  location_type, location_flag, scored_at, score_error, status, stage, stage_updated_at, notes,
+  filter_reason, filter_match,
   cover_letter IS NOT NULL AS has_cover_letter, cover_letter_lang, cover_letter_generated_at,
   notified_at, applied_at, replied_at, updated_at`;
 
@@ -62,6 +65,9 @@ function rowToSummary(row: Row): JobSummary {
     scoredAt: text(row, 'scored_at'),
     scoreError: text(row, 'score_error'),
     status: textRequired(row, 'status') as JobStatus,
+    stage: text(row, 'stage') as JobStage | null,
+    stageUpdatedAt: text(row, 'stage_updated_at'),
+    notes: text(row, 'notes'),
     filterReason: text(row, 'filter_reason'),
     filterMatch: text(row, 'filter_match'),
     hasCoverLetter: bool(row, 'has_cover_letter') ?? false,
@@ -241,6 +247,31 @@ export async function getJob(db: Db, id: number): Promise<Job | null> {
   return row ? rowToJob(row) : null;
 }
 
+/** Every status, stage or note change leaves a row here, so history is never lost. */
+export async function recordJobEvent(
+  db: Db,
+  event: { jobId: number; kind: JobEvent['kind']; value: string },
+): Promise<void> {
+  await db.execute({
+    sql: `INSERT INTO job_events (job_id, kind, value, created_at) VALUES (?, ?, ?, ?)`,
+    args: [event.jobId, event.kind, event.value, nowIso()],
+  });
+}
+
+export async function listJobEvents(db: Db, jobId: number): Promise<JobEvent[]> {
+  const result = await db.execute({
+    sql: `SELECT id, job_id, kind, value, created_at FROM job_events WHERE job_id = ? ORDER BY id`,
+    args: [jobId],
+  });
+  return result.rows.map((row) => ({
+    id: integerRequired(row, 'id'),
+    jobId: integerRequired(row, 'job_id'),
+    kind: textRequired(row, 'kind') as JobEvent['kind'],
+    value: textRequired(row, 'value'),
+    createdAt: textRequired(row, 'created_at'),
+  }));
+}
+
 export async function updateJobStatus(db: Db, id: number, status: JobStatus): Promise<boolean> {
   const now = nowIso();
   const result = await db.execute({
@@ -248,11 +279,56 @@ export async function updateJobStatus(db: Db, id: number, status: JobStatus): Pr
       status = ?,
       applied_at = CASE WHEN ? = 'applied' THEN COALESCE(applied_at, ?) ELSE applied_at END,
       replied_at = CASE WHEN ? = 'replied' THEN COALESCE(replied_at, ?) ELSE replied_at END,
+      stage = CASE WHEN ? = 'replied' THEN COALESCE(stage, 'replied') ELSE stage END,
       updated_at = ?
     WHERE id = ?`,
-    args: [status, status, now, status, now, now, id],
+    args: [status, status, now, status, now, status, now, id],
   });
+  if (result.rowsAffected > 0) await recordJobEvent(db, { jobId: id, kind: 'status', value: status });
   return result.rowsAffected > 0;
+}
+
+/**
+ * Moves a job between pipeline columns. Any stage implies a reply, so status becomes
+ * `replied`; clearing the stage puts the job back into the Applied column.
+ */
+export async function updateJobStage(db: Db, id: number, stage: JobStage | null): Promise<boolean> {
+  const now = nowIso();
+  const result = await db.execute({
+    sql: `UPDATE jobs SET
+      stage = ?,
+      stage_updated_at = ?,
+      status = CASE WHEN ? IS NULL THEN 'applied' ELSE 'replied' END,
+      applied_at = COALESCE(applied_at, ?),
+      replied_at = CASE WHEN ? IS NULL THEN replied_at ELSE COALESCE(replied_at, ?) END,
+      updated_at = ?
+    WHERE id = ?`,
+    args: [stage, now, stage, now, stage, now, now, id],
+  });
+  if (result.rowsAffected > 0) {
+    await recordJobEvent(db, { jobId: id, kind: 'stage', value: stage ?? 'applied' });
+  }
+  return result.rowsAffected > 0;
+}
+
+export async function saveJobNotes(db: Db, id: number, notes: string): Promise<boolean> {
+  const result = await db.execute({
+    sql: `UPDATE jobs SET notes = ?, updated_at = ? WHERE id = ?`,
+    args: [notes, nowIso(), id],
+  });
+  if (result.rowsAffected > 0) {
+    await recordJobEvent(db, { jobId: id, kind: 'note', value: notes.slice(0, 200) });
+  }
+  return result.rowsAffected > 0;
+}
+
+/** Everything applied or answered, for the pipeline board. */
+export async function listPipelineJobs(db: Db): Promise<JobSummary[]> {
+  const result = await db.execute(
+    `SELECT ${SUMMARY_COLUMNS} FROM jobs WHERE status IN ('applied', 'replied')
+      ORDER BY COALESCE(stage_updated_at, replied_at, applied_at) DESC`,
+  );
+  return result.rows.map(rowToSummary);
 }
 
 export async function saveCoverLetter(

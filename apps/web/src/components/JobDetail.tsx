@@ -1,22 +1,33 @@
-import { useState } from 'react';
-import type { Job, JobStatus } from '@bench-press/shared/types';
-import { api, errorMessage, JOBS_CHANGED_EVENT } from '../api/client.ts';
+import { useEffect, useState } from 'react';
+import { JOB_STAGES, type JobStage, type JobStatus } from '@bench-press/shared/types';
+import { api, errorMessage, JOBS_CHANGED_EVENT, type JobWithEvents } from '../api/client.ts';
 import { formatDateTime } from '../lib/format.ts';
+import { toastError } from '../lib/toast.ts';
 import { CoverLetterPanel } from './CoverLetterPanel.tsx';
 import { FitBadge } from './FitBadge.tsx';
+import { JobDescription } from './JobDescription.tsx';
 import { LocationBadge } from './LocationBadge.tsx';
 
 interface Props {
-  job: Job;
-  onJobChange: (job: Job) => void;
+  job: JobWithEvents;
+  onJobChange: (job: JobWithEvents) => void;
 }
 
-const STATUS_ACTIONS: Array<{ status: JobStatus; label: string }> = [
-  { status: 'applied', label: 'Applied' },
-  { status: 'replied', label: 'Replied' },
-  { status: 'skipped', label: 'Skipped' },
-  { status: 'new', label: 'Reset to new' },
+const STATUS_ACTIONS: Array<{ status: JobStatus; label: string; key: string }> = [
+  { status: 'applied', label: 'Applied', key: 'a' },
+  { status: 'replied', label: 'Replied', key: 'r' },
+  { status: 'skipped', label: 'Skipped', key: 's' },
+  { status: 'new', label: 'Reset to new', key: 'n' },
 ];
+
+export const STAGE_LABELS: Record<JobStage, string> = {
+  replied: 'Replied',
+  rejected: 'Rejected',
+  advancing: 'Advancing',
+  hr_interview: 'HR interview',
+  tech_interview: 'Tech interview',
+  offer: 'Offer',
+};
 
 function List({ title, items, tone }: { title: string; items: string[]; tone: string }) {
   if (items.length === 0) return null;
@@ -33,64 +44,82 @@ function List({ title, items, tone }: { title: string; items: string[]; tone: st
 }
 
 export function JobDetail({ job, onJobChange }: Props) {
-  const [error, setError] = useState<string | null>(null);
+  const [notes, setNotes] = useState(job.notes ?? '');
+  useEffect(() => setNotes(job.notes ?? ''), [job.id, job.notes]);
 
-  const setStatus = async (status: JobStatus) => {
-    setError(null);
+  const update = async (body: Parameters<typeof api.jobs.update>[1]) => {
     try {
-      onJobChange(await api.jobs.update(job.id, { status }));
+      onJobChange(await api.jobs.update(job.id, body));
       window.dispatchEvent(new Event(JOBS_CHANGED_EVENT));
     } catch (err) {
-      setError(errorMessage(err));
+      toastError(`Could not save: ${errorMessage(err)}`);
     }
   };
+
+  const facts = [
+    job.company,
+    job.location,
+    job.salaryRaw ?? job.salaryLlm,
+    job.seniority,
+    job.primaryStack,
+  ].filter(Boolean);
 
   return (
     <div className="job-detail">
       <header className="job-detail__header">
         <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
-        <div>
+        <div className="job-detail__heading">
           <h2 className="job-detail__title">
             <a href={job.url} target="_blank" rel="noopener noreferrer">
               {job.title}
             </a>
           </h2>
           <p className="job-detail__meta">
-            {[
-              job.company,
-              job.location,
-              job.salaryRaw ?? job.salaryLlm,
-              job.seniority,
-              job.primaryStack,
-            ]
-              .filter(Boolean)
-              .join(' · ')}
+            <LocationBadge type={job.locationType} /> {facts.join(' · ')}
           </p>
-          <p className="job-detail__meta">
-            <LocationBadge type={job.locationType} /> {job.sources.join(', ')} · seen{' '}
-            {formatDateTime(job.firstSeenAt)}
-            {job.filterReason && ` · filtered: ${job.filterReason}`}
-            {job.filterMatch && ` (matched "${job.filterMatch}")`}
+          <p className="job-detail__meta job-detail__meta--muted">
+            {job.sources.join(', ')} · seen {formatDateTime(job.firstSeenAt)}
             {job.appliedAt && ` · applied ${formatDateTime(job.appliedAt)}`}
             {job.repliedAt && ` · replied ${formatDateTime(job.repliedAt)}`}
+            {job.filterReason && ` · filtered: ${job.filterReason}`}
+            {job.filterMatch && ` (matched "${job.filterMatch}")`}
           </p>
         </div>
       </header>
 
       <div className="job-detail__actions">
-        {STATUS_ACTIONS.map(({ status, label }) => (
+        {STATUS_ACTIONS.map(({ status, label, key }) => (
           <button
             key={status}
             type="button"
             className={`btn ${job.status === status ? 'btn--active' : ''}`}
             disabled={job.status === status}
-            onClick={() => void setStatus(status)}
+            title={`Shortcut: ${key}`}
+            onClick={() => void update({ status })}
           >
             {label}
           </button>
         ))}
+        {(job.status === 'applied' || job.status === 'replied') && (
+          <label className="field field--inline">
+            <span className="field__label">Stage</span>
+            <select
+              className="field__input"
+              value={job.stage ?? ''}
+              onChange={(event) =>
+                void update({ stage: (event.target.value || null) as JobStage | null })
+              }
+            >
+              <option value="">Applied (waiting)</option>
+              {JOB_STAGES.map((stage) => (
+                <option key={stage} value={stage}>
+                  {STAGE_LABELS[stage]}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
       </div>
-      {error && <p className="job-detail__error">{error}</p>}
 
       {job.summary && <p className="job-detail__summary">{job.summary}</p>}
       {job.fitNotes.length > 0 && (
@@ -107,12 +136,51 @@ export function JobDetail({ job, onJobChange }: Props) {
         <List title="Red flags" items={job.redFlags} tone="bad" />
       </div>
 
-      <CoverLetterPanel key={job.id} job={job} onJobChange={onJobChange} />
+      <section className="job-detail__section">
+        <h3 className="job-detail__section-title">
+          Job description
+          {job.thinDescription && <span className="job-detail__tag">thin</span>}
+        </h3>
+        <JobDescription text={job.description} />
+      </section>
 
-      <details className="job-detail__description">
-        <summary>Job description</summary>
-        <pre className="job-detail__description-text">{job.description ?? 'Not fetched yet.'}</pre>
-      </details>
+      <CoverLetterPanel
+        job={job}
+        onJobChange={(changed) => onJobChange({ ...changed, events: job.events })}
+      />
+
+      <section className="job-detail__section">
+        <h3 className="job-detail__section-title">Notes</h3>
+        <textarea
+          className="field__input job-detail__notes-input"
+          rows={3}
+          placeholder="Contacts, interview dates, impressions. Saved when you leave the field."
+          value={notes}
+          onChange={(event) => setNotes(event.target.value)}
+          onBlur={() => {
+            if (notes !== (job.notes ?? '')) void update({ notes });
+          }}
+        />
+      </section>
+
+      {job.events.length > 0 && (
+        <section className="job-detail__section">
+          <h3 className="job-detail__section-title">History</h3>
+          <ul className="timeline">
+            {[...job.events].reverse().map((event) => (
+              <li key={event.id} className="timeline__item">
+                <span className="timeline__time">{formatDateTime(event.createdAt)}</span>
+                <span className={`timeline__kind timeline__kind--${event.kind}`}>{event.kind}</span>
+                <span className="timeline__value">
+                  {event.kind === 'stage' && event.value in STAGE_LABELS
+                    ? STAGE_LABELS[event.value as JobStage]
+                    : event.value}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

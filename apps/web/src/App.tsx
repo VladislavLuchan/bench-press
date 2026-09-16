@@ -5,13 +5,16 @@ import { HeaderCounters } from './components/HeaderCounters.tsx';
 import { HotkeysHelp } from './components/HotkeysHelp.tsx';
 import { useHotkeys } from './hooks/useHotkeys.ts';
 import { TokenGate } from './components/TokenGate.tsx';
+import { Toasts } from './components/Toasts.tsx';
 import { JobsPage } from './pages/JobsPage.tsx';
+import { PipelinePage } from './pages/PipelinePage.tsx';
 import { SettingsPage } from './pages/SettingsPage.tsx';
 import { StatsPage } from './pages/StatsPage.tsx';
 import { navigate, useRoute } from './router.ts';
 
 const NAV = [
   { hash: '#/', label: 'Jobs', name: 'jobs' },
+  { hash: '#/pipeline', label: 'Pipeline', name: 'pipeline' },
   { hash: '#/filtered', label: 'Filtered', name: 'filtered' },
   { hash: '#/stats', label: 'Stats', name: 'stats' },
   { hash: '#/settings', label: 'Settings', name: 'settings' },
@@ -76,11 +79,13 @@ export function App() {
         </button>
       </nav>
       <HotkeysHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <Toasts />
       <main className="app__main">
         {route.name === 'jobs' && <JobsPage key="jobs" mode="jobs" selectedId={route.jobId} />}
         {route.name === 'filtered' && (
           <JobsPage key="filtered" mode="filtered" selectedId={route.jobId} />
         )}
+        {route.name === 'pipeline' && <PipelinePage />}
         {route.name === 'stats' && <StatsPage />}
         {route.name === 'settings' && <SettingsPage />}
       </main>
