@@ -24,6 +24,7 @@ export function PipelinePage() {
   const [jobs, setJobs] = useState<JobSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [dragging, setDragging] = useState<number | null>(null);
+  const [focusedId, setFocusedId] = useState<number | null>(null);
 
   const load = useCallback(() => {
     api.jobs
@@ -54,50 +55,57 @@ export function PipelinePage() {
     }
   };
 
-  const focusedCard = (): { id: number; column: Column } | null => {
-    const element = document.activeElement?.closest<HTMLElement>('[data-job-id]');
-    const id = Number(element?.dataset.jobId);
-    const job = jobs.find((item) => item.id === id);
-    return job ? { id, column: columnOf(job) } : null;
-  };
-  const focusCard = (id: number) =>
-    document.querySelector<HTMLElement>(`[data-job-id="${id}"]`)?.focus();
+  // Cards in visual order: column by column, top to bottom.
+  const ordered = useMemo(
+    () => COLUMNS.flatMap((column) => jobs.filter((job) => columnOf(job) === column)),
+    [jobs],
+  );
+  const focused = ordered.find((job) => job.id === focusedId) ?? null;
 
   const hotkeys = useMemo(
     () => [
       {
-        keys: ['alt+ArrowRight', 'alt+ArrowLeft'],
+        keys: ['alt+ArrowRight', 'alt+ArrowLeft', 'shift+ArrowRight', 'shift+ArrowLeft'],
         description: 'move card',
         action: (event: KeyboardEvent) => {
-          const card = focusedCard();
-          if (!card) return;
-          const index = COLUMNS.indexOf(card.column) + (event.key === 'ArrowRight' ? 1 : -1);
+          if (!focused) return;
+          const index = COLUMNS.indexOf(columnOf(focused)) + (event.key === 'ArrowRight' ? 1 : -1);
           const column = COLUMNS[index];
-          if (column) void move(card.id, column).then(() => focusCard(card.id));
+          if (column) void move(focused.id, column);
         },
       },
       {
         keys: ['j', 'k', 'ArrowDown', 'ArrowUp', 'alt+j', 'alt+k'],
         description: 'next / previous card',
         action: (event: KeyboardEvent) => {
-          const cards = [...document.querySelectorAll<HTMLElement>('.board [data-job-id]')];
-          const current = cards.indexOf(document.activeElement as HTMLElement);
+          const current = ordered.findIndex((job) => job.id === focusedId);
           const step = /Down|KeyJ/.test(event.code) ? 1 : -1;
-          const next = cards[Math.min(cards.length - 1, Math.max(0, current + step))];
-          next?.focus();
+          const next = ordered[current === -1 ? 0 : Math.min(ordered.length - 1, Math.max(0, current + step))];
+          if (next) {
+            setFocusedId(next.id);
+            document
+              .querySelector(`[data-job-id="${next.id}"]`)
+              ?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+          }
         },
       },
       {
-        keys: ['o', 'alt+o', 'Enter'],
+        keys: ['o', 'alt+o'],
         description: 'open listing',
         action: () => {
-          const card = focusedCard();
-          const job = jobs.find((item) => item.id === card?.id);
-          if (job) openInWindow(job.url);
+          if (focused) openInWindow(focused.url);
+        },
+      },
+      {
+        keys: ['Enter'],
+        description: 'open details',
+        action: () => {
+          if (focused) window.location.hash = `#/jobs/${focused.id}`;
         },
       },
     ],
-    [jobs],
+    // `move` is recreated per render but only uses setters and `load`.
+    [ordered, focused, focusedId],
   );
   useHotkeys(hotkeys);
 
@@ -127,10 +135,10 @@ export function PipelinePage() {
             {cards.map((job) => (
               <article
                 key={job.id}
-                className="board__card"
-                tabIndex={0}
+                className={`board__card ${job.id === focusedId ? 'board__card--focused' : ''}`}
                 data-job-id={job.id}
                 draggable
+                onClick={() => setFocusedId(job.id)}
                 onDragStart={(event) => {
                   event.dataTransfer.setData('text/plain', String(job.id));
                   setDragging(job.id);

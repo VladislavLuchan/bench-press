@@ -3,6 +3,7 @@ import { tokenStore, UNAUTHORIZED_EVENT } from './api/client.ts';
 import { FetchNowButton } from './components/FetchNowButton.tsx';
 import { HeaderCounters } from './components/HeaderCounters.tsx';
 import { HotkeysHelp } from './components/HotkeysHelp.tsx';
+import { KeySink } from './components/KeySink.tsx';
 import { useHotkeys } from './hooks/useHotkeys.ts';
 import { TokenGate } from './components/TokenGate.tsx';
 import { Toasts } from './components/Toasts.tsx';
@@ -84,6 +85,7 @@ export function App() {
       </nav>
       <HotkeysHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
       <Toasts />
+      <KeySink />
       <main className="app__main">
         {route.name === 'jobs' && <JobsPage key="jobs" mode="jobs" selectedId={route.jobId} />}
         {route.name === 'filtered' && (

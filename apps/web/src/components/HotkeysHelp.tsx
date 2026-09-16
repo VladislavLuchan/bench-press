@@ -25,7 +25,7 @@ const GROUPS: Array<{ title: string; keys: Array<[string, string]> }> = [
       ['Alt+R  or  r', 'mark replied'],
       ['Alt+S  or  s', 'skip'],
       ['Alt+N  or  n', 'reset to new'],
-      ['Alt+← / Alt+→', 'on the Pipeline board: move the focused card'],
+      ['Shift+← / Shift+→', 'on the Pipeline board: move the highlighted card'],
     ],
   },
 ];

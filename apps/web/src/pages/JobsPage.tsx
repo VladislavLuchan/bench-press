@@ -131,7 +131,6 @@ export function JobsPage({ mode, selectedId }: Props) {
     if (selectedId === null) return;
     const card = document.querySelector<HTMLElement>(`[data-job-id="${selectedId}"]`);
     card?.scrollIntoView({ block: 'nearest' });
-    if (card && document.activeElement?.tagName !== 'TEXTAREA') card.focus({ preventScroll: true });
   }, [selectedId, jobs]);
   const hotkeys = useMemo(() => {
     const move = (delta: number) => {
