@@ -107,7 +107,12 @@ export function PipelinePage() {
                   >
                     ◀
                   </button>
-                  <a className="btn btn--ghost btn--small" href={job.url} target="_blank" rel="noopener noreferrer">
+                  <a
+                    className="btn btn--ghost btn--small"
+                    href={job.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Open
                   </a>
                   <button

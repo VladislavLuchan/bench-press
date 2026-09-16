@@ -11,7 +11,9 @@ let nextId = 1;
 
 /** Fire-and-forget notification; rendered by <Toasts /> in the app shell. */
 export function toast(text: string, tone: Toast['tone'] = 'info'): void {
-  window.dispatchEvent(new CustomEvent<Toast>(TOAST_EVENT, { detail: { id: nextId++, tone, text } }));
+  window.dispatchEvent(
+    new CustomEvent<Toast>(TOAST_EVENT, { detail: { id: nextId++, tone, text } }),
+  );
 }
 
 export function toastError(text: string): void {

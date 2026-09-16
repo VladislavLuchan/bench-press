@@ -284,7 +284,8 @@ export async function updateJobStatus(db: Db, id: number, status: JobStatus): Pr
     WHERE id = ?`,
     args: [status, status, now, status, now, status, now, id],
   });
-  if (result.rowsAffected > 0) await recordJobEvent(db, { jobId: id, kind: 'status', value: status });
+  if (result.rowsAffected > 0)
+    await recordJobEvent(db, { jobId: id, kind: 'status', value: status });
   return result.rowsAffected > 0;
 }
 

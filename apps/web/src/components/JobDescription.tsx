@@ -41,21 +41,40 @@ export function JobDescription({ text }: { text: string | null }) {
         if (!trimmed) return <div key={index} className="description__gap" />;
         const bullet = /^[-•*]\s+/.test(trimmed);
         const heading = trimmed.length < 60 && /[:：]$/.test(trimmed);
-        const content = highlight(bullet ? trimmed.replace(/^[-•*]\s+/, '') : trimmed).map((part, i) =>
-          typeof part === 'string' ? (
-            part
-          ) : (
-            <mark key={i} className={`description__term description__term--${part.tone}`}>
-              {part.text}
-            </mark>
-          ),
+        const content = highlight(bullet ? trimmed.replace(/^[-•*]\s+/, '') : trimmed).map(
+          (part, i) =>
+            typeof part === 'string' ? (
+              part
+            ) : (
+              <mark key={i} className={`description__term description__term--${part.tone}`}>
+                {part.text}
+              </mark>
+            ),
         );
-        if (heading) return <h4 key={index} className="description__heading">{content}</h4>;
-        if (bullet) return <li key={index} className="description__bullet">{content}</li>;
-        return <p key={index} className="description__line">{content}</p>;
+        if (heading)
+          return (
+            <h4 key={index} className="description__heading">
+              {content}
+            </h4>
+          );
+        if (bullet)
+          return (
+            <li key={index} className="description__bullet">
+              {content}
+            </li>
+          );
+        return (
+          <p key={index} className="description__line">
+            {content}
+          </p>
+        );
       })}
       {truncated && (
-        <button type="button" className="btn btn--ghost btn--small" onClick={() => setExpanded((v) => !v)}>
+        <button
+          type="button"
+          className="btn btn--ghost btn--small"
+          onClick={() => setExpanded((v) => !v)}
+        >
           {expanded ? 'Show less' : `Show all (${lines.length - PREVIEW_LINES} more lines)`}
         </button>
       )}
