@@ -638,14 +638,3 @@
   border-left-color: var(--bad);
 }
 
-.key-sink {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  border: 0;
-  padding: 0;
-  pointer-events: none;
-}

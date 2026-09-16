@@ -40,9 +40,11 @@ export function comboOf(event: KeyboardEvent): string {
 }
 
 /**
- * Global shortcuts. Every action has a plain-key binding for browsers without a vim
- * extension and an Alt binding that extensions such as Vimium leave alone. Plain keys are
- * ignored while typing in a form field; Alt combos work everywhere.
+ * Global shortcuts. Every action has a plain-key binding and an Alt binding. Vim extensions
+ * grab plain letters first; Vimium users add this site under "Excluded URLs and keys" with
+ * the letters listed in the help panel, so those keys reach the page while the rest of
+ * Vimium keeps working. Plain keys are ignored while typing in a form field; Alt combos
+ * work everywhere.
  */
 export function useHotkeys(hotkeys: Hotkey[], enabled = true): void {
   useEffect(() => {
@@ -51,11 +53,8 @@ export function useHotkeys(hotkeys: Hotkey[], enabled = true): void {
       if (event.metaKey || event.ctrlKey) return;
       const combo = comboOf(event);
       const target = event.target as HTMLElement | null;
-      // The hidden key sink is an input too, but it exists precisely to receive shortcuts.
       const typing = Boolean(
-        target &&
-          !target.hasAttribute('data-key-sink') &&
-          (EDITABLE.test(target.tagName) || target.isContentEditable),
+        target && (EDITABLE.test(target.tagName) || target.isContentEditable),
       );
       if (typing && !event.altKey) {
         if (event.key === 'Escape') target?.blur();
