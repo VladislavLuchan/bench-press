@@ -27,7 +27,11 @@ export function App() {
 
   const hotkeys = useMemo(
     () => [
-      { keys: ['?', 'alt+h'], description: 'help', action: () => setHelpOpen((open) => !open) },
+      {
+        keys: ['shift+/', 'alt+h'],
+        description: 'help',
+        action: () => setHelpOpen((open) => !open),
+      },
       ...NAV.map((item, index) => ({
         keys: [String(index + 1), `alt+shift+${index + 1}`],
         description: item.label,
@@ -72,7 +76,7 @@ export function App() {
         <button
           type="button"
           className="btn btn--ghost btn--small"
-          title="Keyboard shortcuts (? or Alt+H)"
+          title="Keyboard shortcuts (Shift+/ or Alt+H)"
           onClick={() => setHelpOpen((open) => !open)}
         >
           ?

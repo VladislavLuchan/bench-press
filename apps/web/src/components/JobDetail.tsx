@@ -71,7 +71,14 @@ export function JobDetail({ job, onJobChange }: Props) {
         <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
         <div className="job-detail__heading">
           <h2 className="job-detail__title">
-            <a href={job.url} target="_blank" rel="noopener noreferrer">
+            <a
+              href={job.url}
+              title="Open the listing in a new window"
+              onClick={(event) => {
+                event.preventDefault();
+                openInWindow(job.url);
+              }}
+            >
               {job.title}
             </a>
           </h2>

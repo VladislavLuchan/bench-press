@@ -12,7 +12,7 @@ const GROUPS: Array<{ title: string; keys: Array<[string, string]> }> = [
       ['Esc', 'close the detail panel, help, or leave a text field'],
       ['Alt+Shift+1 … 5  or  1 … 5', 'Jobs, Pipeline, Filtered, Stats, Settings'],
       ['Alt+/  or  /', 'focus the filters'],
-      ['Alt+H  or  ?', 'this help'],
+      ['Shift+/ (the ? key)  or  Alt+H', 'this help'],
     ],
   },
   {

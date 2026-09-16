@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 
 /**
- * A key combo: 'j', 'alt+j', 'ArrowDown', 'alt+shift+1', 'Enter'. Letters are matched
- * case-insensitively; digits are matched by physical key so Shift does not turn 1 into !.
+ * A key combo: 'j', 'alt+j', 'ArrowDown', 'alt+shift+1', 'shift+/', 'Enter'. Letters,
+ * digits and punctuation are matched by physical key (`event.code`), so the shortcuts work
+ * in any keyboard layout: the J key is `j` whether the layout prints j or о on it.
  */
 export interface Hotkey {
   keys: string[];
@@ -12,20 +13,29 @@ export interface Hotkey {
 
 const EDITABLE = /^(INPUT|TEXTAREA|SELECT)$/;
 
+const PUNCTUATION_CODES: Record<string, string> = {
+  Slash: '/',
+  Period: '.',
+  Comma: ',',
+  Minus: '-',
+  Equal: '=',
+  Space: 'Space',
+};
+
+function physicalKey(event: KeyboardEvent): string {
+  const letter = /^Key([A-Z])$/.exec(event.code);
+  if (letter) return letter[1]!.toLowerCase();
+  const digit = /^(?:Digit|Numpad)(\d)$/.exec(event.code);
+  if (digit) return digit[1]!;
+  return PUNCTUATION_CODES[event.code] ?? event.key;
+}
+
 export function comboOf(event: KeyboardEvent): string {
   const parts: string[] = [];
   if (event.altKey) parts.push('alt');
   if (event.ctrlKey) parts.push('ctrl');
-  if (event.shiftKey && event.key.length > 1) parts.push('shift');
-  let key = event.key;
-  if (/^Digit\d$/.test(event.code)) {
-    key = event.code.slice(-1);
-    if (event.shiftKey) parts.push('shift');
-  } else if (key.length === 1) {
-    key = key.toLowerCase();
-    if (event.shiftKey && event.altKey && /[a-z]/.test(key)) parts.push('shift');
-  }
-  parts.push(key);
+  if (event.shiftKey) parts.push('shift');
+  parts.push(physicalKey(event));
   return parts.join('+');
 }
 

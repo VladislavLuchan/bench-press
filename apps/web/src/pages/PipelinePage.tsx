@@ -82,7 +82,7 @@ export function PipelinePage() {
         action: (event: KeyboardEvent) => {
           const cards = [...document.querySelectorAll<HTMLElement>('.board [data-job-id]')];
           const current = cards.indexOf(document.activeElement as HTMLElement);
-          const step = /Down|j/.test(event.key) ? 1 : -1;
+          const step = /Down|KeyJ/.test(event.code) ? 1 : -1;
           const next = cards[Math.min(cards.length - 1, Math.max(0, current + step))];
           next?.focus();
         },
@@ -138,7 +138,7 @@ export function PipelinePage() {
               >
                 <div className="board__card-head">
                   <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
-                  <a className="board__card-title" href={`#/jobs/${job.id}`}>
+                  <a className="board__card-title" href={`#/jobs/${job.id}`} title="Open details">
                     {job.title}
                   </a>
                 </div>
