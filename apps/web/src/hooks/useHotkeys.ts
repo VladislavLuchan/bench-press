@@ -51,7 +51,12 @@ export function useHotkeys(hotkeys: Hotkey[], enabled = true): void {
       if (event.metaKey || event.ctrlKey) return;
       const combo = comboOf(event);
       const target = event.target as HTMLElement | null;
-      const typing = Boolean(target && (EDITABLE.test(target.tagName) || target.isContentEditable));
+      // The hidden key sink is an input too, but it exists precisely to receive shortcuts.
+      const typing = Boolean(
+        target &&
+          !target.hasAttribute('data-key-sink') &&
+          (EDITABLE.test(target.tagName) || target.isContentEditable),
+      );
       if (typing && !event.altKey) {
         if (event.key === 'Escape') target?.blur();
         return;
