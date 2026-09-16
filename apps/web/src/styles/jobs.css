@@ -280,8 +280,27 @@
   outline-offset: 2px;
 }
 
-.job-card__company {
+.job-card__company,
+.link-button {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
   color: var(--text);
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.job-card__company:hover,
+.link-button:hover {
+  color: var(--accent);
+}
+
+.board__card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .job-card__match {

@@ -12,6 +12,7 @@ import { JobCard } from '../components/JobCard.tsx';
 import { JobDetail } from '../components/JobDetail.tsx';
 import { JobFilters } from '../components/JobFilters.tsx';
 import { emitHotkeyAction, useHotkeys } from '../hooks/useHotkeys.ts';
+import { openInWindow } from '../lib/open.ts';
 import { navigate } from '../router.ts';
 
 interface Props {
@@ -125,6 +126,13 @@ export function JobsPage({ mode, selectedId }: Props) {
   );
 
   const selectedJob = jobs.find((job) => job.id === selectedId) ?? null;
+
+  useEffect(() => {
+    if (selectedId === null) return;
+    const card = document.querySelector<HTMLElement>(`[data-job-id="${selectedId}"]`);
+    card?.scrollIntoView({ block: 'nearest' });
+    if (card && document.activeElement?.tagName !== 'TEXTAREA') card.focus({ preventScroll: true });
+  }, [selectedId, jobs]);
   const hotkeys = useMemo(() => {
     const move = (delta: number) => {
       const index = jobs.findIndex((job) => job.id === selectedId);
@@ -136,32 +144,29 @@ export function JobsPage({ mode, selectedId }: Props) {
       if (selectedJob && mode === 'jobs') quickStatus(selectedJob.id, status);
     };
     return [
-      { key: 'j', description: 'next job', action: () => move(1) },
-      { key: 'k', description: 'previous job', action: () => move(-1) },
-      { key: 'Enter', description: 'select first job', action: () => move(0) },
-      { key: 'Escape', description: 'close detail', action: () => navigate(base) },
+      { keys: ['j', 'ArrowDown', 'alt+j'], description: 'next job', action: () => move(1) },
+      { keys: ['k', 'ArrowUp', 'alt+k'], description: 'previous job', action: () => move(-1) },
+      { keys: ['Enter'], description: 'select first job', action: () => move(0) },
+      { keys: ['Escape'], description: 'close detail', action: () => navigate(base) },
       {
-        key: '/',
+        keys: ['/', 'alt+/'],
         description: 'focus filters',
         action: () =>
           document.querySelector<HTMLElement>('.filters input, .filters select')?.focus(),
       },
       {
-        key: 'o',
+        keys: ['o', 'alt+o'],
         description: 'open listing',
         action: () => {
-          if (selectedJob) window.open(selectedJob.url, '_blank', 'noopener,noreferrer');
+          if (selectedJob) openInWindow(selectedJob.url);
         },
       },
-      {
-        key: 'c',
-        description: 'copy cover letter and open',
-        action: () => emitHotkeyAction('copy-open'),
-      },
-      { key: 'a', description: 'applied', action: () => setStatus('applied') },
-      { key: 'r', description: 'replied', action: () => setStatus('replied') },
-      { key: 's', description: 'skipped', action: () => setStatus('skipped') },
-      { key: 'n', description: 'reset to new', action: () => setStatus('new') },
+      { keys: ['g', 'alt+g'], description: 'generate cover letter', action: () => emitHotkeyAction('generate') },
+      { keys: ['c', 'alt+c'], description: 'copy cover letter and open', action: () => emitHotkeyAction('copy-open') },
+      { keys: ['a', 'alt+a'], description: 'applied', action: () => setStatus('applied') },
+      { keys: ['r', 'alt+r'], description: 'replied', action: () => setStatus('replied') },
+      { keys: ['s', 'alt+s'], description: 'skipped', action: () => setStatus('skipped') },
+      { keys: ['n', 'alt+n'], description: 'reset to new', action: () => setStatus('new') },
     ];
   }, [jobs, selectedId, selectedJob, base, mode, quickStatus]);
   useHotkeys(hotkeys);

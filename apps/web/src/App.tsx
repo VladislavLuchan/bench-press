@@ -27,9 +27,9 @@ export function App() {
 
   const hotkeys = useMemo(
     () => [
-      { key: '?', description: 'help', action: () => setHelpOpen((open) => !open) },
+      { keys: ['?', 'alt+h'], description: 'help', action: () => setHelpOpen((open) => !open) },
       ...NAV.map((item, index) => ({
-        key: String(index + 1),
+        keys: [String(index + 1), `alt+shift+${index + 1}`],
         description: item.label,
         action: () => navigate(item.hash),
       })),
@@ -39,7 +39,7 @@ export function App() {
   useHotkeys(hotkeys, hasToken);
   useHotkeys(
     useMemo(
-      () => [{ key: 'Escape', description: 'close help', action: () => setHelpOpen(false) }],
+      () => [{ keys: ['Escape'], description: 'close help', action: () => setHelpOpen(false) }],
       [],
     ),
     helpOpen,
@@ -72,7 +72,7 @@ export function App() {
         <button
           type="button"
           className="btn btn--ghost btn--small"
-          title="Keyboard shortcuts (?)"
+          title="Keyboard shortcuts (? or Alt+H)"
           onClick={() => setHelpOpen((open) => !open)}
         >
           ?

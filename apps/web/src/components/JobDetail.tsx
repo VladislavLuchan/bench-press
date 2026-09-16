@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { JOB_STAGES, type JobStage, type JobStatus } from '@bench-press/shared/types';
 import { api, errorMessage, JOBS_CHANGED_EVENT, type JobWithEvents } from '../api/client.ts';
 import { formatDateTime } from '../lib/format.ts';
+import { openInWindow } from '../lib/open.ts';
 import { toastError } from '../lib/toast.ts';
 import { CoverLetterPanel } from './CoverLetterPanel.tsx';
 import { FitBadge } from './FitBadge.tsx';
@@ -57,7 +58,7 @@ export function JobDetail({ job, onJobChange }: Props) {
   };
 
   const facts = [
-    job.company,
+    job.company ?? 'unknown company',
     job.location,
     job.salaryRaw ?? job.salaryLlm,
     job.seniority,
@@ -75,7 +76,16 @@ export function JobDetail({ job, onJobChange }: Props) {
             </a>
           </h2>
           <p className="job-detail__meta">
-            <LocationBadge type={job.locationType} /> {facts.join(' · ')}
+            <LocationBadge type={job.locationType} />{' '}
+            <button
+              type="button"
+              className="link-button"
+              title="Open the listing in a new window"
+              onClick={() => openInWindow(job.url)}
+            >
+              {job.company ?? 'unknown company'}
+            </button>
+            {facts.slice(1).length > 0 && ` · ${facts.slice(1).join(' · ')}`}
           </p>
           <p className="job-detail__meta job-detail__meta--muted">
             {job.sources.join(', ')} · seen {formatDateTime(job.firstSeenAt)}

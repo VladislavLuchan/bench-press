@@ -7,22 +7,25 @@ const GROUPS: Array<{ title: string; keys: Array<[string, string]> }> = [
   {
     title: 'Navigate',
     keys: [
-      ['j / k', 'next / previous job'],
-      ['Enter', 'open first job when none is selected'],
-      ['Esc', 'close the detail panel or this help'],
-      ['1 … 5', 'Jobs, Pipeline, Filtered, Stats, Settings'],
-      ['/', 'focus the filters'],
+      ['↓ / ↑  or  Alt+J / Alt+K  or  j / k', 'next / previous job or card'],
+      ['Enter', 'open the focused job'],
+      ['Esc', 'close the detail panel, help, or leave a text field'],
+      ['Alt+Shift+1 … 5  or  1 … 5', 'Jobs, Pipeline, Filtered, Stats, Settings'],
+      ['Alt+/  or  /', 'focus the filters'],
+      ['Alt+H  or  ?', 'this help'],
     ],
   },
   {
     title: 'Act on the selected job',
     keys: [
-      ['o', 'open the listing in a new tab'],
-      ['c', 'copy cover letter and open (generates if needed)'],
-      ['a', 'mark applied'],
-      ['r', 'mark replied'],
-      ['s', 'skip'],
-      ['n', 'reset to new'],
+      ['Alt+O  or  o', 'open the listing in a new window'],
+      ['Alt+G  or  g', 'generate the cover letter'],
+      ['Alt+C  or  c', 'copy the cover letter and open the listing'],
+      ['Alt+A  or  a', 'mark applied'],
+      ['Alt+R  or  r', 'mark replied'],
+      ['Alt+S  or  s', 'skip'],
+      ['Alt+N  or  n', 'reset to new'],
+      ['Alt+← / Alt+→', 'on the Pipeline board: move the focused card'],
     ],
   },
 ];
@@ -33,6 +36,10 @@ export function HotkeysHelp({ open, onClose }: Props) {
     <div className="help" role="dialog" aria-label="Keyboard shortcuts" onClick={onClose}>
       <div className="help__panel" onClick={(event) => event.stopPropagation()}>
         <h2 className="help__title">Keyboard shortcuts</h2>
+        <p className="help__hint">
+          Plain letters are for browsers without a vim extension. With Vimium or similar, use
+          the Alt variants: extensions do not intercept them. Alt combos also work while typing.
+        </p>
         {GROUPS.map((group) => (
           <section key={group.title} className="help__group">
             <h3 className="help__group-title">{group.title}</h3>
@@ -48,7 +55,6 @@ export function HotkeysHelp({ open, onClose }: Props) {
             </dl>
           </section>
         ))}
-        <p className="help__hint">Press ? to toggle this panel.</p>
       </div>
     </div>
   );

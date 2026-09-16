@@ -3,6 +3,7 @@ import type { Job } from '@bench-press/shared/types';
 import { api, errorMessage } from '../api/client.ts';
 import { useClipboard } from '../hooks/useClipboard.ts';
 import { useHotkeyAction } from '../hooks/useHotkeys.ts';
+import { openInWindow } from '../lib/open.ts';
 
 interface Props {
   job: Job;
@@ -44,7 +45,7 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
 
   const handleCopyAndOpen = () => {
     if (busy) return;
-    window.open(job.url, '_blank', 'noopener,noreferrer');
+    openInWindow(job.url);
     const run = text ? Promise.resolve(text) : generate(false);
     run
       .then((letter) => clipboard.copy(letter))
@@ -53,9 +54,11 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
   // The keyboard shortcut runs inside the keydown handler, so window.open is still a user gesture.
   useHotkeyAction('copy-open', handleCopyAndOpen);
 
-  const handleRegenerate = () => {
-    generate(true).catch((err: unknown) => setError(errorMessage(err)));
+  const handleGenerate = () => {
+    if (busy) return;
+    generate(Boolean(job.coverLetter)).catch((err: unknown) => setError(errorMessage(err)));
   };
+  useHotkeyAction('generate', handleGenerate);
 
   const handleSave = async () => {
     setBusy('save');
@@ -97,12 +100,13 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
           {busy === 'save' ? 'Saving…' : 'Save edits'}
         </button>
         <button
-          className="btn btn--ghost"
+          className="btn"
           type="button"
-          disabled={!job.coverLetter || busy !== null}
-          onClick={handleRegenerate}
+          disabled={busy !== null}
+          title="Generate without opening the listing (g)"
+          onClick={handleGenerate}
         >
-          Regenerate
+          {busy === 'generate' ? 'Generating…' : job.coverLetter ? 'Regenerate' : 'Generate'}
         </button>
         <span className={`cover-letter__status cover-letter__status--${clipboard.status}`}>
           {STATUS_TEXT[clipboard.status]}

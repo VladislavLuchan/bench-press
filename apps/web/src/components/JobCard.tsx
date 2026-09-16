@@ -1,5 +1,6 @@
 import type { JobStatus, JobSummary } from '@bench-press/shared/types';
 import { formatDate } from '../lib/format.ts';
+import { openInWindow } from '../lib/open.ts';
 import { FitBadge } from './FitBadge.tsx';
 import { LocationBadge } from './LocationBadge.tsx';
 
@@ -24,12 +25,23 @@ export function JobCard({ job, selected, onSelect, onQuickStatus }: Props) {
       }}
       tabIndex={0}
       aria-selected={selected}
+      data-job-id={job.id}
     >
       <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
       <div className="job-card__body">
         <h3 className="job-card__title">{job.title}</h3>
         <p className="job-card__meta">
-          <span className="job-card__company">{job.company ?? 'unknown company'}</span>
+          <button
+            type="button"
+            className="job-card__company"
+            title="Open the listing in a new window"
+            onClick={(event) => {
+              event.stopPropagation();
+              openInWindow(job.url);
+            }}
+          >
+            {job.company ?? 'unknown company'}
+          </button>
           <span className="source-badge" title={job.sources.join(', ')}>
             {job.source}
             {job.sources.length > 1 && ` +${job.sources.length - 1}`}
@@ -56,15 +68,14 @@ export function JobCard({ job, selected, onSelect, onQuickStatus }: Props) {
       </div>
       {onQuickStatus && job.status === 'new' && (
         <div className="job-card__actions" onClick={(event) => event.stopPropagation()}>
-          <a
+          <button
+            type="button"
             className="btn btn--ghost btn--small"
-            href={job.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Open the listing"
+            title="Open the listing in a new window"
+            onClick={() => openInWindow(job.url)}
           >
             Open
-          </a>
+          </button>
           <button
             type="button"
             className="btn btn--ghost btn--small"
