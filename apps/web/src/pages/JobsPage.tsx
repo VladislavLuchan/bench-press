@@ -161,8 +161,16 @@ export function JobsPage({ mode, selectedId }: Props) {
           if (selectedJob) openInWindow(selectedJob.url);
         },
       },
-      { keys: ['g', 'alt+g'], description: 'generate cover letter', action: () => emitHotkeyAction('generate') },
-      { keys: ['c', 'alt+c'], description: 'copy cover letter and open', action: () => emitHotkeyAction('copy-open') },
+      {
+        keys: ['g', 'alt+g'],
+        description: 'generate cover letter',
+        action: () => emitHotkeyAction('generate'),
+      },
+      {
+        keys: ['c', 'alt+c'],
+        description: 'copy cover letter and open',
+        action: () => emitHotkeyAction('copy-open'),
+      },
       { keys: ['a', 'alt+a'], description: 'applied', action: () => setStatus('applied') },
       { keys: ['r', 'alt+r'], description: 'replied', action: () => setStatus('replied') },
       { keys: ['s', 'alt+s'], description: 'skipped', action: () => setStatus('skipped') },

@@ -37,8 +37,8 @@ export function HotkeysHelp({ open, onClose }: Props) {
       <div className="help__panel" onClick={(event) => event.stopPropagation()}>
         <h2 className="help__title">Keyboard shortcuts</h2>
         <p className="help__hint">
-          Plain letters are for browsers without a vim extension. With Vimium or similar, use
-          the Alt variants: extensions do not intercept them. Alt combos also work while typing.
+          Plain letters are for browsers without a vim extension. With Vimium or similar, use the
+          Alt variants: extensions do not intercept them. Alt combos also work while typing.
         </p>
         {GROUPS.map((group) => (
           <section key={group.title} className="help__group">
