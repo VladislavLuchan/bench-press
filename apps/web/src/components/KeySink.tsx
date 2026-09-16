@@ -4,8 +4,7 @@ const EDITABLE = /^(INPUT|TEXTAREA|SELECT)$/;
 
 function isEditable(element: Element | null): element is HTMLElement {
   return Boolean(
-    element &&
-      (EDITABLE.test(element.tagName) || (element as HTMLElement).isContentEditable),
+    element && (EDITABLE.test(element.tagName) || (element as HTMLElement).isContentEditable),
   );
 }
 

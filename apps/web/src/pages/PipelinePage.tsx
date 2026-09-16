@@ -80,7 +80,8 @@ export function PipelinePage() {
         action: (event: KeyboardEvent) => {
           const current = ordered.findIndex((job) => job.id === focusedId);
           const step = /Down|KeyJ/.test(event.code) ? 1 : -1;
-          const next = ordered[current === -1 ? 0 : Math.min(ordered.length - 1, Math.max(0, current + step))];
+          const next =
+            ordered[current === -1 ? 0 : Math.min(ordered.length - 1, Math.max(0, current + step))];
           if (next) {
             setFocusedId(next.id);
             document
