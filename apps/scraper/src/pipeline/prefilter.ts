@@ -42,11 +42,11 @@ export function prefilterReason(
     if (ageDays > maxAgeDays) return `older than ${maxAgeDays} days`;
   }
 
-  if (
-    job.experienceYears !== undefined &&
-    job.experienceYears !== null &&
-    job.experienceYears < options.minExperienceYears
-  ) {
+  // A low number of years on the card marks junior/middle roles, unless the title itself
+  // says senior: some employers leave the field at its default.
+  const lowExperience =
+    typeof job.experienceYears === 'number' && job.experienceYears < options.minExperienceYears;
+  if (lowExperience && !/\b(senior|lead|principal|staff)\b/i.test(job.title)) {
     return `experience below ${options.minExperienceYears} years`;
   }
 

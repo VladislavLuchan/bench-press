@@ -70,12 +70,14 @@ describe('prefilterReason', () => {
     );
   });
 
-  it('skips cards that ask for less than three years', () => {
-    expect(prefilterReason(job({ experienceYears: 2 }), undefined, now)).toMatch(
+  it('skips cards that ask for less than three years, unless the title says senior', () => {
+    const plain = { title: 'Frontend Developer (React)' };
+    expect(prefilterReason(job({ ...plain, experienceYears: 2 }), undefined, now)).toMatch(
       /experience below 3/,
     );
-    expect(prefilterReason(job({ experienceYears: 3 }), undefined, now)).toBeNull();
-    expect(prefilterReason(job({ experienceYears: null }), undefined, now)).toBeNull();
+    expect(prefilterReason(job({ ...plain, experienceYears: 3 }), undefined, now)).toBeNull();
+    expect(prefilterReason(job({ ...plain, experienceYears: null }), undefined, now)).toBeNull();
+    expect(prefilterReason(job({ experienceYears: 2 }), undefined, now)).toBeNull();
   });
 
   it('skips salaries clearly below the floor', () => {
