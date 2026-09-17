@@ -3,15 +3,18 @@ import { formatDate } from '../lib/format.ts';
 import { openInWindow } from '../lib/open.ts';
 import { FitBadge } from './FitBadge.tsx';
 import { LocationBadge } from './LocationBadge.tsx';
+import { CompanyBadge, DreamBadge, RoleBadge } from './TypeBadges.tsx';
 
 interface Props {
   job: JobSummary;
+  /** Inside a company group the company name is already in the group header. */
+  hideCompany?: boolean;
   selected: boolean;
   onSelect: (id: number) => void;
   onQuickStatus?: (id: number, status: JobStatus) => void;
 }
 
-export function JobCard({ job, selected, onSelect, onQuickStatus }: Props) {
+export function JobCard({ job, hideCompany = false, selected, onSelect, onQuickStatus }: Props) {
   const className = ['job-card', selected && 'job-card--selected', `job-card--${job.status}`]
     .filter(Boolean)
     .join(' ');
@@ -29,24 +32,31 @@ export function JobCard({ job, selected, onSelect, onQuickStatus }: Props) {
     >
       <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
       <div className="job-card__body">
-        <h3 className="job-card__title">{job.title}</h3>
+        <h3 className="job-card__title">
+          <DreamBadge dream={job.dream} />
+          {job.title}
+        </h3>
         <p className="job-card__meta">
-          <button
-            type="button"
-            className="job-card__company"
-            title="Open the listing in a new window"
-            onClick={(event) => {
-              event.stopPropagation();
-              openInWindow(job.url);
-            }}
-          >
-            {job.company ?? 'unknown company'}
-          </button>
+          {!hideCompany && (
+            <button
+              type="button"
+              className="job-card__company"
+              title="Open the listing in a new window"
+              onClick={(event) => {
+                event.stopPropagation();
+                openInWindow(job.url);
+              }}
+            >
+              {job.company ?? 'unknown company'}
+            </button>
+          )}
           <span className="source-badge" title={job.sources.join(', ')}>
             {job.source}
             {job.sources.length > 1 && ` +${job.sources.length - 1}`}
           </span>
+          <RoleBadge type={job.roleType} />
           <LocationBadge type={job.locationType} />
+          <CompanyBadge type={job.companyType} />
           {(job.salaryRaw ?? job.salaryLlm) && <span>{job.salaryRaw ?? job.salaryLlm}</span>}
           <span>{formatDate(job.postedAt ?? job.firstSeenAt)}</span>
           {job.status !== 'new' && <span className="job-card__status">{job.status}</span>}

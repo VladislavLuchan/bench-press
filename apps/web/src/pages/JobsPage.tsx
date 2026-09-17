@@ -23,11 +23,18 @@ interface Props {
 }
 
 const DEFAULT_QUERY: Record<Props['mode'], JobsQuery> = {
-  jobs: { sort: 'fit', minFit: 6, status: 'new', locationType: ['remote', 'unclear', 'unscored'] },
+  jobs: {
+    sort: 'fit',
+    minFit: 6,
+    status: 'new',
+    locationType: ['remote', 'unclear', 'unscored'],
+    roleType: ['frontend', 'fullstack'],
+  },
   filtered: { sort: 'date', status: 'filtered' },
 };
 
-const QUERY_STORAGE_KEY = 'bench-press.filters';
+// Bump the suffix when defaults change, so saved filters do not hide new ones.
+const QUERY_STORAGE_KEY = 'bench-press.filters.v2';
 
 function loadQuery(mode: Props['mode']): JobsQuery {
   try {
@@ -61,7 +68,7 @@ export function JobsPage({ mode, selectedId }: Props) {
     saveQuery(mode, next);
     setQueryState(next);
   };
-  const [jobs, setJobs] = useState<JobSummary[]>([]);
+  const [listed, setJobs] = useState<JobSummary[]>([]);
   const [selected, setSelected] = useState<JobWithEvents | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -124,6 +131,31 @@ export function JobsPage({ mode, selectedId }: Props) {
         .catch((err: unknown) => toastError(`Could not update: ${errorMessage(err)}`));
     },
     [selectedId],
+  );
+
+  // One block per company, placed where its best role sits in the sorted list.
+  const groups = useMemo(() => {
+    const byCompany = new Map<string, { key: string; company: string; jobs: JobSummary[] }>();
+    for (const job of listed) {
+      const key = job.company ? job.company.trim().toLowerCase() : `job-${job.id}`;
+      const group = byCompany.get(key) ?? { key, company: job.company ?? 'unknown company', jobs: [] };
+      group.jobs.push(job);
+      byCompany.set(key, group);
+    }
+    return [...byCompany.values()];
+  }, [listed]);
+  // Keyboard navigation follows the order on screen, which grouping changes.
+  const jobs = useMemo(() => groups.flatMap((group) => group.jobs), [groups]);
+
+  const renderCard = (job: JobSummary, hideCompany: boolean) => (
+    <JobCard
+      key={job.id}
+      job={job}
+      hideCompany={hideCompany}
+      selected={job.id === selectedId}
+      onSelect={(id) => navigate(`${base}/${id}`)}
+      onQuickStatus={mode === 'jobs' ? quickStatus : undefined}
+    />
   );
 
   const selectedJob = jobs.find((job) => job.id === selectedId) ?? null;
@@ -192,15 +224,18 @@ export function JobsPage({ mode, selectedId }: Props) {
         {!loading && jobs.length === 0 && (
           <p className="jobs__empty">Nothing matches these filters.</p>
         )}
-        {jobs.map((job) => (
-          <JobCard
-            key={job.id}
-            job={job}
-            selected={job.id === selectedId}
-            onSelect={(id) => navigate(`${base}/${id}`)}
-            onQuickStatus={mode === 'jobs' ? quickStatus : undefined}
-          />
-        ))}
+        {groups.map((group) =>
+          group.jobs.length === 1 ? (
+            renderCard(group.jobs[0] as JobSummary, false)
+          ) : (
+            <section key={group.key} className="company-group">
+              <h3 className="company-group__title">
+                {group.company} <span className="company-group__count">{group.jobs.length} roles</span>
+              </h3>
+              {group.jobs.map((job) => renderCard(job, true))}
+            </section>
+          ),
+        )}
       </div>
       <aside className="jobs__detail">
         {selected ? (

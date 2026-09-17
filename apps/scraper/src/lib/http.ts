@@ -21,8 +21,17 @@ export class HttpError extends Error {
   }
 }
 
+export interface HttpPage {
+  body: string;
+  status: number;
+  /** URL after redirects; differs from the requested one when the board bounced us. */
+  finalUrl: string;
+}
+
 export interface HttpClient {
   getText(url: string): Promise<string>;
+  /** Like `request`, plus the status and final URL for pagination and diagnostics. */
+  fetchPage(url: string, init?: RequestInit): Promise<HttpPage>;
   /** Same throttling and block detection, for endpoints that need a method or body. */
   request(url: string, init?: RequestInit): Promise<string>;
 }
@@ -49,7 +58,7 @@ export function createHttpClient(options = config.http): HttpClient {
     lastRequestAt.set(host, Date.now());
   }
 
-  async function request(url: string, init: RequestInit = {}): Promise<string> {
+  async function fetchPage(url: string, init: RequestInit = {}): Promise<HttpPage> {
     await throttle(new URL(url).host);
     const headers = new Headers(init.headers);
     headers.set('User-Agent', options.userAgent);
@@ -71,8 +80,9 @@ export function createHttpClient(options = config.http): HttpClient {
       throw new BlockedError(`Redirected to a login wall: ${response.url}`, url);
     }
     if (!response.ok) throw new HttpError(response.status, url);
-    return response.text();
+    return { body: await response.text(), status: response.status, finalUrl: response.url };
   }
 
-  return { request, getText: (url) => request(url) };
+  const request = async (url: string, init?: RequestInit) => (await fetchPage(url, init)).body;
+  return { request, fetchPage, getText: (url) => request(url) };
 }

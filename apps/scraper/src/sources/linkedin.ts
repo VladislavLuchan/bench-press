@@ -18,28 +18,27 @@ export const linkedin: Source = {
   emptyMeansBlocked: true,
 
   searches({ backfill }) {
-    const { keywords, locations, maxPages, pageSize } = config.sources.linkedin;
+    const { pools, maxPages, pageSize } = config.sources.linkedin;
     const window = backfill ? 'r604800' : 'r86400';
-    const searches: Search[] = [];
-    for (const keyword of keywords) {
-      for (const location of locations) {
-        searches.push({
-          name: `${keyword} @ ${location}`,
-          maxPages,
-          pageSize,
-          request: (page) => ({
-            url: `${SEARCH_URL}?${new URLSearchParams({
-              keywords: keyword,
-              location,
-              f_WT: '2',
-              f_TPR: window,
-              start: String(page * pageSize),
-            })}`,
-          }),
-        });
-      }
-    }
-    return searches;
+    const pairs = pools.flatMap((pool) =>
+      pool.keywords.flatMap((keyword) => pool.locations.map((location) => ({ keyword, location }))),
+    );
+    return pairs.map(
+      ({ keyword, location }): Search => ({
+        name: `${keyword} @ ${location}`,
+        maxPages,
+        pageSize,
+        request: (page) => ({
+          url: `${SEARCH_URL}?${new URLSearchParams({
+            keywords: keyword,
+            location,
+            f_WT: '2',
+            f_TPR: window,
+            start: String(page * pageSize),
+          })}`,
+        }),
+      }),
+    );
   },
 
   parseListings(body) {

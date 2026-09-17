@@ -61,6 +61,11 @@ fix parsers until tests pass).
 - Rescore re-evaluates only `new` jobs with a description. `applied`, `replied` and
   `skipped` are never touched; `filtered` rows have no description to rescore.
 - Every status, stage and note change is written to `job_events`.
+- Fit is "can I take this job", not "dream job". The LLM reports facts; every bonus, penalty
+  and cap lives in `postValidate`. Company type and `dream` must never feed into fit.
+- Djinni `exp_level` matches the exact number of years, and unknown `primary_keyword` values
+  return every job on the site. Valid: JavaScript, React.js, Fullstack, Node.js.
+- JS `\b` does not see Cyrillic letters; use `\p{L}` lookarounds or a character-range test.
 
 ## Secrets
 

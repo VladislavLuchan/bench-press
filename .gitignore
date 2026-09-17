@@ -11,3 +11,4 @@ coverage/
 
 # Bundled API (built from apps/web/server, re-exported by apps/web/api/index.js)
 apps/web/server-dist/
+token.md

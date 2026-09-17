@@ -671,3 +671,70 @@
   display: flex;
   justify-content: flex-end;
 }
+
+/* Role, company and dream badges */
+.type-badge {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 18px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.type-badge--role-frontend {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.type-badge--role-staff {
+  color: var(--warn);
+  border-color: var(--warn);
+}
+
+.type-badge--good {
+  color: var(--good);
+  border-color: var(--good);
+}
+
+.type-badge--warn {
+  color: var(--warn);
+  border-color: var(--warn);
+}
+
+.type-badge--neutral {
+  color: var(--text);
+}
+
+.dream-badge {
+  margin-right: 4px;
+}
+
+/* Several roles at one company */
+.company-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.company-group__title {
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.company-group__count {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.bar-chart__row {
+  grid-template-columns: minmax(80px, 140px) 1fr 32px;
+}

@@ -1,5 +1,5 @@
 import type { JobListing } from '@bench-press/shared';
-import { BlockedError, type HttpClient } from '../lib/http.ts';
+import { BlockedError, type HttpClient, type HttpPage } from '../lib/http.ts';
 import { log } from '../lib/logger.ts';
 import type { DiscoveredJob, FetchOptions, Source } from './types.ts';
 
@@ -22,18 +22,26 @@ export async function fetchListings(
   for (const search of source.searches(options)) {
     for (let page = 0; page < search.maxPages; page++) {
       const { url, init } = search.request(page);
-      let body: string;
+      let fetched: HttpPage;
       try {
-        body = await http.request(url, init);
+        fetched = await http.fetchPage(url, init);
         requests++;
       } catch (error) {
         if (error instanceof BlockedError) return { jobs, blocked: error, requests };
         throw error;
       }
-      const pageJobs = source.parseListings(body, url);
+      // Boards answer a page past the end with a redirect to an unfiltered list; that is
+      // the end of this search, not more results.
+      const redirected = page > 0 && new URL(fetched.finalUrl).search !== new URL(url).search;
+      const pageJobs = redirected ? [] : source.parseListings(fetched.body, url);
       jobs.push(...pageJobs);
-      log.info(`${source.name}: ${search.name} page ${page + 1}`, { items: pageJobs.length });
-      if (pageJobs.length < search.pageSize) break;
+      log.info(`${source.name}: ${search.name} page ${page + 1}`, {
+        status: fetched.status,
+        bytes: fetched.body.length,
+        items: pageJobs.length,
+        redirected,
+      });
+      if (redirected || pageJobs.length < search.pageSize) break;
     }
   }
 

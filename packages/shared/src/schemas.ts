@@ -1,5 +1,12 @@
 import { z } from 'zod';
-import { JOB_STAGES, JOB_STATUSES, LOCATION_TYPES, SETTING_KEYS, SOURCE_NAMES } from './types.ts';
+import {
+  COMPANY_TYPES,
+  JOB_STAGES,
+  JOB_STATUSES,
+  LOCATION_TYPES,
+  SETTING_KEYS,
+  SOURCE_NAMES,
+} from './types.ts';
 
 export const sourceNameSchema = z.enum(SOURCE_NAMES);
 export const jobStatusSchema = z.enum(JOB_STATUSES);
@@ -17,6 +24,14 @@ export const scoreResultSchema = z.object({
   seniority: z.string(),
   primary_stack: z.string().trim().toLowerCase().default('other'),
   location_type: z.enum(LOCATION_TYPES).catch('unclear'),
+  // Facts for code post-validation. Lenient defaults: a missing flag must never sink a job.
+  company_type: z.enum(COMPANY_TYPES).catch('unknown'),
+  frontend_focused: z.boolean().catch(true),
+  backend_heavy: z.boolean().catch(false),
+  years_required: z.number().nullable().catch(null),
+  other_language_required: z.string().nullable().catch(null),
+  has_project_description: z.boolean().catch(true),
+  dream_signals: z.array(z.string()).catch([]),
 });
 export const scoreResultListSchema = z.array(scoreResultSchema);
 
@@ -31,6 +46,20 @@ export const jobListQuerySchema = z.object({
     .string()
     .optional()
     .transform((value) => (value ? value.split(',').filter(Boolean) : undefined)),
+  /** Comma-separated role types (frontend, fullstack, staff). */
+  roleType: z
+    .string()
+    .optional()
+    .transform((value) => (value ? value.split(',').filter(Boolean) : undefined)),
+  /** Comma-separated company types; `unscored` includes jobs without a verdict yet. */
+  companyType: z
+    .string()
+    .optional()
+    .transform((value) => (value ? value.split(',').filter(Boolean) : undefined)),
+  dream: z
+    .enum(['0', '1'])
+    .optional()
+    .transform((value) => value === '1'),
   sort: z.enum(['fit', 'date']).default('fit'),
   limit: z.coerce.number().int().min(1).max(500).default(200),
 });

@@ -3,6 +3,7 @@ import { nowIso, type Db } from './client.ts';
 import { bool, integer, integerRequired, jsonArray, text, textRequired } from './row.ts';
 import type { JobListQuery } from '../schemas.ts';
 import type {
+  CompanyType,
   Job,
   JobEvent,
   JobStage,
@@ -11,6 +12,7 @@ import type {
   LocationFlag,
   LocationType,
   NewJob,
+  RoleType,
   ScoreResult,
   SourceName,
 } from '../types.ts';
@@ -19,8 +21,8 @@ const SUMMARY_COLUMNS = `
   id, source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,
   salary_raw, describe_attempts, thin_description, posted_at, first_seen_at, fit, fit_raw,
   fit_notes, summary, matches, gaps, red_flags, salary_llm, remote, seniority, primary_stack,
-  location_type, location_flag, scored_at, score_error, status, stage, stage_updated_at, notes,
-  filter_reason, filter_match,
+  location_type, location_flag, role_type, company_type, dream, scored_at, score_error, status,
+  stage, stage_updated_at, notes, filter_reason, filter_match,
   cover_letter IS NOT NULL AS has_cover_letter, cover_letter_lang, cover_letter_generated_at,
   notified_at, applied_at, replied_at, updated_at`;
 
@@ -60,6 +62,9 @@ function rowToSummary(row: Row): JobSummary {
     remote: bool(row, 'remote'),
     seniority: text(row, 'seniority'),
     primaryStack: text(row, 'primary_stack'),
+    roleType: (text(row, 'role_type') ?? 'frontend') as RoleType,
+    companyType: text(row, 'company_type') as CompanyType | null,
+    dream: bool(row, 'dream') ?? false,
     locationType: text(row, 'location_type') as LocationType | null,
     locationFlag: (text(row, 'location_flag') ?? 'none') as LocationFlag,
     scoredAt: text(row, 'scored_at'),
@@ -161,9 +166,9 @@ export async function insertJobs(db: Db, jobs: NewJob[]): Promise<number> {
     jobs.map((job) => ({
       sql: `INSERT OR IGNORE INTO jobs (
         source, sources, external_id, url, canonical_url, dedupe_key, title, company, location,
-        salary_raw, description, thin_description, location_flag, posted_at, remote,
-        first_seen_at, status, filter_reason, filter_match, updated_at
-      ) VALUES (${placeholders(20)})`,
+        salary_raw, description, description_hash, thin_description, location_flag, role_type,
+        posted_at, remote, first_seen_at, status, filter_reason, filter_match, updated_at
+      ) VALUES (${placeholders(22)})`,
       args: [
         job.source,
         JSON.stringify(job.sources ?? [job.source]),
@@ -176,8 +181,10 @@ export async function insertJobs(db: Db, jobs: NewJob[]): Promise<number> {
         job.location,
         job.salaryRaw,
         job.description,
+        job.descriptionHash,
         Number(job.thinDescription),
         job.locationFlag,
+        job.roleType,
         job.postedAt,
         job.remote === null ? null : Number(job.remote),
         now,
@@ -226,10 +233,27 @@ function jobFilterSql(query: JobListQuery): { sql: string; args: InValue[] } {
     where.push(`(${clauses.join(' OR ')})`);
   }
 
+  if (query.roleType && query.roleType.length > 0) {
+    where.push(`role_type IN (${placeholders(query.roleType.length)})`);
+    args.push(...query.roleType);
+  }
+  if (query.companyType && query.companyType.length > 0) {
+    const types = query.companyType.filter((type) => type !== 'unscored');
+    const clauses: string[] = [];
+    if (types.length > 0) {
+      clauses.push(`company_type IN (${placeholders(types.length)})`);
+      args.push(...types);
+    }
+    if (query.companyType.includes('unscored')) clauses.push('company_type IS NULL');
+    where.push(`(${clauses.join(' OR ')})`);
+  }
+  if (query.dream) where.push('dream = 1');
+
+  // Equal fit: dream jobs first, then the freshest.
   const orderBy =
     query.sort === 'date'
       ? 'first_seen_at DESC, fit DESC'
-      : 'fit IS NULL, fit DESC, first_seen_at DESC';
+      : 'fit IS NULL, fit DESC, dream DESC, first_seen_at DESC';
   args.push(query.limit);
 
   return { sql: `WHERE ${where.join(' AND ')} ORDER BY ${orderBy} LIMIT ?`, args };
@@ -422,12 +446,67 @@ export async function saveDescription(
   db: Db,
   id: number,
   description: string,
-  options: { thin: boolean; locationFlag: LocationFlag },
+  options: { thin: boolean; locationFlag: LocationFlag; hash: string },
 ): Promise<void> {
   await db.execute({
-    sql: `UPDATE jobs SET description = ?, thin_description = ?, location_flag = ?,
-      describe_attempts = describe_attempts + 1, updated_at = ? WHERE id = ?`,
-    args: [description, Number(options.thin), options.locationFlag, nowIso(), id],
+    sql: `UPDATE jobs SET description = ?, description_hash = ?, thin_description = ?,
+      location_flag = ?, describe_attempts = describe_attempts + 1, updated_at = ? WHERE id = ?`,
+    args: [description, options.hash, Number(options.thin), options.locationFlag, nowIso(), id],
+  });
+}
+
+/**
+ * Another open or handled job of the same company with the same description text.
+ * Staffing firms repost one text under several titles; only the first copy is kept.
+ */
+export async function findDuplicateDescription(
+  db: Db,
+  job: { id: number | null; company: string | null; hash: string },
+): Promise<number | null> {
+  if (!job.company) return null;
+  const result = await db.execute({
+    sql: `SELECT id FROM jobs
+      WHERE description_hash = ? AND lower(company) = lower(?) AND id != ? AND status != 'filtered'
+      ORDER BY id LIMIT 1`,
+    args: [job.hash, job.company, job.id ?? -1],
+  });
+  const row = result.rows[0];
+  return row ? integerRequired(row, 'id') : null;
+}
+
+export async function setDescriptionHash(db: Db, id: number, hash: string): Promise<void> {
+  await db.execute({ sql: `UPDATE jobs SET description_hash = ? WHERE id = ?`, args: [hash, id] });
+}
+
+export async function updateRoleTypes(
+  db: Db,
+  updates: Array<{ id: number; roleType: RoleType }>,
+): Promise<void> {
+  for (let i = 0; i < updates.length; i += IN_CHUNK) {
+    await db.batch(
+      updates.slice(i, i + IN_CHUNK).map((update) => ({
+        sql: `UPDATE jobs SET role_type = ? WHERE id = ?`,
+        args: [update.roleType, update.id],
+      })),
+      'write',
+    );
+  }
+}
+
+/** Listing fields of every job, enough to re-run the title-level filters and role typing. */
+export async function listJobsForRefilter(db: Db): Promise<JobSummary[]> {
+  const result = await db.execute(
+    `SELECT ${SUMMARY_COLUMNS} FROM jobs WHERE status IN ('new', 'filtered')`,
+  );
+  return result.rows.map(rowToSummary);
+}
+
+/** Puts a filtered job back into the queue; the next run fetches its description and scores it. */
+export async function reviveJob(db: Db, id: number): Promise<void> {
+  await db.execute({
+    sql: `UPDATE jobs SET status = 'new', filter_reason = NULL, filter_match = NULL,
+      describe_attempts = 0, updated_at = ? WHERE id = ? AND status = 'filtered'`,
+    args: [nowIso(), id],
   });
 }
 
@@ -484,6 +563,8 @@ export interface ValidatedScore {
   /** The model's fit before post-validation. */
   fitRaw: number;
   notes: string[];
+  /** Product + remote + at least one dream signal; decided in code. */
+  dream: boolean;
 }
 
 export async function saveScore(db: Db, id: number, validated: ValidatedScore): Promise<void> {
@@ -493,7 +574,7 @@ export async function saveScore(db: Db, id: number, validated: ValidatedScore): 
     sql: `UPDATE jobs SET
       fit = ?, fit_raw = ?, fit_notes = ?, summary = ?, matches = ?, gaps = ?, red_flags = ?,
       salary_llm = ?, remote = ?, seniority = ?, primary_stack = ?, location_type = ?,
-      scored_at = ?, score_error = NULL, updated_at = ?
+      company_type = ?, dream = ?, scored_at = ?, score_error = NULL, updated_at = ?
     WHERE id = ?`,
     args: [
       score.fit,
@@ -508,6 +589,8 @@ export async function saveScore(db: Db, id: number, validated: ValidatedScore): 
       score.seniority,
       score.primary_stack,
       score.location_type,
+      score.company_type,
+      Number(validated.dream),
       now,
       now,
       id,

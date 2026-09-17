@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { djinni } from '../../src/sources/djinni.ts';
+import { djinni, experienceYears } from '../../src/sources/djinni.ts';
 
 const PAGE_URL = 'https://djinni.co/jobs/?primary_keyword=JavaScript';
 const html = readFileSync(new URL('../fixtures/djinni-list.html', import.meta.url), 'utf8');
@@ -35,5 +35,22 @@ describe('djinni.parseListings', () => {
 
   it('never leaves a card without a description', () => {
     expect(jobs.every((job) => job.description && job.description.length > 100)).toBe(true);
+  });
+});
+
+describe('experienceYears', () => {
+  it('reads years in English and Ukrainian', () => {
+    expect(experienceYears('Full Remote · EU · 5 years of experience · English - B2')).toBe(5);
+    expect(experienceYears('Тільки віддалено · 3 роки досвіду · Upper-Intermediate')).toBe(3);
+    expect(experienceYears('Office · 1 рік досвіду')).toBe(1);
+    expect(experienceYears('Remote · No experience')).toBe(0);
+    expect(experienceYears('Remote · Без досвіду')).toBe(0);
+    expect(experienceYears('Remote · English - B2')).toBeNull();
+  });
+
+  it('is filled from the listing card', () => {
+    const jobs = djinni.parseListings(html, PAGE_URL);
+    expect(jobs.every((job) => job.experienceYears !== undefined)).toBe(true);
+    expect(jobs.some((job) => typeof job.experienceYears === 'number')).toBe(true);
   });
 });

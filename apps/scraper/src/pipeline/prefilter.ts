@@ -2,9 +2,11 @@ import { config } from '../config.ts';
 import {
   checkLocation,
   checkTitle,
+  isUkrainianPlace,
   DESCRIPTION_FILTERS,
   type LocationFlag,
 } from '../config/filters.ts';
+import { isBlacklistedCompany } from '../config/company-blacklist.ts';
 import { parseSalary, salaryMaxInUsd } from '../lib/parse-salary.ts';
 import type { DiscoveredJob } from '../sources/types.ts';
 
@@ -16,17 +18,36 @@ const DAY_MS = 24 * 60 * 60 * 1000;
  * Cheap, deterministic checks that run on the listing, before descriptions or LLM calls.
  * Returns the reason a job is skipped, or null. Unknown data never disqualifies.
  */
+/** The listing fields the title-level filters need; stored rows satisfy it too. */
+export type PrefilterInput = Pick<
+  DiscoveredJob,
+  'title' | 'company' | 'source' | 'postedAt' | 'salaryRaw' | 'remote' | 'location'
+> & { experienceYears?: number | null };
+
 export function prefilterReason(
-  job: DiscoveredJob,
+  job: PrefilterInput,
   options: PrefilterOptions = config.prefilter,
   now: Date = new Date(),
+  /** Rescoring stored jobs must not punish them for having aged in the database. */
+  checkAge = true,
 ): string | null {
+  if (isBlacklistedCompany(job.company)) return 'blacklisted company';
+
   const title = checkTitle(job.title);
   if (!title.ok) return title.reason;
 
-  if (job.postedAt) {
+  if (checkAge && job.postedAt) {
+    const maxAgeDays = options.maxAgeDaysBySource[job.source] ?? options.maxAgeDays;
     const ageDays = (now.getTime() - new Date(job.postedAt).getTime()) / DAY_MS;
-    if (ageDays > options.maxAgeDays) return `older than ${options.maxAgeDays} days`;
+    if (ageDays > maxAgeDays) return `older than ${maxAgeDays} days`;
+  }
+
+  if (
+    job.experienceYears !== undefined &&
+    job.experienceYears !== null &&
+    job.experienceYears < options.minExperienceYears
+  ) {
+    return `experience below ${options.minExperienceYears} years`;
   }
 
   const salary = parseSalary(job.salaryRaw);
@@ -76,7 +97,7 @@ export function descriptionVerdict(
   const isUkrainian =
     job.source === 'dou' ||
     job.source === 'djinni' ||
-    filters.ukraineSignal.test(`${job.location ?? ''} ${job.company ?? ''}`);
+    isUkrainianPlace(`${job.location ?? ''} ${job.company ?? ''}`);
   const floor = isUkrainian ? filters.salaryFloorUsd.ua : filters.salaryFloorUsd.eu;
 
   const mentions = description.match(SALARY_IN_TEXT) ?? [];

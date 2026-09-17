@@ -41,6 +41,8 @@ function jobToMarkdown(job: ExportJob, index: number, meta: ExportMeta): string 
   const facts: Array<[string, string | null]> = [
     ['fit', fitText(job)],
     ['location', [job.locationType, job.location].filter(Boolean).join(', ') || null],
+    ['role', job.roleType],
+    ['company type', job.companyType ? `${job.companyType}${job.dream ? ', dream' : ''}` : null],
     ['stack', job.primaryStack],
     ['seniority', job.seniority],
     ['salary', job.salaryRaw ?? job.salaryLlm],
@@ -84,6 +86,7 @@ export function formatMarkdown(jobs: ExportJob[], meta: ExportMeta): string {
       (meta.filters.length > 0 ? ` · filters: ${meta.filters.join(', ')}` : ''),
     'Legend: fit is 1-10 after code post-validation, "model said" is the raw LLM score. ' +
       'Location types: remote, remote_region_limited, hybrid, onsite, unclear. ' +
+      'Company type (product, outsource, agency, unknown) and dream never affect fit. ' +
       'Pipeline stages: replied, rejected, advancing, hr_interview, tech_interview, offer.',
   ];
   const body = jobs.map((job, index) => jobToMarkdown(job, index + 1, meta));
@@ -108,6 +111,9 @@ export function formatJsonl(jobs: ExportJob[], meta: ExportMeta): string {
           fitRaw: job.fitRaw,
           fitNotes: job.fitNotes,
           primaryStack: job.primaryStack,
+          roleType: job.roleType,
+          companyType: job.companyType,
+          dream: job.dream,
           seniority: job.seniority,
           summary: job.summary,
           matches: job.matches,

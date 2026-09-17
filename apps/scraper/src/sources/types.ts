@@ -3,6 +3,8 @@ import type { JobListing, SourceName } from '@bench-press/shared';
 /** A listing plus the description when the source ships it inline (RSS and JSON APIs do). */
 export interface DiscoveredJob extends JobListing {
   description: string | null;
+  /** Years of experience printed on the listing card, when the board shows it. */
+  experienceYears?: number | null;
 }
 
 export interface FetchOptions {

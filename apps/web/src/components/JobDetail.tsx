@@ -8,6 +8,7 @@ import { CoverLetterPanel } from './CoverLetterPanel.tsx';
 import { FitBadge } from './FitBadge.tsx';
 import { JobDescription } from './JobDescription.tsx';
 import { LocationBadge } from './LocationBadge.tsx';
+import { CompanyBadge, DreamBadge, RoleBadge } from './TypeBadges.tsx';
 
 interface Props {
   job: JobWithEvents;
@@ -83,7 +84,8 @@ export function JobDetail({ job, onJobChange }: Props) {
             </a>
           </h2>
           <p className="job-detail__meta">
-            <LocationBadge type={job.locationType} />{' '}
+            <DreamBadge dream={job.dream} /> <RoleBadge type={job.roleType} />{' '}
+            <LocationBadge type={job.locationType} /> <CompanyBadge type={job.companyType} />{' '}
             <button
               type="button"
               className="link-button"

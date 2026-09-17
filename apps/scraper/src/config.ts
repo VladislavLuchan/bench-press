@@ -14,33 +14,56 @@ export const config = {
 
   sources: {
     djinni: {
-      /** Valid primary_keyword values checked on the site: JavaScript, Fullstack, Node.js. */
-      keywords: ['JavaScript', 'Fullstack'],
-      params: 'exp_level=3y&exp_level=5y&employment=remote',
-      maxPages: 5,
+      /**
+       * Valid primary_keyword values, checked on the site: JavaScript, React.js, Fullstack,
+       * Node.js. Unknown values silently return every job. No exp_level filter: it matches
+       * the exact number of years, so "3y + 5y" drops 4, 6 and 7 year roles. Experience is
+       * read from the card and filtered in code instead.
+       */
+      searches: [
+        { keyword: 'JavaScript', maxPages: 5 },
+        { keyword: 'React.js', maxPages: 3 },
+        { keyword: 'Fullstack', maxPages: 2 },
+      ],
+      params: 'employment=remote',
       pageSize: 15,
     },
     linkedin: {
-      /** Guest search endpoint: no cookies, no session. Each query x location is one search. */
-      keywords: [
-        'react typescript',
-        'react electron',
-        'senior frontend engineer',
-        'frontend engineer react',
-        'fullstack react node',
-        'product engineer react',
+      /**
+       * Guest search endpoint: no cookies, no session. Each keyword x location is one search.
+       * Two pools keep the intake mostly front-end: the fullstack pool is small on purpose.
+       */
+      pools: [
+        {
+          name: 'frontend',
+          keywords: [
+            'senior frontend engineer',
+            'senior frontend developer',
+            'frontend engineer react',
+            'react typescript',
+            'react developer',
+            'frontend lead',
+            'react electron',
+            'product engineer react',
+          ],
+          locations: [
+            'Ukraine',
+            'European Union',
+            'Poland',
+            'Norway',
+            'Sweden',
+            'Denmark',
+            'Netherlands',
+            'Germany',
+          ],
+        },
+        {
+          name: 'fullstack',
+          keywords: ['fullstack react node', 'full-stack typescript'],
+          locations: ['Ukraine', 'European Union'],
+        },
       ],
-      locations: [
-        'Ukraine',
-        'European Union',
-        'Poland',
-        'Norway',
-        'Sweden',
-        'Denmark',
-        'Netherlands',
-        'Germany',
-      ],
-      maxPages: 4,
+      maxPages: 3,
       pageSize: 10,
     },
     dou: {
@@ -61,6 +84,10 @@ export const config = {
     /** Title rules live in config/filters.ts. */
     /** Listings older than this are skipped. */
     maxAgeDays: 7,
+    /** Boards where roles stay open for weeks and the card shows the first publish date. */
+    maxAgeDaysBySource: { djinni: 30 } as Partial<Record<string, number>>,
+    /** Roles asking for fewer years than this are junior/middle in practice. */
+    minExperienceYears: 3,
     /** Listings whose maximum salary is clearly below this (in USD) are skipped. */
     salaryFloorUsd: 3000,
     /** Location must mention one of these, unless the listing is marked remote. */
@@ -85,7 +112,7 @@ export const config = {
     /** Jobs per request; a bad batch answer falls back to one request per job. */
     batchSize: 5,
     /** Batches in flight at once. */
-    concurrency: 3,
+    concurrency: 4,
     perRunLimit: 100,
     /** Any OpenAI-compatible endpoint; the key comes from LLM_API_KEY. */
     baseUrl: 'https://openrouter.ai/api/v1',
@@ -105,7 +132,7 @@ export const config = {
 
   rescore: {
     /** Open jobs re-evaluated per rescore run, newest first. */
-    limit: 600,
+    limit: 1000,
   },
 } as const;
 

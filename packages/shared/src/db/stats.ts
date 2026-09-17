@@ -20,6 +20,10 @@ const STATS_QUERIES = {
     FROM jobs WHERE ${APPLIED} GROUP BY bucket ORDER BY fit DESC`,
   totals: `SELECT status, COUNT(*) AS count FROM jobs GROUP BY status`,
   appliedToday: `SELECT COUNT(*) AS count FROM jobs WHERE applied_at >= date('now')`,
+  byRoleType: `SELECT role_type AS bucket, COUNT(*) AS count FROM jobs
+    WHERE status = 'new' GROUP BY role_type ORDER BY count DESC`,
+  byCompanyType: `SELECT COALESCE(company_type, 'unscored') AS bucket, COUNT(*) AS count FROM jobs
+    WHERE status = 'new' GROUP BY bucket ORDER BY count DESC`,
 } as const;
 
 type StatsKey = keyof typeof STATS_QUERIES;
@@ -36,6 +40,13 @@ function toConversion(result: ResultSet): ConversionRow[] {
     bucket: text(row, 'bucket') ?? 'unknown',
     applied: integerRequired(row, 'applied'),
     replied: integerRequired(row, 'replied'),
+  }));
+}
+
+function toBuckets(result: ResultSet): Array<{ bucket: string; count: number }> {
+  return result.rows.map((row) => ({
+    bucket: text(row, 'bucket') ?? 'unknown',
+    count: integerRequired(row, 'count'),
   }));
 }
 
@@ -73,5 +84,7 @@ export async function getDashboardStats(db: Db): Promise<DashboardStats> {
     byFit: toConversion(resultFor('byFit')),
     totals: toTotals(resultFor('totals')),
     appliedToday: countOf(resultFor('appliedToday')),
+    byRoleType: toBuckets(resultFor('byRoleType')),
+    byCompanyType: toBuckets(resultFor('byCompanyType')),
   };
 }

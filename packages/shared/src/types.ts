@@ -60,7 +60,27 @@ export interface ScoreResult {
   /** One word: react, vue, angular, backend, other. Drives the post-validation fit cap. */
   primary_stack: string;
   location_type: LocationType;
+  /** What kind of employer this is. Reported for filtering; it never changes the fit. */
+  company_type: CompanyType;
+  /** Fullstack roles only: the posting says the front end is the core of the job. */
+  frontend_focused: boolean;
+  /** Required (not optional) backend specifics: Go, Java, Kotlin, Python, K8s, microservices... */
+  backend_heavy: boolean;
+  /** Minimum years of experience stated as required, or null when the posting gives none. */
+  years_required: number | null;
+  /** A required human language other than English or Ukrainian, or null. */
+  other_language_required: string | null;
+  /** The posting describes the project or product the person would work on. */
+  has_project_description: boolean;
+  /** Which of the candidate's "dream" criteria the posting clearly meets. */
+  dream_signals: string[];
 }
+
+export const ROLE_TYPES = ['frontend', 'fullstack', 'staff'] as const;
+export type RoleType = (typeof ROLE_TYPES)[number];
+
+export const COMPANY_TYPES = ['product', 'outsource', 'agency', 'unknown'] as const;
+export type CompanyType = (typeof COMPANY_TYPES)[number];
 
 export const LOCATION_TYPES = [
   'remote',
@@ -107,6 +127,11 @@ export interface Job {
   remote: boolean | null;
   seniority: string | null;
   primaryStack: string | null;
+  /** Derived from the title in code: staff/principal/architect, fullstack, otherwise frontend. */
+  roleType: RoleType;
+  companyType: CompanyType | null;
+  /** Product company, remote, and at least one dream signal. A badge, never part of fit. */
+  dream: boolean;
   locationType: LocationType | null;
   locationFlag: LocationFlag;
   scoredAt: string | null;
@@ -142,6 +167,8 @@ export interface NewJob extends JobListing {
   description: string | null;
   thinDescription: boolean;
   locationFlag: LocationFlag;
+  roleType: RoleType;
+  descriptionHash: string | null;
   status: Extract<JobStatus, 'new' | 'filtered'>;
   filterReason: string | null;
   filterMatch: string | null;
@@ -173,7 +200,7 @@ export interface RunStats {
   notified: number;
   tokens: { prompt: number; completion: number; estimatedUsd: number } | null;
   /** Set on rescore runs: how many stored verdicts changed. */
-  rescore?: { rescored: number; fitChanged: number; filtered: number };
+  rescore?: { rescored: number; fitChanged: number; filtered: number; revived: number };
 }
 
 export interface Run {
@@ -218,4 +245,7 @@ export interface DashboardStats {
   byFit: ConversionRow[];
   totals: StatusTotals;
   appliedToday: number;
+  /** Open (status new) jobs by role type and by company type. */
+  byRoleType: Array<{ bucket: string; count: number }>;
+  byCompanyType: Array<{ bucket: string; count: number }>;
 }

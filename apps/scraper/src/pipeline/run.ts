@@ -3,6 +3,7 @@ import {
   createChatClient,
   createDb,
   ensureSchema,
+  findDuplicateDescription,
   findExistingJobKeys,
   findJobsMissingDescription,
   findJobsToNotify,
@@ -12,16 +13,20 @@ import {
   getSetting,
   getSourceStates,
   insertJobs,
+  listJobsForRefilter,
   markFiltered,
   markNotified,
   markSourceBackoff,
   markSourceSuccess,
   recordDescribeFailure,
+  reviveJob,
   saveDescription,
   saveScore,
   saveScoreError,
+  setDescriptionHash,
   startRun,
   updateLocationFlag,
+  updateRoleTypes,
   type Db,
   type Job,
   type NewJob,
@@ -30,8 +35,10 @@ import {
   type SourceState,
 } from '@bench-press/shared';
 import { config } from '../config.ts';
+import { roleTypeOf } from '../config/filters.ts';
 import type { ScraperEnv } from '../env.ts';
 import { mapWithConcurrency } from '../lib/concurrency.ts';
+import { descriptionHash } from '../lib/description-hash.ts';
 import { BlockedError, type HttpClient } from '../lib/http.ts';
 import { errorMessage, log } from '../lib/logger.ts';
 import { fetchDescription, fetchListings } from '../sources/fetch.ts';
@@ -150,11 +157,24 @@ async function prepareNewJobs(
   }
   stats.unique = unique.length;
 
-  return unique.map((job) => {
+  // Same company, same description text under another title: keep the first copy only.
+  const seenDescriptions = new Set<string>();
+
+  const prepared: NewJob[] = [];
+  for (const job of unique) {
     let reason = prefilterReason(job);
     let match: string | null = null;
     let thin = false;
     let locationFlag: NewJob['locationFlag'] = 'none';
+    const hash = job.description ? descriptionHash(job.description) : null;
+    if (!reason && hash && job.company) {
+      const key = `${job.company.toLowerCase()}|${hash}`;
+      const duplicateOf =
+        seenDescriptions.has(key) ||
+        (db && (await findDuplicateDescription(db, { id: null, company: job.company, hash })));
+      if (duplicateOf) reason = 'duplicate description';
+      seenDescriptions.add(key);
+    }
     if (!reason) {
       // Without a description only the title and location field can be checked.
       const verdict = descriptionVerdict(job, job.description ?? '');
@@ -164,17 +184,20 @@ async function prepareNewJobs(
       locationFlag = verdict.locationFlag;
       if (reason) stats.descriptionFiltered++;
     }
-    return {
+    prepared.push({
       ...job,
       status: reason ? 'filtered' : 'new',
       filterReason: reason,
       filterMatch: match,
       // Filtered rows are kept only for dedupe; their description would be dead weight.
       description: reason ? null : job.description,
+      descriptionHash: reason ? null : hash,
       thinDescription: thin,
       locationFlag,
-    };
-  });
+      roleType: roleTypeOf(job.title),
+    });
+  }
+  return prepared;
 }
 
 function sourceByName(name: SourceName): Source {
@@ -202,9 +225,17 @@ async function describeJobs(db: Db, http: HttpClient, stats: RunStats): Promise<
         stats.descriptionFiltered++;
         continue;
       }
+      const hash = descriptionHash(description);
+      const duplicateOf = await findDuplicateDescription(db, { id: job.id, company: job.company, hash });
+      if (duplicateOf) {
+        await markFiltered(db, job.id, { reason: 'duplicate description', match: `job ${duplicateOf}` });
+        stats.descriptionFiltered++;
+        continue;
+      }
       await saveDescription(db, job.id, description, {
         thin: verdict.thin,
         locationFlag: verdict.locationFlag,
+        hash,
       });
       stats.described++;
     } catch (error) {
@@ -307,6 +338,20 @@ export interface RunOptions {
   backfill: boolean;
 }
 
+/** Reasons produced from the listing alone; description-based ones cannot be re-checked. */
+function isTitleLevelReason(reason: string | null): boolean {
+  return Boolean(reason) && !/^(on-site|description:|duplicate description)/.test(reason ?? '');
+}
+
+/** Whether a job filtered as too old would pass the current, per-source age limit. */
+function withinAge(job: { source: string; postedAt: string | null; firstSeenAt: string }): boolean {
+  if (!job.postedAt) return true;
+  const limit = config.prefilter.maxAgeDaysBySource[job.source] ?? config.prefilter.maxAgeDays;
+  const ageAtDiscovery =
+    (new Date(job.firstSeenAt).getTime() - new Date(job.postedAt).getTime()) / 86_400_000;
+  return ageAtDiscovery <= limit;
+}
+
 /**
  * Re-evaluates every open, described job under the current filters, prompt and
  * post-validation. Applied, replied and skipped jobs are never touched. Runs as its own
@@ -319,29 +364,67 @@ export async function rescoreAll(env: ScraperEnv): Promise<RunStats> {
   const runId = await startRun(db);
 
   try {
+    // 1. Title-level rules for every open or filtered row: role type, blacklist, language,
+    //    new exclude words. Rows that pass now but were filtered before go back to `new`
+    //    (their description is fetched by the next regular run). Age is not re-checked.
+    const listed = await listJobsForRefilter(db);
+    await updateRoleTypes(
+      db,
+      listed
+        .filter((job) => roleTypeOf(job.title) !== job.roleType)
+        .map((job) => ({ id: job.id, roleType: roleTypeOf(job.title) })),
+    );
+    let revived = 0;
+    const reasons = new Map<string, number>();
+    const count = (reason: string) => reasons.set(reason, (reasons.get(reason) ?? 0) + 1);
+    for (const job of listed) {
+      const reason = prefilterReason(job, config.prefilter, new Date(), false);
+      if (job.status === 'new' && reason) {
+        await markFiltered(db, job.id, { reason, match: null });
+        stats.filtered++;
+        count(reason.split('"')[0]!.trim());
+      } else if (job.status === 'filtered' && !reason && isTitleLevelReason(job.filterReason)) {
+        const fresh = !job.postedAt || !/^older than/.test(job.filterReason ?? '') || withinAge(job);
+        if (fresh) {
+          await reviveJob(db, job.id);
+          revived++;
+        }
+      }
+    }
+
+    // 2. Description-level rules and duplicates for open jobs, then the LLM.
     const jobs = await findJobsToRescore(db, config.rescore.limit);
     const previousFit = new Map(jobs.map((job) => [job.id, job.fit]));
     const toScore: Job[] = [];
+    const seenDescriptions = new Set<string>();
 
     for (const job of jobs) {
       const verdict = descriptionVerdict(job, job.description ?? '');
-      if (verdict.reason) {
-        await markFiltered(db, job.id, { reason: verdict.reason, match: verdict.match });
+      const hash = descriptionHash(job.description ?? '');
+      const key = `${(job.company ?? '').toLowerCase()}|${hash}`;
+      const duplicate = Boolean(job.company) && seenDescriptions.has(key);
+      seenDescriptions.add(key);
+      const reason = verdict.reason ?? (duplicate ? 'duplicate description' : null);
+      if (reason) {
+        await markFiltered(db, job.id, { reason, match: verdict.match });
         stats.descriptionFiltered++;
         stats.filtered++;
+        count(reason);
         continue;
       }
+      await setDescriptionHash(db, job.id, hash);
       if (verdict.locationFlag !== job.locationFlag) {
         await updateLocationFlag(db, job.id, verdict.locationFlag);
       }
-      toScore.push({ ...job, locationFlag: verdict.locationFlag });
+      toScore.push({ ...job, locationFlag: verdict.locationFlag, roleType: roleTypeOf(job.title) });
     }
+    log.info('Rescore refilter', { revived, filtered: stats.filtered, reasons: Object.fromEntries(reasons) });
 
     let fitChanged = 0;
     await scoreJobs(db, env, stats, toScore, (job, fit) => {
       if (previousFit.get(job.id) !== fit) fitChanged++;
     });
-    stats.rescore = { rescored: stats.scored, fitChanged, filtered: stats.filtered };
+    stats.rescore = { rescored: stats.scored, fitChanged, filtered: stats.filtered, revived };
     if (stats.tokens) log.info('Scoring usage', stats.tokens);
 
     await finishRun(db, runId, { stats, error: null });
@@ -372,6 +455,21 @@ export async function runPipeline({ http, env, dryRun, backfill }: RunOptions): 
       );
     }
     stats.filtered = prepared.filter((job) => job.status === 'filtered').length;
+    for (const source of sources) {
+      const own = prepared.filter((job) => job.source === source.name);
+      const reasons: Record<string, number> = {};
+      for (const job of own) {
+        if (!job.filterReason) continue;
+        const reason = job.filterReason.split('"')[0]!.trim();
+        reasons[reason] = (reasons[reason] ?? 0) + 1;
+      }
+      log.info(`Summary ${source.name}`, {
+        listed: stats.sources[source.name]?.listed ?? 0,
+        unique: own.length,
+        passed: own.filter((job) => job.status === 'new').length,
+        filteredBy: reasons,
+      });
+    }
     logStage('dry run finished', stats);
     return stats;
   }

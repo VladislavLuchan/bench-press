@@ -89,6 +89,8 @@ function toParams(query: JobsQuery): URLSearchParams {
   for (const [key, value] of Object.entries(query)) {
     if (Array.isArray(value)) {
       if (value.length > 0) params.set(key, value.join(','));
+    } else if (typeof value === 'boolean') {
+      if (value) params.set(key, '1');
     } else if (value !== undefined && value !== '') {
       params.set(key, String(value));
     }
@@ -116,6 +118,10 @@ export interface JobsQuery {
   since?: string;
   /** Location types to show; `unscored` means jobs without a verdict yet. */
   locationType?: string[];
+  roleType?: string[];
+  /** Company types to show; empty means all. */
+  companyType?: string[];
+  dream?: boolean;
   sort?: 'fit' | 'date';
 }
 

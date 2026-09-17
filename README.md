@@ -34,6 +34,8 @@ Pipeline, in order:
    `apps/scraper/src/config/filters.ts` (must match, must not match, outsourcing ids);
    then age, listed salary and location. Filtered jobs are stored with the reason and shown
    on the dashboard's Filtered tab, so the regexes can be tuned against real misses.
+   The same stage drops blacklisted companies (`config/company-blacklist.ts`), titles in other
+   languages, cards asking for under three years, and reposts of one description by one company.
 4. **Insert** new jobs first, score later. If scoring fails mid-run nothing is lost; the next
    run picks up unscored rows.
 5. **Describe**: fetch the full description where the listing did not include it, then
@@ -45,6 +47,9 @@ Pipeline, in order:
    answer falls back to one request per job. Code has the last word: on-site roles are
    capped at 2, hybrid and region-limited remote at 4, off-stack roles at 4, and "nice to
    have" items are struck from the gaps. The model's raw fit is kept next to the final one.
+   Fit means "does the job suit me and can I take it". The model reports facts (company type,
+   front-end focus, required years and languages) and code applies every penalty and cap once.
+   Company type and the dream flag are shown as badges and never change the fit.
    Token usage and an estimated cost are logged per run.
 7. **Notify** on Telegram for `fit >= 7`, once per job.
 

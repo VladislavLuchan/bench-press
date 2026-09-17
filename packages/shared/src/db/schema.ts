@@ -87,4 +87,8 @@ export const COLUMN_MIGRATIONS: ReadonlyArray<{ table: string; column: string; d
   { table: 'jobs', column: 'stage', ddl: 'stage TEXT' },
   { table: 'jobs', column: 'stage_updated_at', ddl: 'stage_updated_at TEXT' },
   { table: 'jobs', column: 'notes', ddl: 'notes TEXT' },
+  { table: 'jobs', column: 'role_type', ddl: "role_type TEXT NOT NULL DEFAULT 'frontend'" },
+  { table: 'jobs', column: 'company_type', ddl: 'company_type TEXT' },
+  { table: 'jobs', column: 'dream', ddl: 'dream INTEGER NOT NULL DEFAULT 0' },
+  { table: 'jobs', column: 'description_hash', ddl: 'description_hash TEXT' },
 ];

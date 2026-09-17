@@ -1,4 +1,10 @@
-import { JOB_STATUSES, LOCATION_TYPES, SOURCE_NAMES } from '@bench-press/shared/types';
+import {
+  COMPANY_TYPES,
+  JOB_STATUSES,
+  LOCATION_TYPES,
+  ROLE_TYPES,
+  SOURCE_NAMES,
+} from '@bench-press/shared/types';
 import type { JobsQuery } from '../api/client.ts';
 
 interface Props {
@@ -21,6 +27,12 @@ const LOCATION_LABELS: Record<(typeof LOCATION_OPTIONS)[number], string> = {
 export function JobFilters({ query, onChange, lockStatus = false }: Props) {
   const update = (patch: Partial<JobsQuery>) => onChange({ ...query, ...patch });
   const locations = query.locationType ?? [];
+  const roles = query.roleType ?? [];
+  const companies = query.companyType ?? [];
+  const toggle = (key: 'roleType' | 'companyType', type: string) => {
+    const current = query[key] ?? [];
+    update({ [key]: current.includes(type) ? current.filter((item) => item !== type) : [...current, type] });
+  };
   const toggleLocation = (type: string) =>
     update({
       locationType: locations.includes(type)
@@ -83,6 +95,40 @@ export function JobFilters({ query, onChange, lockStatus = false }: Props) {
           onChange={(event) => update({ since: event.target.value || undefined })}
         />
       </label>
+      {!lockStatus && (
+        <fieldset className="field field--inline filters__locations">
+          <legend className="field__label">Role</legend>
+          {ROLE_TYPES.map((type) => (
+            <label key={type} className={`chip ${roles.includes(type) ? 'chip--on' : ''}`}>
+              <input type="checkbox" checked={roles.includes(type)} onChange={() => toggle('roleType', type)} />
+              {type}
+            </label>
+          ))}
+        </fieldset>
+      )}
+      {!lockStatus && (
+        <fieldset className="field field--inline filters__locations">
+          <legend className="field__label">Company</legend>
+          {COMPANY_TYPES.map((type) => (
+            <label key={type} className={`chip ${companies.includes(type) ? 'chip--on' : ''}`}>
+              <input
+                type="checkbox"
+                checked={companies.includes(type)}
+                onChange={() => toggle('companyType', type)}
+              />
+              {type}
+            </label>
+          ))}
+          <label className={`chip ${query.dream ? 'chip--on' : ''}`} title="Remote product companies with a special match">
+            <input
+              type="checkbox"
+              checked={Boolean(query.dream)}
+              onChange={() => update({ dream: !query.dream })}
+            />
+            ⭐ dream only
+          </label>
+        </fieldset>
+      )}
       {!lockStatus && (
         <fieldset className="field field--inline filters__locations">
           <legend className="field__label">Location</legend>

@@ -6,6 +6,13 @@ import type { DiscoveredJob, Search, Source } from './types.ts';
 
 const REMOTE = /remote|віддалено|дистанційно/i;
 
+/** "5 років досвіду", "3 years of experience", "No experience" / "Без досвіду" -> years. */
+export function experienceYears(conditions: string): number | null {
+  if (/no experience|без досвіду/i.test(conditions)) return 0;
+  const match = conditions.match(/(\d+)\s*(?:years?|рік|роки|років)/i);
+  return match ? Number(match[1]) : null;
+}
+
 /**
  * Djinni public listing pages. No login needed. The listing card already carries the full
  * description (hidden behind "More"), so a detail fetch is only a fallback.
@@ -15,8 +22,8 @@ export const djinni: Source = {
   name: 'djinni',
 
   searches() {
-    const { keywords, params, maxPages, pageSize } = config.sources.djinni;
-    return keywords.map((keyword): Search => ({
+    const { searches, params, pageSize } = config.sources.djinni;
+    return searches.map(({ keyword, maxPages }): Search => ({
       name: keyword,
       maxPages,
       pageSize,
@@ -58,6 +65,7 @@ export const djinni: Source = {
         postedAt: parseDate(dateText),
         remote: REMOTE.test(conditions) ? true : null,
         description: descriptionHtml ? htmlToText(descriptionHtml) || null : null,
+        experienceYears: experienceYears(conditions),
       });
     });
 

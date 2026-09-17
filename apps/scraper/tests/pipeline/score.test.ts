@@ -21,6 +21,13 @@ const valid: ScoreResult = {
   seniority: 'senior',
   primary_stack: 'react',
   location_type: 'remote',
+  company_type: 'product',
+  frontend_focused: true,
+  backend_heavy: false,
+  years_required: 5,
+  other_language_required: null,
+  has_project_description: true,
+  dream_signals: [],
 };
 
 const job = (title: string): ScorableJob => ({
@@ -31,6 +38,7 @@ const job = (title: string): ScorableJob => ({
   source: 'djinni',
   description: 'React',
   locationFlag: 'none',
+  roleType: 'frontend',
 });
 
 function chatWith(answers: string[]): ChatClient & { calls: number } {
@@ -73,7 +81,7 @@ describe('parseScoreJson', () => {
 
 describe('postValidate', () => {
   it('leaves a clean remote react verdict alone', () => {
-    expect(postValidate(valid)).toEqual({ score: valid, fitRaw: 8, notes: [] });
+    expect(postValidate(valid)).toEqual({ score: valid, fitRaw: 8, notes: [], dream: false });
   });
 
   it('caps by location type', () => {
@@ -123,13 +131,78 @@ describe('postValidate', () => {
   });
 
   it('flags a remote verdict when the regex saw a hub, and unclear locations', () => {
-    expect(postValidate(valid, 'soft').score.red_flags).toEqual([
+    expect(postValidate(valid, { locationFlag: 'soft' }).score.red_flags).toEqual([
       'verify location (hub mentioned)',
     ]);
     expect(postValidate({ ...valid, location_type: 'unclear' }).score.red_flags).toEqual([
       'location unclear',
     ]);
     expect(postValidate({ ...valid, location_type: 'unclear' }).score.fit).toBe(8);
+  });
+});
+
+describe('postValidate: role, company and accuracy rules', () => {
+  it('never moves fit for the company type itself', () => {
+    for (const company_type of ['product', 'outsource', 'unknown'] as const) {
+      expect(postValidate({ ...valid, company_type }).score.fit).toBe(8);
+    }
+    expect(postValidate({ ...valid, company_type: 'agency' }).score.fit).toBe(8);
+  });
+
+  it('takes one point from an agency that describes no project', () => {
+    const result = postValidate({ ...valid, company_type: 'agency', has_project_description: false });
+    expect(result.score.fit).toBe(7);
+    expect(result.notes).toEqual(['-1: recruiting agency without any project description']);
+  });
+
+  it('takes one point from fullstack roles without a front-end focus', () => {
+    const context = { roleType: 'fullstack' as const };
+    expect(postValidate({ ...valid, frontend_focused: false }, context).score.fit).toBe(7);
+    expect(postValidate({ ...valid, frontend_focused: true }, context).score.fit).toBe(8);
+    expect(postValidate({ ...valid, frontend_focused: false }).score.fit).toBe(8);
+  });
+
+  it('caps backend-heavy fullstack roles at 5', () => {
+    const result = postValidate({ ...valid, backend_heavy: true }, { roleType: 'fullstack' });
+    expect(result.score.fit).toBe(5);
+  });
+
+  it('caps staff-level roles at 6 unless 5 years or less is stated', () => {
+    const context = { roleType: 'staff' as const };
+    expect(postValidate({ ...valid, fit: 9, years_required: 8 }, context).score.fit).toBe(6);
+    expect(postValidate({ ...valid, fit: 9, years_required: null }, context).score.fit).toBe(6);
+    expect(postValidate({ ...valid, fit: 9, years_required: 5 }, context).score.fit).toBe(9);
+  });
+
+  it('caps roles that require another language at 3', () => {
+    const result = postValidate({ ...valid, other_language_required: 'German' });
+    expect(result.score.fit).toBe(3);
+    expect(result.notes).toEqual(['capped at 3: requires German']);
+  });
+
+  it('turns a one-country listing into region-limited remote, capped at 5', () => {
+    const result = postValidate(valid, { residencyLikely: true });
+    expect(result.score).toMatchObject({ fit: 5, location_type: 'remote_region_limited' });
+    expect(result.score.red_flags).toContain('residency likely required');
+    expect(postValidate({ ...valid, location_type: 'onsite' }, { residencyLikely: true }).score.fit).toBe(2);
+  });
+
+  it('drops gaps the candidate meets and degrees without changing fit', () => {
+    const result = postValidate({
+      ...valid,
+      gaps: ['5+ years required, candidate has 6', "Bachelor's degree in CS", 'GraphQL in production'],
+    });
+    expect(result.score.gaps).toEqual(['GraphQL in production']);
+    expect(result.score.fit).toBe(8);
+    expect(result.notes).toEqual([]);
+  });
+
+  it('marks dream only for remote product roles with a signal', () => {
+    const signals = { ...valid, dream_signals: ['electron'] };
+    expect(postValidate(signals).dream).toBe(true);
+    expect(postValidate({ ...signals, company_type: 'outsource' }).dream).toBe(false);
+    expect(postValidate({ ...signals, location_type: 'hybrid' }).dream).toBe(false);
+    expect(postValidate(valid).dream).toBe(false);
   });
 });
 
@@ -172,7 +245,7 @@ describe('scoreBatch', () => {
       'garbage',
     ]);
     const outcomes = await scoreBatch([job('A'), job('B')], 'system', chat);
-    expect(outcomes[0]).toEqual({ ok: true, score: { score: valid, fitRaw: 8, notes: [] } });
+    expect(outcomes[0]).toEqual({ ok: true, score: { score: valid, fitRaw: 8, notes: [], dream: false } });
     expect(outcomes[1]?.ok).toBe(false);
     expect(chat.calls).toBe(4);
   });

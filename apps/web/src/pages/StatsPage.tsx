@@ -52,6 +52,19 @@ function Conversion({ title, rows }: { title: string; rows: ConversionRow[] }) {
   );
 }
 
+function Distribution({ title, rows }: { title: string; rows: Array<{ bucket: string; count: number }> }) {
+  const total = rows.reduce((sum, row) => sum + row.count, 0);
+  return (
+    <BarChart
+      title={title}
+      data={rows.map((row) => ({
+        day: `${row.bucket} ${total ? Math.round((row.count / total) * 100) : 0}%`,
+        count: row.count,
+      }))}
+    />
+  );
+}
+
 export function StatsPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [runs, setRuns] = useState<Run[]>([]);
@@ -84,6 +97,8 @@ export function StatsPage() {
         <BarChart title="Applications per week (12w)" data={stats.appliedPerWeek} />
         <Conversion title="Replies by source" rows={stats.bySource} />
         <Conversion title="Replies by fit" rows={stats.byFit} />
+        <Distribution title="Open jobs by role type" rows={stats.byRoleType} />
+        <Distribution title="Open jobs by company type" rows={stats.byCompanyType} />
       </div>
       <RunsHealth runs={runs} />
     </div>

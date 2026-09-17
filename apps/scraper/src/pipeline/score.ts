@@ -5,11 +5,13 @@ import {
   type ChatClient,
   type Job,
   type LocationFlag,
+  type RoleType,
   type ScoreResult,
   type TokenUsage,
   type ValidatedScore,
 } from '@bench-press/shared';
 import { config } from '../config.ts';
+import { residencyLikely } from '../config/filters.ts';
 import { errorMessage } from '../lib/logger.ts';
 
 const PROMPT_PATH = new URL('../prompts/score.md', import.meta.url);
@@ -35,8 +37,23 @@ export async function loadScorePrompt(profile: string, guidance: string | null):
 
 export type ScorableJob = Pick<
   Job,
-  'title' | 'company' | 'location' | 'salaryRaw' | 'source' | 'description' | 'locationFlag'
+  | 'title'
+  | 'company'
+  | 'location'
+  | 'salaryRaw'
+  | 'source'
+  | 'description'
+  | 'locationFlag'
+  | 'roleType'
 >;
+
+function contextOf(job: ScorableJob): ValidationContext {
+  return {
+    locationFlag: job.locationFlag,
+    roleType: job.roleType,
+    residencyLikely: residencyLikely(job.location, job.description),
+  };
+}
 
 export function formatJobForScoring(job: ScorableJob): string {
   return [
@@ -58,45 +75,102 @@ function extractJson(raw: string): unknown {
   return JSON.parse(raw.slice(start, end + 1));
 }
 
+export interface ValidationContext {
+  /** What the location regexes saw in the text. */
+  locationFlag?: LocationFlag;
+  /** Role breadth derived from the title. */
+  roleType?: RoleType;
+  /** One specific non-Ukrainian country in the listing and no "remote from anywhere" wording. */
+  residencyLikely?: boolean;
+}
+
+/** "Gaps" that are not gaps: things the candidate already meets, and degrees. */
+const NON_GAP = /candidate has|degree|bachelor|master/i;
+const STAFF_MAX_FIT = 6;
+const STAFF_OK_YEARS = 5;
+const BACKEND_HEAVY_MAX_FIT = 5;
+const OTHER_LANGUAGE_MAX_FIT = 3;
+const RESIDENCY_MAX_FIT = 5;
+
 /**
- * Code has the last word over the model. Optional "gaps" are removed first (with a bonus
- * per removal), then the hard caps for location and stack apply, so a bonus can never lift
- * a job above a cap. Every change is recorded so the dashboard can show "7 -> 4" and why.
+ * Code has the last word over the model. The model reports facts (company type, whether a
+ * fullstack role is front-end focused, required years and languages); every bonus, penalty
+ * and cap is applied here, once, in a fixed order: gap clean-up and bonuses, then one-point
+ * penalties, then caps, so nothing can lift a job above a cap. Each change is recorded so
+ * the dashboard can show "7 -> 4" and why. Company type never changes the fit, with one
+ * exception: a recruiting agency that does not even describe the project.
  */
-export function postValidate(
-  raw: ScoreResult,
-  locationFlag: LocationFlag = 'none',
-): ValidatedScore {
+export function postValidate(raw: ScoreResult, context: ValidationContext = {}): ValidatedScore {
+  const { locationFlag = 'none', roleType = 'frontend', residencyLikely = false } = context;
   const notes: string[] = [];
   let fit = raw.fit;
 
-  const gaps = raw.gaps.filter((gap) => !OPTIONAL_GAP.test(gap));
-  const removed = raw.gaps.length - gaps.length;
+  const realGaps = raw.gaps.filter((gap) => !NON_GAP.test(gap));
+  const gaps = realGaps.filter((gap) => !OPTIONAL_GAP.test(gap));
+  const removed = realGaps.length - gaps.length;
   if (removed > 0) {
     const bonus = Math.min(MAX_FIT_AFTER_BONUS, fit + removed) - fit;
     if (bonus > 0) notes.push(`+${bonus}: ${removed} optional requirement(s) removed from gaps`);
     fit += bonus;
   }
 
-  const locationCap = LOCATION_MAX_FIT[raw.location_type];
-  if (locationCap !== undefined && fit > locationCap) {
-    notes.push(`capped at ${locationCap}: location is ${raw.location_type}`);
-    fit = locationCap;
+  const penalty = (reason: string) => {
+    if (fit <= 1) return;
+    fit -= 1;
+    notes.push(`-1: ${reason}`);
+  };
+  if (roleType === 'fullstack' && !raw.frontend_focused) {
+    penalty('fullstack role without a stated front-end focus');
   }
-  if (!CORE_STACKS.has(raw.primary_stack) && fit > OFF_STACK_MAX_FIT) {
-    notes.push(`capped at ${OFF_STACK_MAX_FIT}: primary stack is ${raw.primary_stack}`);
-    fit = OFF_STACK_MAX_FIT;
+  if (raw.company_type === 'agency' && !raw.has_project_description) {
+    penalty('recruiting agency without any project description');
   }
 
+  const cap = (max: number, reason: string) => {
+    if (fit <= max) return;
+    fit = max;
+    notes.push(`capped at ${max}: ${reason}`);
+  };
+
+  let locationType = raw.location_type;
   const redFlags = [...raw.red_flags];
-  if (locationFlag === 'soft' && raw.location_type === 'remote') {
+  if (residencyLikely && (locationType === 'remote' || locationType === 'unclear')) {
+    locationType = 'remote_region_limited';
+    redFlags.push('residency likely required');
+    cap(RESIDENCY_MAX_FIT, 'listing names one country and never says remote from elsewhere');
+  } else {
+    const locationCap = LOCATION_MAX_FIT[locationType];
+    if (locationCap !== undefined) cap(locationCap, `location is ${locationType}`);
+  }
+  if (!CORE_STACKS.has(raw.primary_stack)) {
+    cap(OFF_STACK_MAX_FIT, `primary stack is ${raw.primary_stack}`);
+  }
+  if (roleType === 'fullstack' && raw.backend_heavy) {
+    cap(BACKEND_HEAVY_MAX_FIT, 'fullstack role with required backend specifics');
+  }
+  if (roleType === 'staff' && !(raw.years_required !== null && raw.years_required <= STAFF_OK_YEARS)) {
+    cap(STAFF_MAX_FIT, 'staff/principal/architect level without a stated 5 years or less');
+  }
+  if (raw.other_language_required) {
+    cap(OTHER_LANGUAGE_MAX_FIT, `requires ${raw.other_language_required}`);
+  }
+
+  if (locationFlag === 'soft' && locationType === 'remote') {
     redFlags.push('verify location (hub mentioned)');
   }
-  if (raw.location_type === 'unclear' && !redFlags.some((flag) => /location unclear/i.test(flag))) {
+  if (locationType === 'unclear' && !redFlags.some((flag) => /location unclear/i.test(flag))) {
     redFlags.push('location unclear');
   }
 
-  return { score: { ...raw, fit, gaps, red_flags: redFlags }, fitRaw: raw.fit, notes };
+  const dream =
+    raw.company_type === 'product' && locationType === 'remote' && raw.dream_signals.length > 0;
+
+  return {
+    score: { ...raw, fit, gaps, red_flags: redFlags, location_type: locationType },
+    fitRaw: raw.fit,
+    notes,
+    dream,
+  };
 }
 
 /** Parses a single-job answer, tolerating stray prose or code fences around the JSON. */
@@ -180,10 +254,10 @@ export async function scoreBatch(
       maxTokens: 1024 * jobs.length,
     });
     meter?.add(completion.usage);
-    return parseScoreBatchJson(completion.text, jobs.length).map((raw, index) => ({
-      ok: true,
-      score: postValidate(raw, jobs[index]?.locationFlag),
-    }));
+    return parseScoreBatchJson(completion.text, jobs.length).map((raw, index) => {
+      const job = jobs[index];
+      return { ok: true, score: postValidate(raw, job ? contextOf(job) : {}) };
+    });
   } catch {
     const results: BatchOutcome[] = [];
     for (const job of jobs) results.push(await scoreOne(job, systemPrompt, chat, meter));
@@ -199,7 +273,7 @@ async function scoreOne(
 ): Promise<BatchOutcome> {
   try {
     const raw = await scoreJob(job, systemPrompt, chat, config.scoring.maxRetries, meter);
-    return { ok: true, score: postValidate(raw, job.locationFlag) };
+    return { ok: true, score: postValidate(raw, contextOf(job)) };
   } catch (error) {
     return { ok: false, error: errorMessage(error) };
   }
