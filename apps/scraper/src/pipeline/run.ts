@@ -385,7 +385,10 @@ export async function rescoreAll(env: ScraperEnv): Promise<RunStats> {
     const reasons = new Map<string, number>();
     const count = (reason: string) => reasons.set(reason, (reasons.get(reason) ?? 0) + 1);
     for (const job of listed) {
-      const reason = prefilterReason(job, config.prefilter, new Date(), false);
+      // Older versions let the model overwrite `remote`, so for scored rows the column no
+      // longer says what the listing said; the listing-level location rule is skipped there.
+      const listing = job.scoredAt ? { ...job, remote: true } : job;
+      const reason = prefilterReason(listing, config.prefilter, new Date(), false);
       if (job.status === 'new' && reason) {
         await markFiltered(db, job.id, { reason, match: null });
         stats.filtered++;

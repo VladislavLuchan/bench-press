@@ -573,7 +573,7 @@ export async function saveScore(db: Db, id: number, validated: ValidatedScore): 
   await db.execute({
     sql: `UPDATE jobs SET
       fit = ?, fit_raw = ?, fit_notes = ?, summary = ?, matches = ?, gaps = ?, red_flags = ?,
-      salary_llm = ?, remote = ?, seniority = ?, primary_stack = ?, location_type = ?,
+      salary_llm = ?, seniority = ?, primary_stack = ?, location_type = ?,
       company_type = ?, dream = ?, scored_at = ?, score_error = NULL, updated_at = ?
     WHERE id = ?`,
     args: [
@@ -585,7 +585,6 @@ export async function saveScore(db: Db, id: number, validated: ValidatedScore): 
       JSON.stringify(score.gaps),
       JSON.stringify(score.red_flags),
       score.salary,
-      Number(score.remote),
       score.seniority,
       score.primary_stack,
       score.location_type,

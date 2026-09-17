@@ -222,7 +222,11 @@ export async function scoreJob(
   let lastError: unknown;
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const completion = await chat.complete(systemPrompt, user, { json: true });
+      const completion = await chat.complete(systemPrompt, user, {
+        json: true,
+        maxTokens: config.scoring.maxTokensPerJob + config.scoring.reasoningHeadroomTokens,
+        reasoningEffort: 'low',
+      });
       meter?.add(completion.usage);
       return parseScoreJson(completion.text);
     } catch (error) {
@@ -254,7 +258,9 @@ export async function scoreBatch(
   try {
     const completion = await chat.complete(systemPrompt, user, {
       json: true,
-      maxTokens: 1024 * jobs.length,
+      maxTokens:
+        config.scoring.maxTokensPerJob * jobs.length + config.scoring.reasoningHeadroomTokens,
+      reasoningEffort: 'low',
     });
     meter?.add(completion.usage);
     return parseScoreBatchJson(completion.text, jobs.length).map((raw, index) => {

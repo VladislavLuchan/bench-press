@@ -11,6 +11,11 @@ export interface CompletionOptions {
   json?: boolean;
   maxTokens?: number;
   temperature?: number;
+  /**
+   * Reasoning effort for models that think before answering. Their reasoning counts against
+   * max_tokens, so a tight limit yields an empty answer. Ignored by non-reasoning models.
+   */
+  reasoningEffort?: 'low' | 'medium' | 'high';
 }
 
 export interface TokenUsage {
@@ -62,6 +67,9 @@ export function createChatClient(options: ChatClientOptions): ChatClient {
             { role: 'user', content: user },
           ],
           ...(completion.json ? { response_format: { type: 'json_object' } } : {}),
+          ...(completion.reasoningEffort
+            ? { reasoning: { effort: completion.reasoningEffort, exclude: true } }
+            : {}),
           temperature: completion.temperature ?? 0,
           max_tokens: completion.maxTokens ?? 1024,
         }),

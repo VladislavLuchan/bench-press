@@ -112,8 +112,11 @@ export const config = {
     /** Jobs per request; a bad batch answer falls back to one request per job. */
     batchSize: 5,
     /** Batches in flight at once. */
-    concurrency: 4,
+    concurrency: 6,
     perRunLimit: 100,
+    /** Output budget: the JSON verdict per job, plus room for a reasoning model to think. */
+    maxTokensPerJob: 900,
+    reasoningHeadroomTokens: 4000,
     /** Any OpenAI-compatible endpoint; the key comes from LLM_API_KEY. */
     baseUrl: 'https://openrouter.ai/api/v1',
     /**
