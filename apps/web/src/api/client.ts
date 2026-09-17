@@ -137,7 +137,8 @@ export const JOBS_CHANGED_EVENT = 'bench-press:jobs-changed';
 
 export const api = {
   async export(options: ExportOptions): Promise<ExportFile> {
-    const params = options.scope === 'jobs' && options.query ? toParams(options.query) : new URLSearchParams();
+    const params =
+      options.scope === 'jobs' && options.query ? toParams(options.query) : new URLSearchParams();
     params.set('scope', options.scope);
     params.set('format', options.format);
     params.set('description', options.description ? '1' : '0');

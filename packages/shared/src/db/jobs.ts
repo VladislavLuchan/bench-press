@@ -350,7 +350,10 @@ export async function listPipelineJobsFull(db: Db): Promise<Job[]> {
 }
 
 /** Change history for many jobs at once, grouped by job id and ordered oldest first. */
-export async function listEventsForJobs(db: Db, jobIds: number[]): Promise<Map<number, JobEvent[]>> {
+export async function listEventsForJobs(
+  db: Db,
+  jobIds: number[],
+): Promise<Map<number, JobEvent[]>> {
   const events = new Map<number, JobEvent[]>();
   for (let i = 0; i < jobIds.length; i += IN_CHUNK) {
     const chunk = jobIds.slice(i, i + IN_CHUNK);

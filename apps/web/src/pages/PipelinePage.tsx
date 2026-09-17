@@ -124,77 +124,77 @@ export function PipelinePage() {
         <ExportMenu scope="pipeline" />
       </div>
       <div className="board">
-      {COLUMNS.map((column, columnIndex) => {
-        const cards = jobs.filter((job) => columnOf(job) === column);
-        return (
-          <section
-            key={column}
-            className={`board__column board__column--${column}`}
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={onDrop(column)}
-          >
-            <h2 className="board__title">
-              {COLUMN_LABELS[column]} <span className="board__count">{cards.length}</span>
-            </h2>
-            {loading && cards.length === 0 && <p className="board__empty">Loading…</p>}
-            {!loading && cards.length === 0 && <p className="board__empty">Empty</p>}
-            {cards.map((job) => (
-              <article
-                key={job.id}
-                className={`board__card ${job.id === focusedId ? 'board__card--focused' : ''}`}
-                data-job-id={job.id}
-                draggable
-                onClick={() => setFocusedId(job.id)}
-                onDragStart={(event) => {
-                  event.dataTransfer.setData('text/plain', String(job.id));
-                  setDragging(job.id);
-                }}
-              >
-                <div className="board__card-head">
-                  <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
-                  <a className="board__card-title" href={`#/jobs/${job.id}`} title="Open details">
-                    {job.title}
-                  </a>
-                </div>
-                <p className="board__card-meta">
-                  {job.company ?? 'unknown company'} · {job.source}
-                  {job.appliedAt && ` · applied ${formatDate(job.appliedAt)}`}
-                  {job.stageUpdatedAt && ` · moved ${formatDate(job.stageUpdatedAt)}`}
-                </p>
-                {job.notes && <p className="board__card-notes">{job.notes.slice(0, 140)}</p>}
-                <div className="board__card-actions">
-                  <button
-                    type="button"
-                    className="btn btn--ghost btn--small"
-                    disabled={columnIndex === 0}
-                    title="Move left"
-                    onClick={() => void move(job.id, COLUMNS[columnIndex - 1] as Column)}
-                  >
-                    ◀
-                  </button>
-                  <a
-                    className="btn btn--ghost btn--small"
-                    href={job.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Open
-                  </a>
-                  <button
-                    type="button"
-                    className="btn btn--ghost btn--small"
-                    disabled={columnIndex === COLUMNS.length - 1}
-                    title="Move right"
-                    onClick={() => void move(job.id, COLUMNS[columnIndex + 1] as Column)}
-                  >
-                    ▶
-                  </button>
-                </div>
-              </article>
-            ))}
-          </section>
-        );
-      })}
+        {COLUMNS.map((column, columnIndex) => {
+          const cards = jobs.filter((job) => columnOf(job) === column);
+          return (
+            <section
+              key={column}
+              className={`board__column board__column--${column}`}
+              onDragOver={(event) => event.preventDefault()}
+              onDrop={onDrop(column)}
+            >
+              <h2 className="board__title">
+                {COLUMN_LABELS[column]} <span className="board__count">{cards.length}</span>
+              </h2>
+              {loading && cards.length === 0 && <p className="board__empty">Loading…</p>}
+              {!loading && cards.length === 0 && <p className="board__empty">Empty</p>}
+              {cards.map((job) => (
+                <article
+                  key={job.id}
+                  className={`board__card ${job.id === focusedId ? 'board__card--focused' : ''}`}
+                  data-job-id={job.id}
+                  draggable
+                  onClick={() => setFocusedId(job.id)}
+                  onDragStart={(event) => {
+                    event.dataTransfer.setData('text/plain', String(job.id));
+                    setDragging(job.id);
+                  }}
+                >
+                  <div className="board__card-head">
+                    <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
+                    <a className="board__card-title" href={`#/jobs/${job.id}`} title="Open details">
+                      {job.title}
+                    </a>
+                  </div>
+                  <p className="board__card-meta">
+                    {job.company ?? 'unknown company'} · {job.source}
+                    {job.appliedAt && ` · applied ${formatDate(job.appliedAt)}`}
+                    {job.stageUpdatedAt && ` · moved ${formatDate(job.stageUpdatedAt)}`}
+                  </p>
+                  {job.notes && <p className="board__card-notes">{job.notes.slice(0, 140)}</p>}
+                  <div className="board__card-actions">
+                    <button
+                      type="button"
+                      className="btn btn--ghost btn--small"
+                      disabled={columnIndex === 0}
+                      title="Move left"
+                      onClick={() => void move(job.id, COLUMNS[columnIndex - 1] as Column)}
+                    >
+                      ◀
+                    </button>
+                    <a
+                      className="btn btn--ghost btn--small"
+                      href={job.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open
+                    </a>
+                    <button
+                      type="button"
+                      className="btn btn--ghost btn--small"
+                      disabled={columnIndex === COLUMNS.length - 1}
+                      title="Move right"
+                      onClick={() => void move(job.id, COLUMNS[columnIndex + 1] as Column)}
+                    >
+                      ▶
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </section>
+          );
+        })}
       </div>
     </div>
   );

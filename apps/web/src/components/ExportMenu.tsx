@@ -34,7 +34,11 @@ export function ExportMenu({ scope, query }: Props) {
         if (copied) toast(`Copied ${size} for the LLM`);
         else toastError('Clipboard blocked; use the .md download instead');
       } else {
-        download(file.text, file.filename, format === 'md' ? 'text/markdown' : 'application/x-ndjson');
+        download(
+          file.text,
+          file.filename,
+          format === 'md' ? 'text/markdown' : 'application/x-ndjson',
+        );
       }
     } catch (err) {
       toastError(`Export failed: ${errorMessage(err)}`);
@@ -55,14 +59,31 @@ export function ExportMenu({ scope, query }: Props) {
       >
         {busy ? 'Exporting…' : 'Copy for LLM'}
       </button>
-      <button type="button" className="btn btn--ghost btn--small" disabled={busy} onClick={() => void run('md', 'file')}>
+      <button
+        type="button"
+        className="btn btn--ghost btn--small"
+        disabled={busy}
+        onClick={() => void run('md', 'file')}
+      >
         .md
       </button>
-      <button type="button" className="btn btn--ghost btn--small" disabled={busy} onClick={() => void run('jsonl', 'file')}>
+      <button
+        type="button"
+        className="btn btn--ghost btn--small"
+        disabled={busy}
+        onClick={() => void run('jsonl', 'file')}
+      >
         .jsonl
       </button>
-      <label className="export__option" title="Full job descriptions make the export several times larger">
-        <input type="checkbox" checked={description} onChange={(event) => setDescription(event.target.checked)} />
+      <label
+        className="export__option"
+        title="Full job descriptions make the export several times larger"
+      >
+        <input
+          type="checkbox"
+          checked={description}
+          onChange={(event) => setDescription(event.target.checked)}
+        />
         with descriptions
       </label>
     </div>

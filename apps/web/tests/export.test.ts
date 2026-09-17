@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { formatJsonl, formatMarkdown, type ExportJob, type ExportMeta } from '../server/lib/export.ts';
+import {
+  formatJsonl,
+  formatMarkdown,
+  type ExportJob,
+  type ExportMeta,
+} from '../server/lib/export.ts';
 
 function job(overrides: Partial<ExportJob> = {}): ExportJob {
   return {
@@ -49,8 +54,20 @@ function job(overrides: Partial<ExportJob> = {}): ExportJob {
     updatedAt: '2026-09-16T09:00:00.000Z',
     events: [
       { id: 1, jobId: 1, kind: 'status', value: 'applied', createdAt: '2026-09-15T08:05:00.000Z' },
-      { id: 2, jobId: 1, kind: 'note', value: 'Call with Ana', createdAt: '2026-09-15T09:00:00.000Z' },
-      { id: 3, jobId: 1, kind: 'stage', value: 'hr_interview', createdAt: '2026-09-16T09:00:00.000Z' },
+      {
+        id: 2,
+        jobId: 1,
+        kind: 'note',
+        value: 'Call with Ana',
+        createdAt: '2026-09-15T09:00:00.000Z',
+      },
+      {
+        id: 3,
+        jobId: 1,
+        kind: 'stage',
+        value: 'hr_interview',
+        createdAt: '2026-09-16T09:00:00.000Z',
+      },
     ],
     ...overrides,
   };
@@ -94,16 +111,26 @@ describe('formatMarkdown', () => {
   });
 
   it('marks unscored jobs', () => {
-    expect(formatMarkdown([job({ fit: null, fitRaw: null })], meta())).toContain('- fit: not scored yet');
+    expect(formatMarkdown([job({ fit: null, fitRaw: null })], meta())).toContain(
+      '- fit: not scored yet',
+    );
   });
 });
 
 describe('formatJsonl', () => {
   it('writes one parseable object per line with the documented fields', () => {
-    const lines = formatJsonl([job(), job({ id: 2 })], meta()).trim().split('\n');
+    const lines = formatJsonl([job(), job({ id: 2 })], meta())
+      .trim()
+      .split('\n');
     expect(lines).toHaveLength(2);
     const first = JSON.parse(lines[0]!) as Record<string, unknown>;
-    expect(first).toMatchObject({ id: 1, fit: 4, fitRaw: 8, stage: 'hr_interview', salary: '€70k' });
+    expect(first).toMatchObject({
+      id: 1,
+      fit: 4,
+      fitRaw: 8,
+      stage: 'hr_interview',
+      salary: '€70k',
+    });
     expect(first.history).toHaveLength(3);
     expect(first).not.toHaveProperty('description');
     expect(first).not.toHaveProperty('coverLetter');

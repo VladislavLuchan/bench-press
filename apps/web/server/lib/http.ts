@@ -16,7 +16,10 @@ export function json(data: unknown, status = 200): Response {
 }
 
 /** Plain-text response offered as a download with the given file name. */
-export function textFile(body: string, options: { contentType: string; filename: string }): Response {
+export function textFile(
+  body: string,
+  options: { contentType: string; filename: string },
+): Response {
   return new Response(body, {
     headers: {
       'Content-Type': `${options.contentType}; charset=utf-8`,
