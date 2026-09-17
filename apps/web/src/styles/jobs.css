@@ -637,3 +637,37 @@
 .toast--error {
   border-left-color: var(--bad);
 }
+
+/* Export */
+.export {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.export__label {
+  color: var(--text-muted);
+  margin-right: 2px;
+}
+
+.export__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pipeline__toolbar {
+  display: flex;
+  justify-content: flex-end;
+}

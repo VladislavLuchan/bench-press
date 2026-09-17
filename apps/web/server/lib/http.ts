@@ -15,6 +15,17 @@ export function json(data: unknown, status = 200): Response {
   });
 }
 
+/** Plain-text response offered as a download with the given file name. */
+export function textFile(body: string, options: { contentType: string; filename: string }): Response {
+  return new Response(body, {
+    headers: {
+      'Content-Type': `${options.contentType}; charset=utf-8`,
+      'Content-Disposition': `attachment; filename="${options.filename}"`,
+      'Cache-Control': 'no-store',
+    },
+  });
+}
+
 export async function readJson(request: Request): Promise<unknown> {
   try {
     return await request.json();

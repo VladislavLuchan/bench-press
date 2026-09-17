@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type DragEvent } from 'react';
 import { JOB_STAGES, type JobStage, type JobSummary } from '@bench-press/shared/types';
 import { api, errorMessage, JOBS_CHANGED_EVENT } from '../api/client.ts';
+import { ExportMenu } from '../components/ExportMenu.tsx';
 import { FitBadge } from '../components/FitBadge.tsx';
 import { STAGE_LABELS } from '../components/JobDetail.tsx';
 import { useHotkeys } from '../hooks/useHotkeys.ts';
@@ -118,7 +119,11 @@ export function PipelinePage() {
   };
 
   return (
-    <div className="board">
+    <div className="pipeline">
+      <div className="pipeline__toolbar">
+        <ExportMenu scope="pipeline" />
+      </div>
+      <div className="board">
       {COLUMNS.map((column, columnIndex) => {
         const cards = jobs.filter((job) => columnOf(job) === column);
         return (
@@ -190,6 +195,7 @@ export function PipelinePage() {
           </section>
         );
       })}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { coverLetterHandler } from './handlers/cover-letter.ts';
+import { exportHandler } from './handlers/export.ts';
 import {
   fetchNowHandler,
   fetchStatusHandler,
@@ -27,6 +28,7 @@ import { createRouter, route } from './lib/router.ts';
 const handle = createRouter([
   route('GET', /^\/jobs$/, listJobsHandler),
   route('GET', /^\/pipeline$/, pipelineHandler),
+  route('GET', /^\/export$/, exportHandler),
   route('GET', /^\/jobs\/(?<id>\d+)$/, getJobHandler),
   route('PATCH', /^\/jobs\/(?<id>\d+)$/, updateJobHandler),
   route('POST', /^\/jobs\/(?<id>\d+)\/cover-letter$/, coverLetterHandler),

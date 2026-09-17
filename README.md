@@ -96,6 +96,11 @@ No ORM, no UI library, no framework on the API side. SQL is written by hand agai
    week; the cron takes over from there with 24 hour windows.
 
 Tune search URLs, the salary floor and title keywords in `apps/scraper/src/config.ts`.
+To feed results to an LLM, use **Export** on the Jobs or Pipeline page: "Copy for LLM" puts
+compact Markdown on the clipboard, `.md` and `.jsonl` download files. The same data is
+available from `GET /api/export?scope=jobs|pipeline&format=md|jsonl&description=0|1` with the
+list filters and the dashboard token.
+
 After changing filters or the prompt, run the **Scrape** workflow with `rescore` checked (or
 press "Rescore all" on the Settings page) to re-evaluate every open job.
 

@@ -192,7 +192,8 @@ export async function insertJobs(db: Db, jobs: NewJob[]): Promise<number> {
   return results.reduce((sum, result) => sum + result.rowsAffected, 0);
 }
 
-export async function listJobs(db: Db, query: JobListQuery): Promise<JobSummary[]> {
+/** WHERE, ORDER BY and bound values for the dashboard list filters. */
+function jobFilterSql(query: JobListQuery): { sql: string; args: InValue[] } {
   const where: string[] = [];
   const args: InValue[] = [];
 
@@ -231,11 +232,26 @@ export async function listJobs(db: Db, query: JobListQuery): Promise<JobSummary[
       : 'fit IS NULL, fit DESC, first_seen_at DESC';
   args.push(query.limit);
 
+  return { sql: `WHERE ${where.join(' AND ')} ORDER BY ${orderBy} LIMIT ?`, args };
+}
+
+export async function listJobs(db: Db, query: JobListQuery): Promise<JobSummary[]> {
+  const filter = jobFilterSql(query);
   const result = await db.execute({
-    sql: `SELECT ${SUMMARY_COLUMNS} FROM jobs WHERE ${where.join(' AND ')} ORDER BY ${orderBy} LIMIT ?`,
-    args,
+    sql: `SELECT ${SUMMARY_COLUMNS} FROM jobs ${filter.sql}`,
+    args: filter.args,
   });
   return result.rows.map(rowToSummary);
+}
+
+/** Same filters as `listJobs`, with descriptions and cover letters, for exports. */
+export async function listJobsFull(db: Db, query: JobListQuery): Promise<Job[]> {
+  const filter = jobFilterSql(query);
+  const result = await db.execute({
+    sql: `SELECT ${FULL_COLUMNS} FROM jobs ${filter.sql}`,
+    args: filter.args,
+  });
+  return result.rows.map(rowToJob);
 }
 
 export async function getJob(db: Db, id: number): Promise<Job | null> {
@@ -324,6 +340,41 @@ export async function saveJobNotes(db: Db, id: number, notes: string): Promise<b
 }
 
 /** Everything applied or answered, for the pipeline board. */
+/** Pipeline jobs with descriptions and cover letters, for exports. */
+export async function listPipelineJobsFull(db: Db): Promise<Job[]> {
+  const result = await db.execute(
+    `SELECT ${FULL_COLUMNS} FROM jobs WHERE status IN ('applied', 'replied')
+      ORDER BY COALESCE(stage_updated_at, replied_at, applied_at) DESC`,
+  );
+  return result.rows.map(rowToJob);
+}
+
+/** Change history for many jobs at once, grouped by job id and ordered oldest first. */
+export async function listEventsForJobs(db: Db, jobIds: number[]): Promise<Map<number, JobEvent[]>> {
+  const events = new Map<number, JobEvent[]>();
+  for (let i = 0; i < jobIds.length; i += IN_CHUNK) {
+    const chunk = jobIds.slice(i, i + IN_CHUNK);
+    const result = await db.execute({
+      sql: `SELECT id, job_id, kind, value, created_at FROM job_events
+        WHERE job_id IN (${placeholders(chunk.length)}) ORDER BY id`,
+      args: chunk,
+    });
+    for (const row of result.rows) {
+      const event: JobEvent = {
+        id: integerRequired(row, 'id'),
+        jobId: integerRequired(row, 'job_id'),
+        kind: textRequired(row, 'kind') as JobEvent['kind'],
+        value: textRequired(row, 'value'),
+        createdAt: textRequired(row, 'created_at'),
+      };
+      const list = events.get(event.jobId) ?? [];
+      list.push(event);
+      events.set(event.jobId, list);
+    }
+  }
+  return events;
+}
+
 export async function listPipelineJobs(db: Db): Promise<JobSummary[]> {
   const result = await db.execute(
     `SELECT ${SUMMARY_COLUMNS} FROM jobs WHERE status IN ('applied', 'replied')

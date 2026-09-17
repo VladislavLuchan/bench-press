@@ -36,6 +36,21 @@ export const jobListQuerySchema = z.object({
 });
 export type JobListQuery = z.infer<typeof jobListQuerySchema>;
 
+/** GET /api/export: the list filters plus what to export and in which format. */
+export const exportQuerySchema = jobListQuerySchema.extend({
+  /** `jobs` exports the filtered list; `pipeline` exports everything applied to. */
+  scope: z.enum(['jobs', 'pipeline']).default('jobs'),
+  /** `md` for pasting into an LLM, `jsonl` for scripts. */
+  format: z.enum(['md', 'jsonl']).default('md'),
+  /** Full descriptions multiply the size; off unless asked for. */
+  description: z
+    .enum(['0', '1'])
+    .default('0')
+    .transform((value) => value === '1'),
+  limit: z.coerce.number().int().min(1).max(2000).default(1000),
+});
+export type ExportQuery = z.infer<typeof exportQuerySchema>;
+
 /** PATCH /api/jobs/:id body. `filtered` is scraper-owned and cannot be set from the dashboard. */
 export const jobStageSchema = z.enum(JOB_STAGES);
 

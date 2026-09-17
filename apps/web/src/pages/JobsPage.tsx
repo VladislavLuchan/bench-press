@@ -8,6 +8,7 @@ import {
   type JobWithEvents,
 } from '../api/client.ts';
 import { toastError } from '../lib/toast.ts';
+import { ExportMenu } from '../components/ExportMenu.tsx';
 import { JobCard } from '../components/JobCard.tsx';
 import { JobDetail } from '../components/JobDetail.tsx';
 import { JobFilters } from '../components/JobFilters.tsx';
@@ -186,6 +187,7 @@ export function JobsPage({ mode, selectedId }: Props) {
           {loading ? 'Loading…' : `${jobs.length} job${jobs.length === 1 ? '' : 's'}`}
           <span className="jobs__hint"> · press ? for shortcuts</span>
         </p>
+        <ExportMenu scope="jobs" query={query} />
         {error && <p className="jobs__error">{error}</p>}
         {!loading && jobs.length === 0 && (
           <p className="jobs__empty">Nothing matches these filters.</p>

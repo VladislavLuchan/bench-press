@@ -57,7 +57,7 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+async function send(path: string, init: RequestInit = {}): Promise<Response> {
   const headers = new Headers(init.headers);
   headers.set('Authorization', `Bearer ${tokenStore.get() ?? ''}`);
   if (init.body) headers.set('Content-Type', 'application/json');
@@ -77,7 +77,36 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     }
     throw new ApiError(response.status, message);
   }
-  return (await response.json()) as T;
+  return response;
+}
+
+async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+  return (await (await send(path, init)).json()) as T;
+}
+
+function toParams(query: JobsQuery): URLSearchParams {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (Array.isArray(value)) {
+      if (value.length > 0) params.set(key, value.join(','));
+    } else if (value !== undefined && value !== '') {
+      params.set(key, String(value));
+    }
+  }
+  return params;
+}
+
+export interface ExportOptions {
+  scope: 'jobs' | 'pipeline';
+  format: 'md' | 'jsonl';
+  description: boolean;
+  /** List filters; ignored for the pipeline scope. */
+  query?: JobsQuery;
+}
+
+export interface ExportFile {
+  text: string;
+  filename: string;
 }
 
 export interface JobsQuery {
@@ -107,17 +136,19 @@ export interface FetchStatus {
 export const JOBS_CHANGED_EVENT = 'bench-press:jobs-changed';
 
 export const api = {
+  async export(options: ExportOptions): Promise<ExportFile> {
+    const params = options.scope === 'jobs' && options.query ? toParams(options.query) : new URLSearchParams();
+    params.set('scope', options.scope);
+    params.set('format', options.format);
+    params.set('description', options.description ? '1' : '0');
+    const response = await send(`/export?${params}`);
+    const disposition = response.headers.get('Content-Disposition') ?? '';
+    const filename = /filename="([^"]+)"/.exec(disposition)?.[1] ?? `bench-press.${options.format}`;
+    return { text: await response.text(), filename };
+  },
   jobs: {
     list(query: JobsQuery): Promise<JobSummary[]> {
-      const params = new URLSearchParams();
-      for (const [key, value] of Object.entries(query)) {
-        if (Array.isArray(value)) {
-          if (value.length > 0) params.set(key, value.join(','));
-        } else if (value !== undefined && value !== '') {
-          params.set(key, String(value));
-        }
-      }
-      return request(`/jobs?${params}`);
+      return request(`/jobs?${toParams(query)}`);
     },
     get: (id: number): Promise<JobWithEvents> => request(`/jobs/${id}`),
     update(id: number, body: JobUpdate): Promise<JobWithEvents> {
