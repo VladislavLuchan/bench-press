@@ -54,7 +54,7 @@ function jobToMarkdown(job: ExportJob, index: number, meta: ExportMeta): string 
     ['sources', job.sources.join(', ')],
     ['posted', day(job.postedAt ?? job.firstSeenAt)],
     ['history', historyText(job.events)],
-    ['url', job.url],
+    ['url', job.canonicalUrl],
     ['summary', job.summary ? oneLine(job.summary) : null],
     ['matches', listText(job.matches)],
     ['gaps', listText(job.gaps)],
@@ -80,10 +80,8 @@ function jobToMarkdown(job: ExportJob, index: number, meta: ExportMeta): string 
 export function formatMarkdown(jobs: ExportJob[], meta: ExportMeta): string {
   const header = [
     `# bench-press export: ${meta.scope}`,
-    '',
     `Exported ${meta.exportedAt} · ${jobs.length} job${jobs.length === 1 ? '' : 's'}` +
       (meta.filters.length > 0 ? ` · filters: ${meta.filters.join(', ')}` : ''),
-    '',
     'Legend: fit is 1-10 after code post-validation, "model said" is the raw LLM score. ' +
       'Location types: remote, remote_region_limited, hybrid, onsite, unclear. ' +
       'Pipeline stages: replied, rejected, advancing, hr_interview, tech_interview, offer.',
@@ -101,7 +99,7 @@ export function formatJsonl(jobs: ExportJob[], meta: ExportMeta): string {
           id: job.id,
           title: job.title,
           company: job.company,
-          url: job.url,
+          url: job.canonicalUrl,
           sources: job.sources,
           location: job.location,
           locationType: job.locationType,

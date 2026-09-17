@@ -12,7 +12,7 @@ function job(overrides: Partial<ExportJob> = {}): ExportJob {
     source: 'linkedin',
     sources: ['linkedin', 'dou'],
     externalId: '1',
-    url: 'https://www.linkedin.com/jobs/view/1',
+    url: 'https://es.linkedin.com/jobs/view/senior-1?refId=abc&trackingId=def',
     canonicalUrl: 'https://www.linkedin.com/jobs/view/1',
     dedupeKey: 'k',
     title: 'Senior Frontend Engineer',
@@ -87,6 +87,7 @@ describe('formatMarkdown', () => {
   it('starts with a header that names the scope, count and filters', () => {
     expect(text).toContain('# bench-press export: jobs');
     expect(text).toContain('1 job · filters: minFit=6, status=new');
+    expect(text).not.toContain('\n\n\n');
   });
 
   it('writes one section per job with compact single-line facts', () => {
@@ -96,6 +97,7 @@ describe('formatMarkdown', () => {
     expect(text).toContain('- summary: Strong React match, hybrid in Madrid.');
     expect(text).toContain('- notes: Call with Ana on Friday');
     expect(text).toContain('- history: 2026-09-15 applied → 2026-09-16 hr_interview');
+    expect(text).toContain('- url: https://www.linkedin.com/jobs/view/1\n');
   });
 
   it('omits empty fields and long text unless asked', () => {
