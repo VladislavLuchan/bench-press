@@ -3,7 +3,11 @@
  * real employer. Matched case-insensitively against the start of the company name.
  * Jobs from them are stored as `filtered` with the reason `blacklisted company`.
  */
-export const COMPANY_BLACKLIST: readonly string[] = ['Quik Hire Staffing', 'Hire Feed', 'Jobgether'];
+export const COMPANY_BLACKLIST: readonly string[] = [
+  'Quik Hire Staffing',
+  'Hire Feed',
+  'Jobgether',
+];
 
 export function isBlacklistedCompany(company: string | null): boolean {
   if (!company) return false;

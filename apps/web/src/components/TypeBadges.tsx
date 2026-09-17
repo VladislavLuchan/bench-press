@@ -25,7 +25,10 @@ export function RoleBadge({ type }: { type: RoleType }) {
 export function CompanyBadge({ type }: { type: CompanyType | null }) {
   if (!type) return null;
   return (
-    <span className={`type-badge type-badge--${COMPANY_TONES[type]}`} title={`Company type: ${type}`}>
+    <span
+      className={`type-badge type-badge--${COMPANY_TONES[type]}`}
+      title={`Company type: ${type}`}
+    >
       {type}
     </span>
   );

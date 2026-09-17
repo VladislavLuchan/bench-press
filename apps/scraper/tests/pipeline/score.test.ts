@@ -150,7 +150,11 @@ describe('postValidate: role, company and accuracy rules', () => {
   });
 
   it('takes one point from an agency that describes no project', () => {
-    const result = postValidate({ ...valid, company_type: 'agency', has_project_description: false });
+    const result = postValidate({
+      ...valid,
+      company_type: 'agency',
+      has_project_description: false,
+    });
     expect(result.score.fit).toBe(7);
     expect(result.notes).toEqual(['-1: recruiting agency without any project description']);
   });
@@ -184,13 +188,19 @@ describe('postValidate: role, company and accuracy rules', () => {
     const result = postValidate(valid, { residencyLikely: true });
     expect(result.score).toMatchObject({ fit: 5, location_type: 'remote_region_limited' });
     expect(result.score.red_flags).toContain('residency likely required');
-    expect(postValidate({ ...valid, location_type: 'onsite' }, { residencyLikely: true }).score.fit).toBe(2);
+    expect(
+      postValidate({ ...valid, location_type: 'onsite' }, { residencyLikely: true }).score.fit,
+    ).toBe(2);
   });
 
   it('drops gaps the candidate meets and degrees without changing fit', () => {
     const result = postValidate({
       ...valid,
-      gaps: ['5+ years required, candidate has 6', "Bachelor's degree in CS", 'GraphQL in production'],
+      gaps: [
+        '5+ years required, candidate has 6',
+        "Bachelor's degree in CS",
+        'GraphQL in production',
+      ],
     });
     expect(result.score.gaps).toEqual(['GraphQL in production']);
     expect(result.score.fit).toBe(8);
@@ -245,7 +255,10 @@ describe('scoreBatch', () => {
       'garbage',
     ]);
     const outcomes = await scoreBatch([job('A'), job('B')], 'system', chat);
-    expect(outcomes[0]).toEqual({ ok: true, score: { score: valid, fitRaw: 8, notes: [], dream: false } });
+    expect(outcomes[0]).toEqual({
+      ok: true,
+      score: { score: valid, fitRaw: 8, notes: [], dream: false },
+    });
     expect(outcomes[1]?.ok).toBe(false);
     expect(chat.calls).toBe(4);
   });

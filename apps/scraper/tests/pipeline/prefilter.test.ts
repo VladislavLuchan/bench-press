@@ -50,7 +50,11 @@ describe('prefilterReason', () => {
     );
     expect(prefilterReason(job({ source: 'djinni', postedAt: posted }), undefined, now)).toBeNull();
     expect(
-      prefilterReason(job({ source: 'djinni', postedAt: '2026-08-01T00:00:00.000Z' }), undefined, now),
+      prefilterReason(
+        job({ source: 'djinni', postedAt: '2026-08-01T00:00:00.000Z' }),
+        undefined,
+        now,
+      ),
     ).toMatch(/older than 30/);
     expect(
       prefilterReason(job({ source: 'linkedin', postedAt: posted }), undefined, now, false),
@@ -61,11 +65,15 @@ describe('prefilterReason', () => {
     expect(prefilterReason(job({ company: 'Quik Hire Staffing' }), undefined, now)).toBe(
       'blacklisted company',
     );
-    expect(prefilterReason(job({ company: 'jobgether' }), undefined, now)).toBe('blacklisted company');
+    expect(prefilterReason(job({ company: 'jobgether' }), undefined, now)).toBe(
+      'blacklisted company',
+    );
   });
 
   it('skips cards that ask for less than three years', () => {
-    expect(prefilterReason(job({ experienceYears: 2 }), undefined, now)).toMatch(/experience below 3/);
+    expect(prefilterReason(job({ experienceYears: 2 }), undefined, now)).toMatch(
+      /experience below 3/,
+    );
     expect(prefilterReason(job({ experienceYears: 3 }), undefined, now)).toBeNull();
     expect(prefilterReason(job({ experienceYears: null }), undefined, now)).toBeNull();
   });

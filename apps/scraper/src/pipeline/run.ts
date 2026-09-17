@@ -226,9 +226,16 @@ async function describeJobs(db: Db, http: HttpClient, stats: RunStats): Promise<
         continue;
       }
       const hash = descriptionHash(description);
-      const duplicateOf = await findDuplicateDescription(db, { id: job.id, company: job.company, hash });
+      const duplicateOf = await findDuplicateDescription(db, {
+        id: job.id,
+        company: job.company,
+        hash,
+      });
       if (duplicateOf) {
-        await markFiltered(db, job.id, { reason: 'duplicate description', match: `job ${duplicateOf}` });
+        await markFiltered(db, job.id, {
+          reason: 'duplicate description',
+          match: `job ${duplicateOf}`,
+        });
         stats.descriptionFiltered++;
         continue;
       }
@@ -384,7 +391,8 @@ export async function rescoreAll(env: ScraperEnv): Promise<RunStats> {
         stats.filtered++;
         count(reason.split('"')[0]!.trim());
       } else if (job.status === 'filtered' && !reason && isTitleLevelReason(job.filterReason)) {
-        const fresh = !job.postedAt || !/^older than/.test(job.filterReason ?? '') || withinAge(job);
+        const fresh =
+          !job.postedAt || !/^older than/.test(job.filterReason ?? '') || withinAge(job);
         if (fresh) {
           await reviveJob(db, job.id);
           revived++;
@@ -418,7 +426,11 @@ export async function rescoreAll(env: ScraperEnv): Promise<RunStats> {
       }
       toScore.push({ ...job, locationFlag: verdict.locationFlag, roleType: roleTypeOf(job.title) });
     }
-    log.info('Rescore refilter', { revived, filtered: stats.filtered, reasons: Object.fromEntries(reasons) });
+    log.info('Rescore refilter', {
+      revived,
+      filtered: stats.filtered,
+      reasons: Object.fromEntries(reasons),
+    });
 
     let fitChanged = 0;
     await scoreJobs(db, env, stats, toScore, (job, fit) => {

@@ -23,22 +23,20 @@ export const linkedin: Source = {
     const pairs = pools.flatMap((pool) =>
       pool.keywords.flatMap((keyword) => pool.locations.map((location) => ({ keyword, location }))),
     );
-    return pairs.map(
-      ({ keyword, location }): Search => ({
-        name: `${keyword} @ ${location}`,
-        maxPages,
-        pageSize,
-        request: (page) => ({
-          url: `${SEARCH_URL}?${new URLSearchParams({
-            keywords: keyword,
-            location,
-            f_WT: '2',
-            f_TPR: window,
-            start: String(page * pageSize),
-          })}`,
-        }),
+    return pairs.map(({ keyword, location }): Search => ({
+      name: `${keyword} @ ${location}`,
+      maxPages,
+      pageSize,
+      request: (page) => ({
+        url: `${SEARCH_URL}?${new URLSearchParams({
+          keywords: keyword,
+          location,
+          f_WT: '2',
+          f_TPR: window,
+          start: String(page * pageSize),
+        })}`,
       }),
-    );
+    }));
   },
 
   parseListings(body) {

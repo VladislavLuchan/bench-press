@@ -52,7 +52,13 @@ function Conversion({ title, rows }: { title: string; rows: ConversionRow[] }) {
   );
 }
 
-function Distribution({ title, rows }: { title: string; rows: Array<{ bucket: string; count: number }> }) {
+function Distribution({
+  title,
+  rows,
+}: {
+  title: string;
+  rows: Array<{ bucket: string; count: number }>;
+}) {
   const total = rows.reduce((sum, row) => sum + row.count, 0);
   return (
     <BarChart

@@ -31,7 +31,9 @@ export function JobFilters({ query, onChange, lockStatus = false }: Props) {
   const companies = query.companyType ?? [];
   const toggle = (key: 'roleType' | 'companyType', type: string) => {
     const current = query[key] ?? [];
-    update({ [key]: current.includes(type) ? current.filter((item) => item !== type) : [...current, type] });
+    update({
+      [key]: current.includes(type) ? current.filter((item) => item !== type) : [...current, type],
+    });
   };
   const toggleLocation = (type: string) =>
     update({
@@ -100,7 +102,11 @@ export function JobFilters({ query, onChange, lockStatus = false }: Props) {
           <legend className="field__label">Role</legend>
           {ROLE_TYPES.map((type) => (
             <label key={type} className={`chip ${roles.includes(type) ? 'chip--on' : ''}`}>
-              <input type="checkbox" checked={roles.includes(type)} onChange={() => toggle('roleType', type)} />
+              <input
+                type="checkbox"
+                checked={roles.includes(type)}
+                onChange={() => toggle('roleType', type)}
+              />
               {type}
             </label>
           ))}
@@ -119,7 +125,10 @@ export function JobFilters({ query, onChange, lockStatus = false }: Props) {
               {type}
             </label>
           ))}
-          <label className={`chip ${query.dream ? 'chip--on' : ''}`} title="Remote product companies with a special match">
+          <label
+            className={`chip ${query.dream ? 'chip--on' : ''}`}
+            title="Remote product companies with a special match"
+          >
             <input
               type="checkbox"
               checked={Boolean(query.dream)}

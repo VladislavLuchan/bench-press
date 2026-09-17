@@ -138,7 +138,11 @@ export function JobsPage({ mode, selectedId }: Props) {
     const byCompany = new Map<string, { key: string; company: string; jobs: JobSummary[] }>();
     for (const job of listed) {
       const key = job.company ? job.company.trim().toLowerCase() : `job-${job.id}`;
-      const group = byCompany.get(key) ?? { key, company: job.company ?? 'unknown company', jobs: [] };
+      const group = byCompany.get(key) ?? {
+        key,
+        company: job.company ?? 'unknown company',
+        jobs: [],
+      };
       group.jobs.push(job);
       byCompany.set(key, group);
     }
@@ -230,7 +234,8 @@ export function JobsPage({ mode, selectedId }: Props) {
           ) : (
             <section key={group.key} className="company-group">
               <h3 className="company-group__title">
-                {group.company} <span className="company-group__count">{group.jobs.length} roles</span>
+                {group.company}{' '}
+                <span className="company-group__count">{group.jobs.length} roles</span>
               </h3>
               {group.jobs.map((job) => renderCard(job, true))}
             </section>

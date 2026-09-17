@@ -84,13 +84,23 @@ describe('roleTypeOf', () => {
 
 describe('residencyLikely', () => {
   it('flags one specific country without remote-from-anywhere wording', () => {
-    expect(residencyLikely('Madrid, Community of Madrid, Spain', 'We are a remote team.')).toBe(true);
+    expect(residencyLikely('Madrid, Community of Madrid, Spain', 'We are a remote team.')).toBe(
+      true,
+    );
     expect(residencyLikely('Poland', null)).toBe(true);
     expect(residencyLikely('Warsaw, Poland (Remote)', 'Great React role.')).toBe(true);
   });
 
   it('does not flag broad regions, Ukraine or empty locations', () => {
-    for (const location of ['European Union', 'Europe', 'EMEA', 'Worldwide', 'Remote', 'EU', null]) {
+    for (const location of [
+      'European Union',
+      'Europe',
+      'EMEA',
+      'Worldwide',
+      'Remote',
+      'EU',
+      null,
+    ]) {
       expect(residencyLikely(location, 'React role')).toBe(false);
     }
     expect(residencyLikely('Countries of Europe or Ukraine', 'React role')).toBe(false);

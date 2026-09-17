@@ -148,7 +148,10 @@ export function postValidate(raw: ScoreResult, context: ValidationContext = {}):
   if (roleType === 'fullstack' && raw.backend_heavy) {
     cap(BACKEND_HEAVY_MAX_FIT, 'fullstack role with required backend specifics');
   }
-  if (roleType === 'staff' && !(raw.years_required !== null && raw.years_required <= STAFF_OK_YEARS)) {
+  if (
+    roleType === 'staff' &&
+    !(raw.years_required !== null && raw.years_required <= STAFF_OK_YEARS)
+  ) {
     cap(STAFF_MAX_FIT, 'staff/principal/architect level without a stated 5 years or less');
   }
   if (raw.other_language_required) {
