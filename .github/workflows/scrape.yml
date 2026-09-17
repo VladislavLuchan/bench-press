@@ -17,6 +17,10 @@ on:
         description: 'Re-evaluate open jobs under the current rules instead of fetching'
         type: boolean
         default: false
+      rescore_location_type:
+        description: 'Rescore only jobs with this location_type (empty = all)'
+        type: string
+        default: ''
 
 concurrency:
   group: scrape
@@ -37,6 +41,7 @@ jobs:
         run: npm run scrape -w @bench-press/scraper -- ${{ inputs.dry_run && '--dry-run' || '' }} ${{ inputs.rescore && '--rescore' || '' }}
         env:
           BACKFILL: ${{ inputs.backfill && '1' || '' }}
+          RESCORE_LOCATION_TYPE: ${{ inputs.rescore_location_type }}
           TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}

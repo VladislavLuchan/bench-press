@@ -7,6 +7,8 @@ export interface ScraperEnv {
   dashboardUrl: string | undefined;
   /** BACKFILL=1 widens source date windows to a week for a first catch-up run. */
   backfill: boolean;
+  /** RESCORE_LOCATION_TYPE narrows a rescore run to jobs with that location type. */
+  rescoreLocationType: string | undefined;
 }
 
 function required(env: NodeJS.ProcessEnv, key: string): string {
@@ -25,5 +27,6 @@ export function readEnv(env: NodeJS.ProcessEnv = process.env): ScraperEnv {
     telegramChatId: env.TELEGRAM_CHAT_ID,
     dashboardUrl: env.DASHBOARD_URL,
     backfill: env.BACKFILL === '1' || env.BACKFILL === 'true',
+    rescoreLocationType: env.RESCORE_LOCATION_TYPE || undefined,
   };
 }

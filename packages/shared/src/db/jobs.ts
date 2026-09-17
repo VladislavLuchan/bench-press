@@ -524,12 +524,18 @@ export async function markFiltered(
 }
 
 /** Scored, still-open jobs with a description: the set a rescore run re-evaluates. */
-export async function findJobsToRescore(db: Db, limit: number): Promise<Job[]> {
+export async function findJobsToRescore(
+  db: Db,
+  limit: number,
+  /** Restrict the run to one location type, e.g. after changing how it is judged. */
+  locationType?: string,
+): Promise<Job[]> {
   const result = await db.execute({
     sql: `SELECT ${FULL_COLUMNS} FROM jobs
       WHERE status = 'new' AND description IS NOT NULL
+        AND (? IS NULL OR location_type = ? OR scored_at IS NULL)
       ORDER BY first_seen_at DESC LIMIT ?`,
-    args: [limit],
+    args: [locationType ?? null, locationType ?? null, limit],
   });
   return result.rows.map(rowToJob);
 }

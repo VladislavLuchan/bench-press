@@ -404,7 +404,7 @@ export async function rescoreAll(env: ScraperEnv): Promise<RunStats> {
     }
 
     // 2. Description-level rules and duplicates for open jobs, then the LLM.
-    const jobs = await findJobsToRescore(db, config.rescore.limit);
+    const jobs = await findJobsToRescore(db, config.rescore.limit, env.rescoreLocationType);
     const previousFit = new Map(jobs.map((job) => [job.id, job.fit]));
     const toScore: Job[] = [];
     const seenDescriptions = new Set<string>();

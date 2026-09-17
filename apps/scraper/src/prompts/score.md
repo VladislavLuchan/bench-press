@@ -35,11 +35,13 @@ companies or "dream" criteria, ignore that part: those go into company_type and 
 
 Field meanings:
 
-- location_type: "remote" = fully remote and workable from Ukraine; "remote_region_limited" =
-  remote but only from a specific country or region the candidate is not in; "hybrid" = some
-  office days or a hub the person is expected to be near; "onsite" = office job; "unclear" =
-  the text does not say. "Can be based in our hub/office in X" with no remote mention is
-  "hybrid", never "remote".
+- location_type: "remote" = fully remote and workable from Ukraine. Remote that is open to the
+  whole EU, Europe, EMEA or worldwide counts as "remote": the candidate works as a B2B contractor
+  from Ukraine, so a region as wide as Europe does not exclude them. "remote_region_limited" =
+  remote, but only for residents of one or a few named countries other than Ukraine, or of a
+  region outside Europe (US only, LATAM only). "hybrid" = some office days or a hub the person is
+  expected to be near. "onsite" = office job. "unclear" = the text does not say. "Can be based in
+  our hub/office in X" with no remote mention is "hybrid", never "remote".
 - company_type: "product" = builds its own named product; "outsource" = outsourcing or
   outstaffing company with a named client or project (Ciklum, Kindgeek, Devico, A-listware...);
   "agency" = recruiting agency that names neither the client nor the product; "unknown" = cannot tell.
@@ -58,7 +60,7 @@ Field meanings:
 Rules for fit and gaps:
 
 - Location is a hard constraint. "onsite" -> fit <= 2. "hybrid" without a remote option -> fit <= 4.
-  "remote_region_limited" outside Ukraine or EU-wide -> fit <= 4. "unclear" -> do not penalise,
+  "remote_region_limited" -> fit <= 4. "unclear" -> do not penalise,
   add "location unclear" to red_flags.
 - Any required language other than English or Ukrainian -> fit <= 3.
 - Requirements marked "plus", "nice to have", "bonus", "benefit", "would be great", "considered
