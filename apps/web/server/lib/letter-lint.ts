@@ -179,3 +179,24 @@ export function lintLetter(letter: string, context: LetterContext): string[] {
   }
   return problems;
 }
+
+/**
+ * The template's last literal line (the signature). Bracketed lines are instructions and
+ * headings are titles, so neither counts.
+ */
+export function templateSignature(template: string): string | null {
+  const lines = template
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith('[') && !line.startsWith('#') && line !== '---');
+  const last = lines[lines.length - 1];
+  // A long last line is a paragraph or a rule, not a name.
+  return last && last.length <= 40 && !last.startsWith('-') ? last : null;
+}
+
+/** Puts the signature back when a rewrite dropped it; code has the last word on the frame. */
+export function ensureSignature(letter: string, template: string): string {
+  const signature = templateSignature(template);
+  if (!signature || letter.trimEnd().endsWith(signature)) return letter;
+  return `${letter.trimEnd()}\n\n${signature}`;
+}

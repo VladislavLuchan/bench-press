@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseLetterBrief } from '../server/lib/letter-brief.ts';
-import { lintLetter } from '../server/lib/letter-lint.ts';
+import { ensureSignature, lintLetter, templateSignature } from '../server/lib/letter-lint.ts';
 
 const CONSTANT =
   'At Acme I led frontend on a team chat app (React, TypeScript, Electron) — sole frontend ' +
@@ -133,5 +133,19 @@ describe('parseLetterBrief', () => {
     expect(parseLetterBrief('no json here')).toBeNull();
     expect(parseLetterBrief('{"distinctive": "x", "needs": []}')).toBeNull();
     expect(parseLetterBrief('{"distinctive": ')).toBeNull();
+  });
+});
+
+describe('ensureSignature', () => {
+  it('finds the signature under the blocks and puts it back when dropped', () => {
+    const template = '# Title\n\n- Rule: keep it short.\n\n---\n\n[OPENING]\n\nA constant paragraph.\n\n[CLOSE]\n\nJane';
+    expect(templateSignature(template)).toBe('Jane');
+    expect(ensureSignature('Body text.', template)).toBe('Body text.\n\nJane');
+    expect(ensureSignature('Body text.\n\nJane', template)).toBe('Body text.\n\nJane');
+  });
+
+  it('adds nothing when the template ends with a block or a paragraph', () => {
+    expect(templateSignature('[OPENING]\n\n[CLOSE]')).toBeNull();
+    expect(ensureSignature('Body.', '[CLOSE]')).toBe('Body.');
   });
 });

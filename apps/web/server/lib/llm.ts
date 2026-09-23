@@ -9,7 +9,7 @@ import {
   buildRevisionUserPrompt,
 } from './cover-letter-prompt.ts';
 import { parseLetterBrief, type LetterBrief } from './letter-brief.ts';
-import { lintLetter } from './letter-lint.ts';
+import { ensureSignature, lintLetter } from './letter-lint.ts';
 
 /**
  * Model for cover letters and form answers. Any OpenRouter id works; swap here to compare
@@ -83,10 +83,12 @@ export async function generateCoverLetter(input: CoverLetterInput): Promise<stri
         LETTER_OPTIONS,
       )
     ).text.trim();
-    return revised && lintLetter(revised, context).length <= problems.length ? revised : letter;
+    const best =
+      revised && lintLetter(revised, context).length <= problems.length ? revised : letter;
+    return ensureSignature(best, input.template);
   } catch (error) {
     console.warn('Cover letter edit failed; keeping the draft', error);
-    return letter;
+    return ensureSignature(letter, input.template);
   }
 }
 
