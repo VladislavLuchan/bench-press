@@ -155,6 +155,20 @@
   gap: 16px;
 }
 
+/* Title and verdict buttons stay in view while the description scrolls. */
+.job-detail__top {
+  position: sticky;
+  top: -16px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: -16px -16px 0;
+  padding: 16px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+}
+
 .job-detail__header {
   display: flex;
   gap: 12px;
@@ -737,4 +751,52 @@
 
 .bar-chart__row {
   grid-template-columns: minmax(80px, 140px) 1fr 32px;
+}
+
+/* "Applied?" prompt for listings opened from the dashboard */
+.apply-prompt {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 20;
+  max-width: 420px;
+}
+
+.apply-prompt__item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--warn);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+.apply-prompt__item--closed {
+  border-color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.apply-prompt__text {
+  margin: 0;
+}
+
+.apply-prompt__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn__key {
+  margin-left: 4px;
+  padding: 0 4px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font: 11px/16px var(--mono);
+  background: transparent;
+  opacity: 0.6;
 }

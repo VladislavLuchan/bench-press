@@ -2,7 +2,7 @@ import { createChatClient, OPENROUTER_BASE_URL, type ChatClient } from '@bench-p
 import { buildCoverLetterSystemPrompt, buildCoverLetterUserPrompt } from './cover-letter-prompt.ts';
 
 /** Model for cover letters. Any OpenRouter id works; swap here to compare quality or price. */
-const COVER_LETTER_MODEL = process.env.COVER_LETTER_MODEL ?? 'anthropic/claude-opus-5';
+const COVER_LETTER_MODEL = process.env.COVER_LETTER_MODEL ?? 'openai/gpt-6-luna';
 
 let client: ChatClient | undefined;
 
@@ -25,7 +25,8 @@ export async function generateCoverLetter(input: CoverLetterInput): Promise<stri
   const { text } = await getClient().complete(
     buildCoverLetterSystemPrompt(input.profile, input.template),
     buildCoverLetterUserPrompt(input.job),
-    { maxTokens: 1024, temperature: 0.4 },
+    // Reasoning tokens count against max_tokens, so leave room beyond the ~600-token letter.
+    { maxTokens: 4096, temperature: 0.4, reasoningEffort: 'low' },
   );
   const letter = text.trim();
   if (!letter) throw new Error('The model returned an empty letter');

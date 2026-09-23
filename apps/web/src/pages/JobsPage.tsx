@@ -3,6 +3,7 @@ import type { Job, JobStatus, JobSummary } from '@bench-press/shared/types';
 import {
   api,
   errorMessage,
+  JOB_UPDATED_EVENT,
   JOBS_CHANGED_EVENT,
   type JobsQuery,
   type JobWithEvents,
@@ -13,7 +14,8 @@ import { JobCard } from '../components/JobCard.tsx';
 import { JobDetail } from '../components/JobDetail.tsx';
 import { JobFilters } from '../components/JobFilters.tsx';
 import { emitHotkeyAction, useHotkeys } from '../hooks/useHotkeys.ts';
-import { openInWindow } from '../lib/open.ts';
+import { companyKey } from '../lib/company.ts';
+import { openListing } from '../lib/pending-apply.ts';
 import { navigate } from '../router.ts';
 
 interface Props {
@@ -119,25 +121,22 @@ export function JobsPage({ mode, selectedId }: Props) {
     setJobs((current) => current.map((item) => (item.id === job.id ? toSummary(job) : item)));
   }, []);
 
-  const quickStatus = useCallback(
-    (id: number, status: JobStatus) => {
-      api.jobs
-        .update(id, { status })
-        .then((job) => {
-          setJobs((current) => current.map((item) => (item.id === id ? toSummary(job) : item)));
-          if (selectedId === id) setSelected(job);
-          window.dispatchEvent(new Event(JOBS_CHANGED_EVENT));
-        })
-        .catch((err: unknown) => toastError(`Could not update: ${errorMessage(err)}`));
-    },
-    [selectedId],
-  );
+  // Updates from anywhere (the "Applied?" prompt included) land in the list and the detail.
+  useEffect(() => {
+    const onUpdated = (event: Event) => {
+      const job = (event as CustomEvent<JobWithEvents>).detail;
+      setJobs((current) => current.map((item) => (item.id === job.id ? toSummary(job) : item)));
+      setSelected((current) => (current?.id === job.id ? job : current));
+    };
+    window.addEventListener(JOB_UPDATED_EVENT, onUpdated);
+    return () => window.removeEventListener(JOB_UPDATED_EVENT, onUpdated);
+  }, []);
 
   // One block per company, placed where its best role sits in the sorted list.
   const groups = useMemo(() => {
     const byCompany = new Map<string, { key: string; company: string; jobs: JobSummary[] }>();
     for (const job of listed) {
-      const key = job.company ? job.company.trim().toLowerCase() : `job-${job.id}`;
+      const key = companyKey(job.company) ?? `job-${job.id}`;
       const group = byCompany.get(key) ?? {
         key,
         company: job.company ?? 'unknown company',
@@ -150,6 +149,22 @@ export function JobsPage({ mode, selectedId }: Props) {
   }, [listed]);
   // Keyboard navigation follows the order on screen, which grouping changes.
   const jobs = useMemo(() => groups.flatMap((group) => group.jobs), [groups]);
+
+  const quickStatus = useCallback(
+    (id: number, status: JobStatus) => {
+      // Triage keeps moving: a verdict on the open job shows the next one still waiting.
+      if (id === selectedId && (status === 'applied' || status === 'skipped')) {
+        const index = jobs.findIndex((job) => job.id === id);
+        const next = jobs.slice(index + 1).find((job) => job.status === 'new');
+        if (next) navigate(`${base}/${next.id}`);
+      }
+      api.jobs
+        .update(id, { status })
+        .then(() => window.dispatchEvent(new Event(JOBS_CHANGED_EVENT)))
+        .catch((err: unknown) => toastError(`Could not update: ${errorMessage(err)}`));
+    },
+    [selectedId, jobs, base],
+  );
 
   const renderCard = (job: JobSummary, hideCompany: boolean) => (
     <JobCard
@@ -194,7 +209,7 @@ export function JobsPage({ mode, selectedId }: Props) {
         keys: ['o', 'alt+o'],
         description: 'open listing',
         action: () => {
-          if (selectedJob) openInWindow(selectedJob.url);
+          if (selectedJob) openListing(selectedJob);
         },
       },
       {
@@ -244,7 +259,11 @@ export function JobsPage({ mode, selectedId }: Props) {
       </div>
       <aside className="jobs__detail">
         {selected ? (
-          <JobDetail job={selected} onJobChange={handleJobChange} />
+          <JobDetail
+            job={selected}
+            onJobChange={handleJobChange}
+            onStatus={(status) => quickStatus(selected.id, status)}
+          />
         ) : (
           <p className="jobs__empty">Select a job to see details.</p>
         )}

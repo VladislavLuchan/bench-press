@@ -1,6 +1,6 @@
 import type { JobStatus, JobSummary } from '@bench-press/shared/types';
 import { formatDate } from '../lib/format.ts';
-import { openInWindow } from '../lib/open.ts';
+import { openListing } from '../lib/pending-apply.ts';
 import { FitBadge } from './FitBadge.tsx';
 import { LocationBadge } from './LocationBadge.tsx';
 import { CompanyBadge, DreamBadge, RoleBadge } from './TypeBadges.tsx';
@@ -44,7 +44,7 @@ export function JobCard({ job, hideCompany = false, selected, onSelect, onQuickS
               title="Open the listing in a new window"
               onClick={(event) => {
                 event.stopPropagation();
-                openInWindow(job.url);
+                openListing(job);
               }}
             >
               {job.company ?? 'unknown company'}
@@ -82,7 +82,7 @@ export function JobCard({ job, hideCompany = false, selected, onSelect, onQuickS
             type="button"
             className="btn btn--ghost btn--small"
             title="Open the listing in a new window"
-            onClick={() => openInWindow(job.url)}
+            onClick={() => openListing(job)}
           >
             Open
           </button>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { tokenStore, UNAUTHORIZED_EVENT } from './api/client.ts';
+import { ApplyPrompt } from './components/ApplyPrompt.tsx';
 import { FetchNowButton } from './components/FetchNowButton.tsx';
 import { HeaderCounters } from './components/HeaderCounters.tsx';
 import { HotkeysHelp } from './components/HotkeysHelp.tsx';
@@ -84,6 +85,7 @@ export function App() {
       </nav>
       <HotkeysHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
       <Toasts />
+      <ApplyPrompt />
       <main className="app__main">
         {route.name === 'jobs' && <JobsPage key="jobs" mode="jobs" selectedId={route.jobId} />}
         {route.name === 'filtered' && (

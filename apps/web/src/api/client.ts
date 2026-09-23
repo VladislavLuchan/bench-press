@@ -141,6 +141,9 @@ export interface FetchStatus {
 /** Fired after a job changes so header counters can refresh. */
 export const JOBS_CHANGED_EVENT = 'bench-press:jobs-changed';
 
+/** Fired with the updated job (a CustomEvent) after every successful job update. */
+export const JOB_UPDATED_EVENT = 'bench-press:job-updated';
+
 export const api = {
   async export(options: ExportOptions): Promise<ExportFile> {
     const params =
@@ -158,8 +161,13 @@ export const api = {
       return request(`/jobs?${toParams(query)}`);
     },
     get: (id: number): Promise<JobWithEvents> => request(`/jobs/${id}`),
-    update(id: number, body: JobUpdate): Promise<JobWithEvents> {
-      return request(`/jobs/${id}`, { method: 'PATCH', body: JSON.stringify(body) });
+    async update(id: number, body: JobUpdate): Promise<JobWithEvents> {
+      const job = await request<JobWithEvents>(`/jobs/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+      });
+      window.dispatchEvent(new CustomEvent<JobWithEvents>(JOB_UPDATED_EVENT, { detail: job }));
+      return job;
     },
     pipeline: (): Promise<JobSummary[]> => request('/pipeline'),
     coverLetter(id: number, force = false): Promise<CoverLetterResponse> {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { JOB_STAGES, type JobStage, type JobStatus } from '@bench-press/shared/types';
 import { api, errorMessage, JOBS_CHANGED_EVENT, type JobWithEvents } from '../api/client.ts';
 import { formatDateTime } from '../lib/format.ts';
-import { openInWindow } from '../lib/open.ts';
+import { openListing } from '../lib/pending-apply.ts';
 import { toastError } from '../lib/toast.ts';
 import { CoverLetterPanel } from './CoverLetterPanel.tsx';
 import { FitBadge } from './FitBadge.tsx';
@@ -13,12 +13,14 @@ import { CompanyBadge, DreamBadge, RoleBadge } from './TypeBadges.tsx';
 interface Props {
   job: JobWithEvents;
   onJobChange: (job: JobWithEvents) => void;
+  /** Status changes go through the page, which moves on to the next job. */
+  onStatus: (status: JobStatus) => void;
 }
 
 const STATUS_ACTIONS: Array<{ status: JobStatus; label: string; key: string }> = [
   { status: 'applied', label: 'Applied', key: 'a' },
+  { status: 'skipped', label: 'Skip', key: 's' },
   { status: 'replied', label: 'Replied', key: 'r' },
-  { status: 'skipped', label: 'Skipped', key: 's' },
   { status: 'new', label: 'Reset to new', key: 'n' },
 ];
 
@@ -45,7 +47,7 @@ function List({ title, items, tone }: { title: string; items: string[]; tone: st
   );
 }
 
-export function JobDetail({ job, onJobChange }: Props) {
+export function JobDetail({ job, onJobChange, onStatus }: Props) {
   const [notes, setNotes] = useState(job.notes ?? '');
   useEffect(() => setNotes(job.notes ?? ''), [job.id, job.notes]);
 
@@ -68,76 +70,78 @@ export function JobDetail({ job, onJobChange }: Props) {
 
   return (
     <div className="job-detail">
-      <header className="job-detail__header">
-        <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
-        <div className="job-detail__heading">
-          <h2 className="job-detail__title">
-            <a
-              href={job.url}
-              title="Open the listing in a new window"
-              onClick={(event) => {
-                event.preventDefault();
-                openInWindow(job.url);
-              }}
-            >
-              {job.title}
-            </a>
-          </h2>
-          <p className="job-detail__meta">
-            <DreamBadge dream={job.dream} /> <RoleBadge type={job.roleType} />{' '}
-            <LocationBadge type={job.locationType} /> <CompanyBadge type={job.companyType} />{' '}
-            <button
-              type="button"
-              className="link-button"
-              title="Open the listing in a new window"
-              onClick={() => openInWindow(job.url)}
-            >
-              {job.company ?? 'unknown company'}
-            </button>
-            {facts.slice(1).length > 0 && ` · ${facts.slice(1).join(' · ')}`}
-          </p>
-          <p className="job-detail__meta job-detail__meta--muted">
-            {job.sources.join(', ')} · seen {formatDateTime(job.firstSeenAt)}
-            {job.appliedAt && ` · applied ${formatDateTime(job.appliedAt)}`}
-            {job.repliedAt && ` · replied ${formatDateTime(job.repliedAt)}`}
-            {job.filterReason && ` · filtered: ${job.filterReason}`}
-            {job.filterMatch && ` (matched "${job.filterMatch}")`}
-          </p>
-        </div>
-      </header>
+      <div className="job-detail__top">
+        <header className="job-detail__header">
+          <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
+          <div className="job-detail__heading">
+            <h2 className="job-detail__title">
+              <a
+                href={job.url}
+                title="Open the listing in a new window"
+                onClick={(event) => {
+                  event.preventDefault();
+                  openListing(job);
+                }}
+              >
+                {job.title}
+              </a>
+            </h2>
+            <p className="job-detail__meta">
+              <DreamBadge dream={job.dream} /> <RoleBadge type={job.roleType} />{' '}
+              <LocationBadge type={job.locationType} /> <CompanyBadge type={job.companyType} />{' '}
+              <button
+                type="button"
+                className="link-button"
+                title="Open the listing in a new window"
+                onClick={() => openListing(job)}
+              >
+                {job.company ?? 'unknown company'}
+              </button>
+              {facts.slice(1).length > 0 && ` · ${facts.slice(1).join(' · ')}`}
+            </p>
+            <p className="job-detail__meta job-detail__meta--muted">
+              {job.sources.join(', ')} · seen {formatDateTime(job.firstSeenAt)}
+              {job.appliedAt && ` · applied ${formatDateTime(job.appliedAt)}`}
+              {job.repliedAt && ` · replied ${formatDateTime(job.repliedAt)}`}
+              {job.filterReason && ` · filtered: ${job.filterReason}`}
+              {job.filterMatch && ` (matched "${job.filterMatch}")`}
+            </p>
+          </div>
+        </header>
 
-      <div className="job-detail__actions">
-        {STATUS_ACTIONS.map(({ status, label, key }) => (
-          <button
-            key={status}
-            type="button"
-            className={`btn ${job.status === status ? 'btn--active' : ''}`}
-            disabled={job.status === status}
-            title={`Shortcut: ${key}`}
-            onClick={() => void update({ status })}
-          >
-            {label}
-          </button>
-        ))}
-        {(job.status === 'applied' || job.status === 'replied') && (
-          <label className="field field--inline">
-            <span className="field__label">Stage</span>
-            <select
-              className="field__input"
-              value={job.stage ?? ''}
-              onChange={(event) =>
-                void update({ stage: (event.target.value || null) as JobStage | null })
-              }
+        <div className="job-detail__actions">
+          {STATUS_ACTIONS.map(({ status, label, key }) => (
+            <button
+              key={status}
+              type="button"
+              className={`btn ${job.status === status ? 'btn--active' : ''}`}
+              disabled={job.status === status}
+              title={`Shortcut: ${key}`}
+              onClick={() => onStatus(status)}
             >
-              <option value="">Applied (waiting)</option>
-              {JOB_STAGES.map((stage) => (
-                <option key={stage} value={stage}>
-                  {STAGE_LABELS[stage]}
-                </option>
-              ))}
-            </select>
-          </label>
-        )}
+              {label} <kbd className="btn__key">{key}</kbd>
+            </button>
+          ))}
+          {(job.status === 'applied' || job.status === 'replied') && (
+            <label className="field field--inline">
+              <span className="field__label">Stage</span>
+              <select
+                className="field__input"
+                value={job.stage ?? ''}
+                onChange={(event) =>
+                  void update({ stage: (event.target.value || null) as JobStage | null })
+                }
+              >
+                <option value="">Applied (waiting)</option>
+                {JOB_STAGES.map((stage) => (
+                  <option key={stage} value={stage}>
+                    {STAGE_LABELS[stage]}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+        </div>
       </div>
 
       {job.summary && <p className="job-detail__summary">{job.summary}</p>}
@@ -155,6 +159,11 @@ export function JobDetail({ job, onJobChange }: Props) {
         <List title="Red flags" items={job.redFlags} tone="bad" />
       </div>
 
+      <CoverLetterPanel
+        job={job}
+        onJobChange={(changed) => onJobChange({ ...changed, events: job.events })}
+      />
+
       <section className="job-detail__section">
         <h3 className="job-detail__section-title">
           Job description
@@ -162,11 +171,6 @@ export function JobDetail({ job, onJobChange }: Props) {
         </h3>
         <JobDescription text={job.description} />
       </section>
-
-      <CoverLetterPanel
-        job={job}
-        onJobChange={(changed) => onJobChange({ ...changed, events: job.events })}
-      />
 
       <section className="job-detail__section">
         <h3 className="job-detail__section-title">Notes</h3>

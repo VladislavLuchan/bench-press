@@ -93,7 +93,7 @@ No ORM, no UI library, no framework on the API side. SQL is written by hand agai
    `NODE_USE_ENV_PROXY`). Variable: `DASHBOARD_URL` for links in Telegram messages.
 3. **Vercel**: import the repo, set Root Directory to `apps/web`, add env vars
    `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `LLM_API_KEY`, `DASHBOARD_TOKEN`. Optional:
-   `COVER_LETTER_MODEL` (default `anthropic/claude-opus-5`), `GITHUB_TOKEN` + `GITHUB_REPO`
+   `COVER_LETTER_MODEL` (default `openai/gpt-6-luna`), `GITHUB_TOKEN` + `GITHUB_REPO`
    for the "Fetch now" button (fine-grained token, Actions: read and write).
 4. Open the dashboard, enter the token, and paste your CV and cover letter template on the
    Settings page. Personal data lives only in the database, never in this repository.

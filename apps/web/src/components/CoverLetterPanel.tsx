@@ -3,7 +3,7 @@ import type { Job } from '@bench-press/shared/types';
 import { api, errorMessage } from '../api/client.ts';
 import { useClipboard } from '../hooks/useClipboard.ts';
 import { useHotkeyAction } from '../hooks/useHotkeys.ts';
-import { openInWindow } from '../lib/open.ts';
+import { openListing } from '../lib/pending-apply.ts';
 
 interface Props {
   job: Job;
@@ -45,7 +45,7 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
 
   const handleCopyAndOpen = () => {
     if (busy) return;
-    openInWindow(job.url);
+    openListing(job);
     const run = text ? Promise.resolve(text) : generate(false);
     run
       .then((letter) => clipboard.copy(letter))
@@ -81,7 +81,8 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
           disabled={busy !== null}
           onClick={handleCopyAndOpen}
         >
-          {busy === 'generate' ? 'Generating…' : 'Copy cover letter & open'}
+          {busy === 'generate' ? 'Generating…' : 'Copy cover letter & open'}{' '}
+          <kbd className="btn__key">c</kbd>
         </button>
         <button
           className="btn"
