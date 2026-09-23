@@ -59,8 +59,8 @@ async function planLetter(input: CoverLetterInput): Promise<LetterBrief | null> 
 }
 
 /**
- * Plans the letter, writes it, then checks it in code (letter-lint.ts) and has the model fix
- * exactly what the checks found. The revision is kept only if it leaves fewer problems.
+ * Plans the letter, writes it, then runs an editor pass that also gets the problems found in
+ * code (letter-lint.ts). The edit is kept unless the code checks find more problems in it.
  */
 export async function generateCoverLetter(input: CoverLetterInput): Promise<string> {
   const system = buildCoverLetterSystemPrompt(input.profile, input.template);
@@ -75,14 +75,17 @@ export async function generateCoverLetter(input: CoverLetterInput): Promise<stri
 
   const context = { template: input.template, description: input.job.description };
   const problems = lintLetter(letter, context);
-  if (problems.length === 0) return letter;
   try {
     const revised = (
-      await getClient().complete(system, buildRevisionUserPrompt(letter, problems), LETTER_OPTIONS)
+      await getClient().complete(
+        system,
+        buildRevisionUserPrompt(input.job, letter, problems),
+        LETTER_OPTIONS,
+      )
     ).text.trim();
-    return revised && lintLetter(revised, context).length < problems.length ? revised : letter;
+    return revised && lintLetter(revised, context).length <= problems.length ? revised : letter;
   } catch (error) {
-    console.warn('Cover letter revision failed; keeping the draft', error);
+    console.warn('Cover letter edit failed; keeping the draft', error);
     return letter;
   }
 }

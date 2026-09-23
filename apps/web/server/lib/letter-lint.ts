@@ -33,6 +33,20 @@ const CLICHES = [
   'i believe i would',
 ];
 
+/** A template paragraph this long is the constant block, not the signature. */
+const CONSTANT_MIN_CHARS = 60;
+// The first sentence states a general truth about their product instead of a fact.
+const TRUISM =
+  /\b(depends? on|relies on|rely on|requires|hinges on|comes down to|is all about|means balancing|needs? (?:to|a|an|interfaces|teams))\b/i;
+// A sentence that comments on the previous one instead of adding a fact.
+const META =
+  /^(that|this) (work|experience|project|role|background|job)\b[^.]*\b(meant|means|gave|taught|showed|helped me|made me)\b/i;
+// Comparing the candidate's years with the posting's, in English or Ukrainian.
+const YEARS_SHORTFALL =
+  /\b(years?|yrs)\b[^.]*\b(rather than|instead of|less than|fewer than|short of|than the (listed|required))\b|(рок(ів|и)[^.]*(замість|менше))/i;
+// "At Acme Labs, I…" and "At Acme I led…" both name Acme; the pronoun is not part of it.
+const EMPLOYER_OPENING = /^At ([\p{Lu}][\p{L}\p{N}&.-]*(?: (?!I\b)[\p{Lu}][\p{L}\p{N}&.-]*)*)/u;
+
 const RESTATING =
   /^(you need|you're looking for|you are looking for|your posting|as (your|the) posting)/i;
 
@@ -69,11 +83,60 @@ export function lintLetter(letter: string, context: LetterContext): string[] {
   if (total < MIN_WORDS) problems.push(`It is only ${total} words; aim for 130 to 200.`);
 
   const templateRuns = new Set(runs(words(context.template), COPIED_RUN));
-  const own = letter
+  const paragraphs = letter
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
-    .filter((paragraph) => paragraph && !isFromTemplate(paragraph, context.template, templateRuns));
+    .filter(Boolean);
+  const fromTemplate = paragraphs.map((paragraph) =>
+    isFromTemplate(paragraph, context.template, templateRuns),
+  );
+  const own = paragraphs.filter((_, index) => !fromTemplate[index]);
   const text = own.join('\n');
+  const sentences = own.flatMap((paragraph) =>
+    paragraph.split(/(?<=[.!?])\s+/).map((sentence) => sentence.trim()),
+  );
+
+  const constantAt = paragraphs.findIndex(
+    (paragraph, index) => fromTemplate[index] && paragraph.length >= CONSTANT_MIN_CHARS,
+  );
+  if (constantAt > 1) {
+    problems.push(
+      `The constant paragraph ("${paragraphs[constantAt]!.slice(0, 30)}…") must come right ` +
+        'after the opening; move it to the second paragraph.',
+    );
+  }
+
+  const openings = paragraphs.map((paragraph) => EMPLOYER_OPENING.exec(paragraph)?.[1] ?? null);
+  const repeated = openings.find((name, index) => name !== null && openings.indexOf(name) !== index);
+  if (repeated) {
+    problems.push(
+      `Two paragraphs open with "At ${repeated}"; merge them or open the second one differently.`,
+    );
+  }
+
+  const first = sentences[0];
+  if (first && TRUISM.test(first)) {
+    problems.push(
+      `The opening states a general truth ("${first.slice(0, 60)}…"). Open with something ` +
+        'only this posting says and the candidate fact that answers it.',
+    );
+  }
+
+  const meta = sentences.filter((sentence) => META.test(sentence));
+  if (meta.length > 0) {
+    problems.push(
+      `"${meta[0]!.slice(0, 50)}…" only comments on the sentence before it; delete it or ` +
+        'replace it with a result.',
+    );
+  }
+
+  const years = sentences.filter((sentence) => YEARS_SHORTFALL.test(sentence));
+  if (years.length > 0) {
+    problems.push(
+      `"${years[0]!.slice(0, 50)}…" compares the candidate's years with the posting's. ` +
+        'Never mention it; delete the sentence.',
+    );
+  }
 
   const restating = text.split('\n').filter((line) => RESTATING.test(line.trim()));
   if (restating.length > 0) {

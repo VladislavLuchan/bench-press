@@ -30,7 +30,8 @@ facts from the candidate profile.
 
 Return JSON only:
 {
-  "company_detail": "one concrete thing about them from the posting: product, users, scale, stack, setup or a problem they have. Not a generic value such as 'AI-driven culture' or 'fast-paced'.",
+  "distinctive": "what only this posting says: how the team works, a specific product or domain problem, an unusual requirement. Something other postings would not say. Not a truism ('their product depends on reliable interfaces'), not a generic value ('AI-driven culture'), not a restated requirement.",
+  "opening_fact": "the candidate's fact that answers that distinctive thing most directly",
   "needs": [
     {
       "need": "the posting's most important requirement or challenge, in your own words",
@@ -47,9 +48,12 @@ Rules:
   not the most impressive facts. If the posting asks for the candidate's core stack and the
   profile has it, one need is that stack, and its evidence is work done with it, not a count
   of years.
+- Pick the fact that answers this posting most specifically, not the most impressive number.
+  Claims any front-end developer could make (built reusable components, writes clean code,
+  N years of experience) are weak evidence; use them only when nothing more specific fits.
 - Evidence must not repeat the constant paragraph of the template; it is printed anyway.
 - gap is null for nice-to-haves, bonuses, "a plus", and "motivation / willingness to learn or
-  grow". When unsure, null.
+  grow". Years of experience and seniority are never a gap. When unsure, null.
 
 Candidate profile:
 ${profile.trim()}
@@ -68,9 +72,14 @@ export function buildCoverLetterSystemPrompt(profile: string, template: string):
 letter before sending it. The reader is a busy hiring manager who skims it in under a minute.
 
 What makes these letters work:
-- The first sentence decides whether the rest gets read. Open with the strongest proof for
-  this role: something the candidate did that answers the posting's biggest need, tied to a
-  concrete detail of their product, users or setup.
+- The first sentence decides whether the rest gets read. Open with something only this
+  posting says (how the team works, their domain, an unusual requirement) and the candidate's
+  fact that answers it. Never open with a truism about their product ("X depends on reliable
+  interfaces", "building for millions means balancing...") or with a headline metric that
+  does not answer this posting.
+- Every sentence must carry a fact only this candidate could state or a detail only this
+  posting has. A sentence any applicant could write goes. So does a sentence that only
+  comments on the previous one ("That work meant...", "This taught me...").
 - One real story beats a list. Say what the candidate did and what came of it, with the
   technologies named inside the story, never as a list or a years count.
 - Do not mirror the posting. Never copy its phrases or restate its requirements ("You need X",
@@ -79,14 +88,16 @@ What makes these letters work:
 - Honest beats polished. Only facts from the profile; never invent experience, numbers or
   employers. Mention a gap only where the template has a block for it, only for a hard
   must-have the profile lacks, as a plan in one sentence. Never for nice-to-haves, bonuses or
-  "motivation / willingness to grow". When unsure, leave it out.
+  "motivation / willingness to grow", and never about years of experience or seniority. When
+  unsure, leave it out.
 - Sound like a person writing to a future teammate: plain words, sentences of different
   lengths, contractions are fine. At most one dash (—) outside the constant paragraph. No
   rhetorical pairs or triplets, no "not just X but Y", no "I'm excited", "passionate",
   "thrilled", "perfect fit", "stands out", "leverage", "fast-paced", "look forward".
 
 Rules:
-- Follow the template's blocks in order. Keep its constant paragraph verbatim.
+- Follow the template's blocks in their order; the constant paragraph is verbatim and comes
+  right after the opening. Do not start two paragraphs with the same employer.
 - Use each fact once; the constant paragraph already covers what it says.
 - Write in the language of the job description (Ukrainian or English).
 - 130 to 200 words. Output only the letter text: no subject line, no markdown, no commentary.
@@ -103,7 +114,8 @@ function briefBlock(brief: LetterBrief): string {
     .map((item, index) => `${index + 1}. ${item.need}\n   Evidence: ${item.evidence}`)
     .join('\n');
   return `Plan from a first read of the posting (follow it unless it contradicts the profile):
-About them: ${brief.companyDetail}
+What only this posting says: ${brief.distinctive}
+Open with it and: ${brief.openingFact ?? 'the matching fact from the profile'}
 What the letter must prove, most important first:
 ${needs}
 Gap: ${brief.gap ?? 'none, skip the gap block'}
@@ -114,14 +126,37 @@ export function buildCoverLetterUserPrompt(job: JobInput, brief: LetterBrief | n
   return brief ? `${jobBlock(job)}\n\n${briefBlock(brief)}` : jobBlock(job);
 }
 
-/** Step 3: fix what the checks found, leaving the rest alone. */
-export function buildRevisionUserPrompt(letter: string, problems: string[]): string {
-  return `A check of this cover letter found problems. Fix every one of them and change as little
-else as possible: keep the constant paragraph verbatim, keep the facts, keep the language.
-Output only the corrected letter.
+/**
+ * Step 3: an editor pass over every draft. Semantic problems (an obvious opening, a sentence
+ * any applicant could write) need a reader; the problems found in code are added to it.
+ */
+export function buildRevisionUserPrompt(job: JobInput, letter: string, problems: string[]): string {
+  const found =
+    problems.length > 0
+      ? `\nAn automatic check also found these problems; fix all of them:\n${problems
+          .map((problem) => `- ${problem}`)
+          .join('\n')}\n`
+      : '';
+  return `${jobBlock(job)}
 
-Problems:
-${problems.map((problem) => `- ${problem}`).join('\n')}
+You are the candidate's editor. Improve this cover letter before it is sent. Go through these
+questions and fix every sentence that fails:
+1. Does the first sentence connect something only this posting says (how the team works, the
+   domain, an unusual requirement) with a specific thing the candidate did? A truism about
+   their product, or a headline metric that does not answer this posting, fails.
+2. Could any applicant have written this sentence? Replace it with a more specific fact from
+   the profile that fits this posting, or delete it.
+3. Does a sentence only comment on the previous one ("That work meant...", "This taught
+   me...")? Delete it.
+4. Does the letter volunteer a weakness that is not a hard must-have the candidate lacks?
+   Years of experience, seniority and "motivation to grow" are never mentioned. Delete it.
+5. Is the constant paragraph verbatim and second? Do two paragraphs open with the same
+   employer?
+6. Does it read like a person: varied sentences, at most one dash (—) outside the constant
+   paragraph, no clichés, no list of technologies?
+${found}
+Use only facts from the profile and never add a claim that is not there. Keep 130 to 200 words,
+the template's block order and the language. Output only the final letter.
 
 Letter:
 ${letter.trim()}`;

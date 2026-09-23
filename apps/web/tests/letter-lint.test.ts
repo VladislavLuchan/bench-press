@@ -59,10 +59,51 @@ describe('lintLetter', () => {
   });
 });
 
+describe('lintLetter: what an editor would cut', () => {
+  const context = { template: TEMPLATE, description: DESCRIPTION };
+  const joined = (problems: string[]) => problems.join('\n');
+
+  it('wants the constant paragraph second', () => {
+    const text = [`Opening. ${filler(60)}`, `Story. ${filler(40)}`, CONSTANT, 'Jane'].join('\n\n');
+    expect(joined(lintLetter(text, context))).toMatch(/move it to the second paragraph/);
+  });
+
+  it('flags two paragraphs opening with the same employer', () => {
+    const text = [`Opening. ${filler(60)}`, CONSTANT, `At Acme, I also did more. ${filler(40)}`, 'Jane'].join(
+      '\n\n',
+    );
+    expect(joined(lintLetter(text, context))).toMatch(/Two paragraphs open with "At Acme"/);
+  });
+
+  it('flags a truism opening, meta commentary and a years comparison', () => {
+    const problems = joined(
+      lintLetter(
+        letter(
+          `Fund workflows depend on interfaces that can evolve. I built a contracts editor. ${filler(60)}`,
+          'That work meant agreeing on everything early. I have six years of experience rather than seven.',
+        ),
+        context,
+      ),
+    );
+    expect(problems).toMatch(/opening states a general truth/);
+    expect(problems).toMatch(/only comments on the sentence before it/);
+    expect(problems).toMatch(/compares the candidate's years/);
+  });
+
+  it('leaves a specific opening alone', () => {
+    const problems = lintLetter(
+      letter(`Your team settles API contracts before code review; I wrote ours at Acme. ${filler(90)}`),
+      context,
+    );
+    expect(problems).toEqual([]);
+  });
+});
+
 describe('parseLetterBrief', () => {
   it('reads the brief, keeps two needs and turns "null" text into null', () => {
     const raw = `Here you go: ${JSON.stringify({
-      company_detail: 'Social games for millions of players',
+      distinctive: 'Social games for millions of players',
+      opening_fact: 'Greenely web app',
       needs: [
         { need: 'React and Next.js at scale', evidence: 'Greenely web app, 70k users' },
         { need: 'Performance', evidence: 'SEO +30%' },
@@ -72,7 +113,8 @@ describe('parseLetterBrief', () => {
       close_offer: 'the assistant',
     })}`;
     expect(parseLetterBrief(raw)).toEqual({
-      companyDetail: 'Social games for millions of players',
+      distinctive: 'Social games for millions of players',
+      openingFact: 'Greenely web app',
       needs: [
         { need: 'React and Next.js at scale', evidence: 'Greenely web app, 70k users' },
         { need: 'Performance', evidence: 'SEO +30%' },
@@ -84,7 +126,7 @@ describe('parseLetterBrief', () => {
 
   it('returns null for broken or incomplete output', () => {
     expect(parseLetterBrief('no json here')).toBeNull();
-    expect(parseLetterBrief('{"company_detail": "x", "needs": []}')).toBeNull();
-    expect(parseLetterBrief('{"company_detail": ')).toBeNull();
+    expect(parseLetterBrief('{"distinctive": "x", "needs": []}')).toBeNull();
+    expect(parseLetterBrief('{"distinctive": ')).toBeNull();
   });
 });
