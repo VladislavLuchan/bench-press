@@ -3,6 +3,7 @@ import type { Job } from '@bench-press/shared/types';
 import { api, errorMessage } from '../api/client.ts';
 import { useClipboard } from '../hooks/useClipboard.ts';
 import { useHotkeyAction } from '../hooks/useHotkeys.ts';
+import { downloadBlob } from '../lib/download.ts';
 import { openListing } from '../lib/pending-apply.ts';
 
 interface Props {
@@ -24,7 +25,7 @@ const STATUS_TEXT = {
  */
 export function CoverLetterPanel({ job, onJobChange }: Props) {
   const [text, setText] = useState(job.coverLetter ?? '');
-  const [busy, setBusy] = useState<'generate' | 'save' | null>(null);
+  const [busy, setBusy] = useState<'generate' | 'save' | 'pdf' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const clipboard = useClipboard();
 
@@ -60,6 +61,23 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
   };
   useHotkeyAction('generate', handleGenerate);
 
+  // The PDF is rendered from the stored letter, so unsaved edits are saved first.
+  const handlePdf = async () => {
+    if (busy) return;
+    setError(null);
+    try {
+      if (!text) await generate(false);
+      else if (dirty) onJobChange(await api.jobs.update(job.id, { coverLetter: text }));
+      setBusy('pdf');
+      const { blob, filename } = await api.jobs.coverLetterPdf(job.id);
+      downloadBlob(blob, filename);
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setBusy(null);
+    }
+  };
+
   const handleSave = async () => {
     setBusy('save');
     setError(null);
@@ -91,6 +109,15 @@ export function CoverLetterPanel({ job, onJobChange }: Props) {
           onClick={() => void clipboard.copy(text)}
         >
           Copy
+        </button>
+        <button
+          className="btn"
+          type="button"
+          disabled={busy !== null}
+          title="Download the letter as a PDF for upload fields (saves edits first)"
+          onClick={() => void handlePdf()}
+        >
+          {busy === 'pdf' ? 'Preparing…' : 'PDF'}
         </button>
         <button
           className="btn"

@@ -42,3 +42,19 @@ export function idParam(value: string | undefined): number {
   if (!Number.isInteger(id) || id <= 0) throw new HttpError(400, 'Invalid id');
   return id;
 }
+
+/** Binary download; the name may hold any letters (RFC 6266 `filename*`). */
+export function binaryFile(
+  body: Uint8Array,
+  options: { contentType: string; filename: string },
+): Response {
+  const ascii = options.filename.replace(/[^\x20-\x7e]/g, '_').replace(/"/g, '');
+  // The copy is typed as backed by a plain ArrayBuffer, which is what BodyInit accepts.
+  return new Response(new Uint8Array(body), {
+    headers: {
+      'Content-Type': options.contentType,
+      'Content-Disposition': `attachment; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(options.filename)}`,
+      'Cache-Control': 'no-store',
+    },
+  });
+}

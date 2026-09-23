@@ -1,3 +1,4 @@
+import { answerHandler, applyFieldsHandler, coverLetterPdfHandler } from './handlers/apply-kit.ts';
 import { coverLetterHandler } from './handlers/cover-letter.ts';
 import { exportHandler } from './handlers/export.ts';
 import {
@@ -32,6 +33,9 @@ const handle = createRouter([
   route('GET', /^\/jobs\/(?<id>\d+)$/, getJobHandler),
   route('PATCH', /^\/jobs\/(?<id>\d+)$/, updateJobHandler),
   route('POST', /^\/jobs\/(?<id>\d+)\/cover-letter$/, coverLetterHandler),
+  route('GET', /^\/jobs\/(?<id>\d+)\/cover-letter\.pdf$/, coverLetterPdfHandler),
+  route('POST', /^\/jobs\/(?<id>\d+)\/answer$/, answerHandler),
+  route('GET', /^\/apply-fields$/, applyFieldsHandler),
   route('GET', /^\/stats$/, statsHandler),
   route('GET', /^\/runs$/, runsHandler),
   route('GET', /^\/settings$/, getSettingsHandler),

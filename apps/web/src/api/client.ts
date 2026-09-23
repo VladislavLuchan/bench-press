@@ -170,6 +170,14 @@ export const api = {
       return job;
     },
     pipeline: (): Promise<JobSummary[]> => request('/pipeline'),
+    /** The stored letter as a PDF, named for the employer. */
+    async coverLetterPdf(id: number): Promise<{ blob: Blob; filename: string }> {
+      const response = await send(`/jobs/${id}/cover-letter.pdf`);
+      const disposition = response.headers.get('Content-Disposition') ?? '';
+      const encoded = /filename\*=UTF-8''([^;]+)/.exec(disposition)?.[1];
+      const filename = encoded ? decodeURIComponent(encoded) : 'Cover_Letter.pdf';
+      return { blob: await response.blob(), filename };
+    },
     coverLetter(id: number, force = false): Promise<CoverLetterResponse> {
       return request(`/jobs/${id}/cover-letter`, {
         method: 'POST',

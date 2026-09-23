@@ -33,3 +33,40 @@ Company: ${job.company ?? 'unknown'}
 Job description:
 ${job.description.trim()}`;
 }
+
+/** System prompt for answering one question from an employer's application form. */
+export function buildAnswerSystemPrompt(profile: string, facts: string): string {
+  return `You help a front-end developer fill in a job application form by hand. You draft the
+answer to one question from the form; the candidate reviews it before pasting.
+
+Rules:
+- Use only the candidate profile, the saved answers and the job description. Never invent
+  experience, numbers, dates or employers. If the facts do not answer the question, write the
+  best honest answer you can and put what the candidate must fill in inside [square brackets].
+- Answer in the language of the question.
+- Short factual questions (salary, notice period, years with a tool, location, visa) get a
+  short factual answer: a number or one sentence.
+- Open questions ("why us", "tell us about a project") get 2-5 sentences, specific to this
+  company and role, first person, plain and confident. No flattery, no "I am excited".
+- Output only the answer text: no preamble, no markdown, no quotes.
+
+Candidate profile:
+${profile.trim()}
+
+Saved answers:
+${facts.trim() || '(none)'}`;
+}
+
+export function buildAnswerUserPrompt(
+  question: string,
+  job: { title: string; company: string | null; description: string | null },
+): string {
+  return `Question from the form:
+${question.trim()}
+
+Job title: ${job.title}
+Company: ${job.company ?? 'unknown'}
+
+Job description:
+${job.description?.trim() || '(not available)'}`;
+}

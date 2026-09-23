@@ -10,6 +10,8 @@ rules and traps that are not visible in the code.
   `npm run *`, `tsx`, `vite`, dev servers or scripts. Verify through CI and Vercel only.
   Reading files, `git`, `gh` and `curl` against the deployed API are fine.
 - **Never build auto-apply** in any form, not even as an option. Applying is manual.
+  The extension may fill a field or attach a file only when the user presses a button in its
+  panel. It never clicks, submits, navigates or acts on its own.
 - **Scrapers never log in or send cookies.** One User-Agent, pauses between requests to the
   same host, back off on 429 or a login redirect instead of retrying.
 - **GitHub account is `VladislavLuchan`.** The machine usually has `v-luchan-snotor` active
@@ -17,7 +19,8 @@ rules and traps that are not visible in the code.
   `gh auth switch --user VladislavLuchan && git push; gh auth switch --user v-luchan-snotor`.
   For `gh run` / `gh workflow` use `GH_TOKEN=$(gh auth token --user VladislavLuchan)` instead.
 - Code, comments and commits in English. Talk to the user in Ukrainian.
-- Personal data (CV, cover letter template) lives only in the database `settings` table.
+- Personal data (CV, cover letter template, application form answers) lives only in the
+  database `settings` table.
 
 ## Working loop without local execution
 
@@ -48,6 +51,9 @@ fix parsers until tests pass).
   the model output (location and stack caps, optional gaps); keep code as the final word.
 - `apps/web/server` — API source, one router behind a bearer token.
 - `apps/web/src` — dashboard, BEM CSS, no UI library, hotkeys in `hooks/useHotkeys.ts`.
+- `apps/extension` — Chrome MV3 extension, plain JS without a build, loaded unpacked. Talks to
+  the dashboard through `src/dashboard-bridge.js` (window.postMessage) and to the API with the
+  token it reads from the dashboard. Pure matching logic in `src/page/match.js` is tested.
 
 ## Traps already hit
 
@@ -56,6 +62,9 @@ fix parsers until tests pass).
 - Browser code imports only `@bench-press/shared/types`. The package root pulls in libsql.
 - Use an `https://` Turso URL; `libsql://` opens a websocket that breaks in serverless.
 - `window.open` and clipboard writes must run synchronously inside the click or keydown.
+- Tabs opened from a popup window (`window.open` with `popup=yes`) land in the main browser
+  window, not the popup. That is why job windows are created by the extension as normal
+  windows; the popup stays only as the fallback without the extension.
 - Hotkeys match `event.code`, so they work in any keyboard layout. Vimium users add the site
   to "Excluded URLs and keys"; do not steal focus to bypass it.
 - Rescore re-evaluates only `new` jobs with a description. `applied`, `replied` and

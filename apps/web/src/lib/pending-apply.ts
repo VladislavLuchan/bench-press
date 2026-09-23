@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { JobSummary } from '@bench-press/shared/types';
-import { JOB_UPDATED_EVENT, type JobWithEvents } from '../api/client.ts';
+import { JOB_UPDATED_EVENT, JOBS_CHANGED_EVENT, type JobWithEvents } from '../api/client.ts';
+import { hasExtension, onExtensionMessage, openInExtensionWindow } from './extension.ts';
 import { openInWindow } from './open.ts';
 
 /**
@@ -59,7 +60,10 @@ type Listing = Pick<JobSummary, 'id' | 'title' | 'company' | 'url' | 'status'>;
  * "Applied?" prompt or changes its status. Must run inside a click or keydown handler.
  */
 export function openListing(job: Listing): void {
-  const popup = openInWindow(job.url);
+  // The extension reports its window closing itself (see the listener below).
+  const viaExtension = hasExtension();
+  const popup = viaExtension ? null : openInWindow(job.url);
+  if (viaExtension) openInExtensionWindow(job);
   if (job.status !== 'new') return;
   const entry: PendingApply = { id: job.id, title: job.title, company: job.company, closed: false };
   save([entry, ...pending.filter((item) => item.id !== job.id)].slice(0, MAX_PENDING));
@@ -75,6 +79,17 @@ export function openListing(job: Listing): void {
 window.addEventListener(JOB_UPDATED_EVENT, (event) => {
   const job = (event as CustomEvent<JobWithEvents>).detail;
   if (job.status !== 'new') dropPendingApply(job.id);
+});
+
+// Status changes made in the extension's side panel reach the dashboard through the bridge.
+onExtensionMessage((message) => {
+  if (message.type === 'job-window-closed') markClosed(message.jobId);
+  if (message.type === 'job-updated') {
+    window.dispatchEvent(
+      new CustomEvent<JobWithEvents>(JOB_UPDATED_EVENT, { detail: message.job }),
+    );
+    window.dispatchEvent(new Event(JOBS_CHANGED_EVENT));
+  }
 });
 
 function subscribe(listener: () => void): () => void {

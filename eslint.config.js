@@ -27,4 +27,11 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // The browser extension is plain JavaScript loaded straight from the repository.
+    files: ['apps/extension/**/*.js'],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.webextensions },
+    },
+  },
 );

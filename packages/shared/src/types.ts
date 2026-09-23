@@ -27,6 +27,8 @@ export const SETTING_KEYS = [
   'profile',
   'cover_letter_template',
   'scoring_guidance',
+  /** "Label: value" lines the browser extension copies or fills into application forms. */
+  'apply_fields',
   'fetch_requested_at',
   'rescore_requested_at',
 ] as const;

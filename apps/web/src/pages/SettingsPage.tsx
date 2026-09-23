@@ -18,6 +18,15 @@ const FIELDS: Array<{ key: keyof Settings; label: string; hint: string }> = [
     label: 'Cover letter template',
     hint: 'Your constant paragraph plus the variable blocks the model should fill in.',
   },
+  {
+    key: 'apply_fields',
+    label: 'Application form answers',
+    hint:
+      'One "Label: value" per line (First name, Last name, Email, Phone, LinkedIn, GitHub, ' +
+      'Location, Salary expectations, Notice period…). Lines without a label continue the ' +
+      'previous answer; indent them if they contain a colon. The extension fills these into ' +
+      'employer forms; name and contacts also head the PDF cover letter.',
+  },
 ];
 
 export function SettingsPage() {
@@ -61,7 +70,7 @@ export function SettingsPage() {
           <span className="field__hint">{hint}</span>
           <textarea
             className="field__input settings__textarea"
-            rows={key === 'scoring_guidance' ? 6 : 16}
+            rows={key === 'scoring_guidance' ? 6 : key === 'apply_fields' ? 12 : 16}
             value={draft[key]}
             onChange={(event) => setDraft({ ...draft, [key]: event.target.value })}
           />

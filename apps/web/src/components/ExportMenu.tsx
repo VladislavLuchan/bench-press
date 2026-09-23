@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { api, errorMessage, type ExportOptions, type JobsQuery } from '../api/client.ts';
 import { useClipboard } from '../hooks/useClipboard.ts';
+import { downloadBlob } from '../lib/download.ts';
 import { toast, toastError } from '../lib/toast.ts';
 
 interface Props {
@@ -10,12 +11,7 @@ interface Props {
 }
 
 function download(text: string, filename: string, type: string): void {
-  const url = URL.createObjectURL(new Blob([text], { type }));
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  downloadBlob(new Blob([text], { type }), filename);
 }
 
 /** Copy the current list as Markdown for an LLM, or download it as Markdown or JSONL. */

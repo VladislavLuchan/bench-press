@@ -9,6 +9,11 @@ cover letter, copies it to the clipboard and opens the listing.
 deliberate design constraint: job boards ban accounts for automated applications, and a
 person should decide where to apply.
 
+The optional browser extension (`apps/extension`) opens a job in its own window and puts a
+side panel next to the employer's form: saved answers to copy or fill, the cover letter as a
+PDF for the upload field, and draft answers to custom questions. It fills a field only when
+you press a button and never submits a form.
+
 ## How it works
 
 ```
@@ -77,6 +82,7 @@ silently returning nothing. `.github/workflows/capture-fixtures.yml` refreshes t
 ```
 apps/scraper      Node 24, TypeScript, fetch + cheerio. Run by scrape.yml.
 apps/web          React + Vite dashboard and the Vercel API function.
+apps/extension   Chrome extension (plain JS, loaded unpacked): job windows, form helper.
 packages/shared   Types, zod schemas, schema.sql-as-code, libsql queries.
 ```
 
@@ -95,9 +101,11 @@ No ORM, no UI library, no framework on the API side. SQL is written by hand agai
    `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `LLM_API_KEY`, `DASHBOARD_TOKEN`. Optional:
    `COVER_LETTER_MODEL` (default `openai/gpt-6-luna`), `GITHUB_TOKEN` + `GITHUB_REPO`
    for the "Fetch now" button (fine-grained token, Actions: read and write).
-4. Open the dashboard, enter the token, and paste your CV and cover letter template on the
-   Settings page. Personal data lives only in the database, never in this repository.
-5. Run the **Scrape** workflow once by hand with `backfill` checked to catch up on the last
+4. Open the dashboard, enter the token, and paste your CV, cover letter template and
+   application form answers on the Settings page. Personal data lives only in the database,
+   never in this repository.
+5. Optional: load `apps/extension` unpacked in Chrome (see its README).
+6. Run the **Scrape** workflow once by hand with `backfill` checked to catch up on the last
    week; the cron takes over from there with 24 hour windows.
 
 Tune search URLs, the salary floor and title keywords in `apps/scraper/src/config.ts`.
@@ -123,6 +131,7 @@ Locally the usual commands still work: `npm install`, `npm test`, `npm run typec
 
 ## Costs
 
-DeepSeek (through OpenRouter) scores a handful of jobs per run for fractions of a cent. Claude Opus (also through OpenRouter) writes a cover
-letter only when asked, about two cents each. One key, one bill, models swappable in config. Turso, GitHub Actions and Vercel stay on free
+DeepSeek (through OpenRouter) scores a handful of jobs per run for fractions of a cent. GPT-6
+Luna (also through OpenRouter) writes a cover letter or a form answer only when asked, well
+under a cent each. One key, one bill, models swappable in config. Turso, GitHub Actions and Vercel stay on free
 tiers at this scale.

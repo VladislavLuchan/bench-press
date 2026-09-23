@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "bench-press",
+  "version": "0.1.0",
+  "description": "Opens jobs from the bench-press dashboard in a normal window and helps fill application forms by hand. Never submits anything.",
+  "minimum_chrome_version": "116",
+  "permissions": ["sidePanel", "storage", "scripting", "clipboardWrite"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel.html"
+  },
+  "action": {
+    "default_title": "bench-press: application helper (Alt+Shift+B)"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+B" },
+      "description": "Open the application helper"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://bench-press-web.vercel.app/*"],
+      "js": ["src/dashboard-bridge.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

@@ -1,7 +1,15 @@
 import { createChatClient, OPENROUTER_BASE_URL, type ChatClient } from '@bench-press/shared';
-import { buildCoverLetterSystemPrompt, buildCoverLetterUserPrompt } from './cover-letter-prompt.ts';
+import {
+  buildAnswerSystemPrompt,
+  buildAnswerUserPrompt,
+  buildCoverLetterSystemPrompt,
+  buildCoverLetterUserPrompt,
+} from './cover-letter-prompt.ts';
 
-/** Model for cover letters. Any OpenRouter id works; swap here to compare quality or price. */
+/**
+ * Model for cover letters and form answers. Any OpenRouter id works; swap here to compare
+ * quality or price.
+ */
 const COVER_LETTER_MODEL = process.env.COVER_LETTER_MODEL ?? 'openai/gpt-6-luna';
 
 let client: ChatClient | undefined;
@@ -31,4 +39,24 @@ export async function generateCoverLetter(input: CoverLetterInput): Promise<stri
   const letter = text.trim();
   if (!letter) throw new Error('The model returned an empty letter');
   return letter;
+}
+
+export interface AnswerInput {
+  profile: string;
+  /** The user's saved form answers (the `apply_fields` setting), as written. */
+  facts: string;
+  question: string;
+  job: { title: string; company: string | null; description: string | null };
+}
+
+/** Drafts one answer for a question on an application form; the user reviews and pastes it. */
+export async function generateAnswer(input: AnswerInput): Promise<string> {
+  const { text } = await getClient().complete(
+    buildAnswerSystemPrompt(input.profile, input.facts),
+    buildAnswerUserPrompt(input.question, input.job),
+    { maxTokens: 4096, temperature: 0.4, reasoningEffort: 'low' },
+  );
+  const answer = text.trim();
+  if (!answer) throw new Error('The model returned an empty answer');
+  return answer;
 }

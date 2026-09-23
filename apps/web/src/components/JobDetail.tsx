@@ -73,7 +73,11 @@ export function JobDetail({ job, onJobChange, onStatus, onBack }: Props) {
   return (
     <div className="job-detail">
       <div className="job-detail__top">
-        <button type="button" className="btn btn--ghost btn--small job-detail__back" onClick={onBack}>
+        <button
+          type="button"
+          className="btn btn--ghost btn--small job-detail__back"
+          onClick={onBack}
+        >
           ← Back to list <kbd className="btn__key">Esc</kbd>
         </button>
         <header className="job-detail__header">

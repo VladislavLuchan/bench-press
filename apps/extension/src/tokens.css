@@ -1,0 +1,17 @@
+/* Same palette as the dashboard (apps/web/src/styles/base.css). */
+:root {
+  color-scheme: dark;
+  --bg: #111417;
+  --bg-elevated: #191d22;
+  --bg-hover: #1f242b;
+  --border: #2a3038;
+  --text: #e6e9ee;
+  --text-muted: #8b95a3;
+  --accent: #7aa2f7;
+  --accent-contrast: #0b0f14;
+  --good: #7fd18b;
+  --warn: #e0af68;
+  --bad: #f7768e;
+  --radius: 8px;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
