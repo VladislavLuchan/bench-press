@@ -20,9 +20,9 @@ describe('lintLetter', () => {
   const context = { template: TEMPLATE, description: DESCRIPTION };
 
   it('passes a plain letter and ignores dashes in the constant paragraph', () => {
-    expect(lintLetter(letter(`I rebuilt a billing page in Next.js. ${filler(100)}`), context)).toEqual(
-      [],
-    );
+    expect(
+      lintLetter(letter(`I rebuilt a billing page in Next.js. ${filler(100)}`), context),
+    ).toEqual([]);
   });
 
   it('still exempts the constant paragraph when the model adjusted a word of it', () => {
@@ -32,15 +32,15 @@ describe('lintLetter', () => {
   });
 
   it('flags lines that restate the posting', () => {
-    const problems = lintLetter(
-      letter(`You need React — I have it. ${filler(100)}`),
-      context,
-    );
+    const problems = lintLetter(letter(`You need React — I have it. ${filler(100)}`), context);
     expect(problems.some((problem) => problem.includes('restate the posting'))).toBe(true);
   });
 
   it('flags dash-heavy prose, clichés and length', () => {
-    const problems = lintLetter(letter('I am excited — really — about this. It stands out.'), context);
+    const problems = lintLetter(
+      letter('I am excited — really — about this. It stands out.'),
+      context,
+    );
     expect(problems.join('\n')).toMatch(/2 dashes/);
     expect(problems.join('\n')).toMatch(/"i am excited", "stands out"/);
     expect(problems.join('\n')).toMatch(/only \d+ words/);
@@ -48,7 +48,9 @@ describe('lintLetter', () => {
 
   it('flags wording copied from the posting once per phrase', () => {
     const problems = lintLetter(
-      letter(`I have strong commercial experience in React, TypeScript and Next.js. ${filler(100)}`),
+      letter(
+        `I have strong commercial experience in React, TypeScript and Next.js. ${filler(100)}`,
+      ),
       context,
     );
     const copied = problems.find((problem) => problem.startsWith('Wording is copied'));

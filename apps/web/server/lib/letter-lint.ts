@@ -33,7 +33,8 @@ const CLICHES = [
   'i believe i would',
 ];
 
-const RESTATING = /^(you need|you're looking for|you are looking for|your posting|as (your|the) posting)/i;
+const RESTATING =
+  /^(you need|you're looking for|you are looking for|your posting|as (your|the) posting)/i;
 
 function words(text: string): string[] {
   return text.toLowerCase().match(/[\p{L}\p{N}]+(?:['’][\p{L}]+)?/gu) ?? [];
