@@ -10,7 +10,10 @@
   const KINDS = [
     ['first_name', new RegExp(`\\b(first|given|fore) ?name\\b|^fname$|^ім${APOSTROPHE}я$`)],
     ['last_name', /\b(last|family|sur) ?name\b|^lname$|прізвищ/],
-    ['full_name', new RegExp(`\\bfull ?name\\b|^(your )?name$|^legal name$|повне ім${APOSTROPHE}я|^піб$`)],
+    [
+      'full_name',
+      new RegExp(`\\bfull ?name\\b|^(your )?name$|^legal name$|повне ім${APOSTROPHE}я|^піб$`),
+    ],
     ['email', /\be ?mail\b|пошт/],
     ['phone', /\b(phone|mobile|tel|telephone|whatsapp)\b|телефон/],
     ['linkedin', /\blinked ?in\b/],
@@ -18,7 +21,10 @@
     ['portfolio', /\b(portfolio|website|personal (site|page|website)|blog)\b|^url$|сайт/],
     ['country', /\bcountry\b|країна/],
     ['location', /\b(city|location|based|address|residence)\b|місто|локаці/],
-    ['salary', /\b(salary|compensation|expected (pay|rate)|rate expectations?|desired pay)\b|зарплат/],
+    [
+      'salary',
+      /\b(salary|compensation|expected (pay|rate)|rate expectations?|desired pay)\b|зарплат/,
+    ],
     ['notice', /\b(notice period|start date|availability|available to start|when can you start)\b/],
     ['english', /\benglish\b|англійськ/],
   ];
@@ -65,7 +71,10 @@
   function kindOfField(parts, inputType, autocomplete) {
     if (inputType === 'email') return 'email';
     if (inputType === 'tel') return 'phone';
-    const token = String(autocomplete ?? '').trim().split(/\s+/).pop();
+    const token = String(autocomplete ?? '')
+      .trim()
+      .split(/\s+/)
+      .pop();
     if (token && AUTOCOMPLETE[token]) return AUTOCOMPLETE[token];
     for (const part of parts) {
       const kind = kindOf(part);
@@ -87,7 +96,9 @@
       const last = savedValue('last_name', fields);
       return first && last ? `${first} ${last}` : null;
     }
-    const [firstWord, ...rest] = (savedValue('full_name', fields) ?? '').split(/\s+/).filter(Boolean);
+    const [firstWord, ...rest] = (savedValue('full_name', fields) ?? '')
+      .split(/\s+/)
+      .filter(Boolean);
     if (kind === 'first_name') return firstWord ?? null;
     if (kind === 'last_name') return rest.length > 0 ? rest.join(' ') : null;
     return null;

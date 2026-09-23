@@ -1,8 +1,7 @@
 // Service worker: opens jobs in normal windows, remembers which window belongs to which job,
 // and relays status changes back to the dashboard. It never touches employer pages itself.
 
-const DASHBOARD_ORIGIN = new URL(chrome.runtime.getManifest().content_scripts[0].matches[0])
-  .origin;
+const DASHBOARD_ORIGIN = new URL(chrome.runtime.getManifest().content_scripts[0].matches[0]).origin;
 const RECENT_LIMIT = 10;
 
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});

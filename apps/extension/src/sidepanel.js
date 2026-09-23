@@ -390,17 +390,23 @@ function renderLetter() {
     h(
       'div',
       { className: 'row' },
-      button(state.busy === 'attach' ? 'Attaching…' : 'Attach PDF', () => run('attach', attachPdf), {
-        primary: true,
-        disabled: busy,
-        title: "Puts the PDF into the page's cover letter upload",
-      }),
-      button('Download PDF', () =>
-        run('pdf', async () => {
-          const { name, blob } = await fetchPdf();
-          download(blob, name);
-          setStatus(`${name} downloaded`, 'good');
-        }),
+      button(
+        state.busy === 'attach' ? 'Attaching…' : 'Attach PDF',
+        () => run('attach', attachPdf),
+        {
+          primary: true,
+          disabled: busy,
+          title: "Puts the PDF into the page's cover letter upload",
+        },
+      ),
+      button(
+        'Download PDF',
+        () =>
+          run('pdf', async () => {
+            const { name, blob } = await fetchPdf();
+            download(blob, name);
+            setStatus(`${name} downloaded`, 'good');
+          }),
         { disabled: busy },
       ),
       button('Copy', () => run('copy', () => copy(state.letter, 'Cover letter')), {
@@ -435,9 +441,13 @@ function renderQuestion() {
     h(
       'div',
       { className: 'row' },
-      button(state.busy === 'answer' ? 'Drafting…' : 'Draft answer', () => run('answer', draftAnswer), {
-        disabled: busy,
-      }),
+      button(
+        state.busy === 'answer' ? 'Drafting…' : 'Draft answer',
+        () => run('answer', draftAnswer),
+        {
+          disabled: busy,
+        },
+      ),
     ),
     state.answer
       ? [

@@ -63,9 +63,9 @@ describe('valueForField', () => {
   });
 
   it('matches a custom question saved word for word', () => {
-    expect(
-      match.valueForField(['How did you hear about us? *'], 'text', null, FIELDS),
-    ).toBe('LinkedIn');
+    expect(match.valueForField(['How did you hear about us? *'], 'text', null, FIELDS)).toBe(
+      'LinkedIn',
+    );
   });
 
   it('returns null when nothing fits', () => {

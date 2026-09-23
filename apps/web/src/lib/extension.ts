@@ -16,8 +16,7 @@ export interface JobRef {
 }
 
 export type ExtensionMessage =
-  | { type: 'job-window-closed'; jobId: number }
-  | { type: 'job-updated'; job: JobWithEvents };
+  { type: 'job-window-closed'; jobId: number } | { type: 'job-updated'; job: JobWithEvents };
 
 export function hasExtension(): boolean {
   return Boolean(document.documentElement.dataset.benchPressExtension);
