@@ -85,7 +85,7 @@ What makes these letters work:
   "your posting mentions", "as required"). State what the candidate did; the reader draws the
   match.
 - Honest beats polished. Only facts from the profile; never invent experience, numbers or
-  employers.
+  employers, and keep every fact with the employer and project it belongs to.
 - Never mention what the candidate lacks or has not used: no missing tools, years, seniority
   or "motivation to grow". The CV is read anyway, a volunteered weakness only gives a reason
   to reject, and a tool missing from the profile is not proof the candidate never used it.
@@ -148,12 +148,14 @@ questions and fix every sentence that fails:
    me...")? Delete it.
 4. Does any sentence say what the candidate lacks or has not used (tools, years, seniority,
    "motivation to grow")? Delete it; the letter only says what the candidate did.
-5. Is the constant paragraph verbatim and second? Do two paragraphs open with the same
-   employer?
+5. Is the constant paragraph verbatim and second? Is any fact told twice (the same project,
+   result or number in the opening and the story)? Replace the repeat with a different fact.
 6. Does it read like a person: varied sentences, at most one dash (—) outside the constant
    paragraph, no clichés, no list of technologies?
 ${found}
-Use only facts from the profile and never add a claim that is not there. Keep 130 to 200 words,
+Use only facts from the profile and never add a claim that is not there. Every fact stays
+with the employer and project the profile gives it; never move a fact to another employer to
+vary a sentence. Keep 130 to 200 words,
 the template's block order and the language. Output only the final letter.
 
 Letter:

@@ -115,7 +115,8 @@ export function lintLetter(letter: string, context: LetterContext): string[] {
   );
   if (repeated) {
     problems.push(
-      `Two paragraphs open with "At ${repeated}"; merge them or open the second one differently.`,
+      `Two paragraphs open with "At ${repeated}". Keep the employer and every fact as they are; ` +
+        'only start the later paragraph another way, e.g. "On the same product, I…"',
     );
   }
 
