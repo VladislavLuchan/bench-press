@@ -136,15 +136,20 @@ async function ensureLetter() {
     // Edited in the panel: store it so the PDF matches what is on screen.
     await updateJob({ coverLetter: state.letter });
   }
-  if (state.letter.trim()) return;
+  if (!state.letter.trim()) await writeLetter(false);
+}
+
+/** Asks the model for a letter; `force` replaces the stored one (Regenerate). */
+async function writeLetter(force) {
   setStatus('Writing the cover letter…');
   const response = await api(`/jobs/${state.job.id}/cover-letter`, {
     method: 'POST',
-    body: JSON.stringify({ force: false }),
+    body: JSON.stringify({ force }),
   });
   const { coverLetter } = await response.json();
   state.letter = coverLetter;
   state.job = { ...state.job, coverLetter };
+  setStatus(force ? 'New letter written' : 'Letter written', 'good');
 }
 
 async function fetchPdf() {
@@ -416,9 +421,14 @@ function renderLetter() {
         disabled: busy || !hasLetter,
         title: 'Into the text field you clicked last on the page',
       }),
-      hasLetter
-        ? null
-        : button('Generate', () => run('generate', ensureLetter), { disabled: busy }),
+      button(
+        state.busy === 'generate' ? 'Writing…' : hasLetter ? 'Regenerate' : 'Generate',
+        () => run('generate', () => writeLetter(hasLetter)),
+        {
+          disabled: busy,
+          title: hasLetter ? 'Replaces the stored letter with a new one' : undefined,
+        },
+      ),
     ),
   );
 }
