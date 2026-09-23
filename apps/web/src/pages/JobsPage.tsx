@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Job, JobStatus, JobSummary } from '@bench-press/shared/types';
 import {
   api,
@@ -179,10 +179,15 @@ export function JobsPage({ mode, selectedId }: Props) {
 
   const selectedJob = jobs.find((job) => job.id === selectedId) ?? null;
 
+  // In the narrow layout the list is hidden while a job is open; coming back scrolls to the
+  // card that was open, so the place in the list is not lost.
+  const lastSelectedId = useRef(selectedId);
   useEffect(() => {
-    if (selectedId === null) return;
-    const card = document.querySelector<HTMLElement>(`[data-job-id="${selectedId}"]`);
-    card?.scrollIntoView({ block: 'nearest' });
+    const id = selectedId ?? lastSelectedId.current;
+    if (selectedId !== null) lastSelectedId.current = selectedId;
+    if (id === null) return;
+    const card = document.querySelector<HTMLElement>(`[data-job-id="${id}"]`);
+    card?.scrollIntoView({ block: selectedId === null ? 'center' : 'nearest' });
   }, [selectedId, jobs]);
   const hotkeys = useMemo(() => {
     const move = (delta: number) => {
@@ -231,7 +236,7 @@ export function JobsPage({ mode, selectedId }: Props) {
   useHotkeys(hotkeys);
 
   return (
-    <div className="jobs">
+    <div className={`jobs ${selectedId !== null ? 'jobs--has-selection' : ''}`}>
       <div className="jobs__list">
         <JobFilters query={query} onChange={setQuery} lockStatus={mode === 'filtered'} />
         <p className="jobs__count">
@@ -263,6 +268,7 @@ export function JobsPage({ mode, selectedId }: Props) {
             job={selected}
             onJobChange={handleJobChange}
             onStatus={(status) => quickStatus(selected.id, status)}
+            onBack={() => navigate(base)}
           />
         ) : (
           <p className="jobs__empty">Select a job to see details.</p>

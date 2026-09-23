@@ -5,9 +5,26 @@
   align-items: start;
 }
 
+/* Narrow window (a tiled half screen): one pane at a time. An open job wins over the list,
+   because that is where the cover letter and the verdict buttons live. */
 @media (max-width: 900px) {
   .jobs {
     grid-template-columns: 1fr;
+  }
+
+  .jobs--has-selection .jobs__list,
+  .jobs:not(.jobs--has-selection) .jobs__detail {
+    display: none;
+  }
+}
+
+.job-detail__back {
+  align-self: flex-start;
+}
+
+@media (min-width: 901px) {
+  .job-detail__back {
+    display: none;
   }
 }
 

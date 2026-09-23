@@ -15,6 +15,8 @@ interface Props {
   onJobChange: (job: JobWithEvents) => void;
   /** Status changes go through the page, which moves on to the next job. */
   onStatus: (status: JobStatus) => void;
+  /** Back to the list; only shown in the narrow layout, where the list is hidden. */
+  onBack: () => void;
 }
 
 const STATUS_ACTIONS: Array<{ status: JobStatus; label: string; key: string }> = [
@@ -47,7 +49,7 @@ function List({ title, items, tone }: { title: string; items: string[]; tone: st
   );
 }
 
-export function JobDetail({ job, onJobChange, onStatus }: Props) {
+export function JobDetail({ job, onJobChange, onStatus, onBack }: Props) {
   const [notes, setNotes] = useState(job.notes ?? '');
   useEffect(() => setNotes(job.notes ?? ''), [job.id, job.notes]);
 
@@ -71,6 +73,9 @@ export function JobDetail({ job, onJobChange, onStatus }: Props) {
   return (
     <div className="job-detail">
       <div className="job-detail__top">
+        <button type="button" className="btn btn--ghost btn--small job-detail__back" onClick={onBack}>
+          ← Back to list <kbd className="btn__key">Esc</kbd>
+        </button>
         <header className="job-detail__header">
           <FitBadge fit={job.fit} fitRaw={job.fitRaw} notes={job.fitNotes} />
           <div className="job-detail__heading">
