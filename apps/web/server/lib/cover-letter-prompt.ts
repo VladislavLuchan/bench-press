@@ -39,7 +39,6 @@ Return JSON only:
     },
     { "need": "the second most important one", "evidence": "a different fact" }
   ],
-  "gap": "a hard must-have the profile clearly lacks, or null",
   "close_offer": "one concrete thing from the evidence the candidate could show on a call"
 }
 
@@ -52,8 +51,8 @@ Rules:
   Claims any front-end developer could make (built reusable components, writes clean code,
   N years of experience) are weak evidence; use them only when nothing more specific fits.
 - Evidence must not repeat the constant paragraph of the template; it is printed anyway.
-- gap is null for nice-to-haves, bonuses, "a plus", and "motivation / willingness to learn or
-  grow". Years of experience and seniority are never a gap. When unsure, null.
+- The letter never mentions what the candidate lacks. The CV is read anyway, and a missing
+  line in the profile does not mean a missing skill.
 
 Candidate profile:
 ${profile.trim()}
@@ -86,10 +85,10 @@ What makes these letters work:
   "your posting mentions", "as required"). State what the candidate did; the reader draws the
   match.
 - Honest beats polished. Only facts from the profile; never invent experience, numbers or
-  employers. Mention a gap only where the template has a block for it, only for a hard
-  must-have the profile lacks, as a plan in one sentence. Never for nice-to-haves, bonuses or
-  "motivation / willingness to grow", and never about years of experience or seniority. When
-  unsure, leave it out.
+  employers.
+- Never mention what the candidate lacks or has not used: no missing tools, years, seniority
+  or "motivation to grow". The CV is read anyway, a volunteered weakness only gives a reason
+  to reject, and a tool missing from the profile is not proof the candidate never used it.
 - Sound like a person writing to a future teammate: plain words, sentences of different
   lengths, contractions are fine. At most one dash (—) outside the constant paragraph. No
   rhetorical pairs or triplets, no "not just X but Y", no "I'm excited", "passionate",
@@ -118,7 +117,6 @@ What only this posting says: ${brief.distinctive}
 Open with it and: ${brief.openingFact ?? 'the matching fact from the profile'}
 What the letter must prove, most important first:
 ${needs}
-Gap: ${brief.gap ?? 'none, skip the gap block'}
 Offer on a call: ${brief.closeOffer ?? 'pick one concrete thing from the letter'}`;
 }
 
@@ -148,8 +146,8 @@ questions and fix every sentence that fails:
    the profile that fits this posting, or delete it.
 3. Does a sentence only comment on the previous one ("That work meant...", "This taught
    me...")? Delete it.
-4. Does the letter volunteer a weakness that is not a hard must-have the candidate lacks?
-   Years of experience, seniority and "motivation to grow" are never mentioned. Delete it.
+4. Does any sentence say what the candidate lacks or has not used (tools, years, seniority,
+   "motivation to grow")? Delete it; the letter only says what the candidate did.
 5. Is the constant paragraph verbatim and second? Do two paragraphs open with the same
    employer?
 6. Does it read like a person: varied sentences, at most one dash (—) outside the constant

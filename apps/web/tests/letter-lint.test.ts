@@ -93,6 +93,14 @@ describe('lintLetter: what an editor would cut', () => {
     expect(problems).toMatch(/compares the candidate's years/);
   });
 
+  it('flags a volunteered missing skill', () => {
+    const problems = lintLetter(
+      letter(`I built a contracts editor. ${filler(90)}`, "I haven't used Ant Design yet."),
+      context,
+    );
+    expect(joined(problems)).toMatch(/says what the candidate lacks/);
+  });
+
   it('leaves a specific opening alone', () => {
     const problems = lintLetter(
       letter(
@@ -114,7 +122,6 @@ describe('parseLetterBrief', () => {
         { need: 'Performance', evidence: 'SEO +30%' },
         { need: 'Extra', evidence: 'Extra' },
       ],
-      gap: 'null',
       close_offer: 'the assistant',
     })}`;
     expect(parseLetterBrief(raw)).toEqual({
@@ -124,7 +131,6 @@ describe('parseLetterBrief', () => {
         { need: 'React and Next.js at scale', evidence: 'Greenely web app, 70k users' },
         { need: 'Performance', evidence: 'SEO +30%' },
       ],
-      gap: null,
       closeOffer: 'the assistant',
     });
   });

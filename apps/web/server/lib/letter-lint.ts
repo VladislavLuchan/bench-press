@@ -45,6 +45,9 @@ const META =
 const YEARS_SHORTFALL =
   /\b(years?|yrs)\b[^.]*\b(rather than|instead of|less than|fewer than|short of|than the (listed|required))\b|(рок(ів|и)[^.]*(замість|менше))/i;
 // "At Acme Labs, I…" and "At Acme I led…" both name Acme; the pronoun is not part of it.
+// A volunteered weakness: a tool, skill or kind of work the candidate says they lack.
+const LACKS =
+  /\b(i haven['’]t (used|worked|had)|i have not (used|worked|had)|i['’]ve never|i have never|no (hands-on |commercial |production )?experience (with|in)|not (yet )?familiar with|i lack|i['’]m new to|i am new to)\b|не працював з|не маю досвіду/i;
 const EMPLOYER_OPENING = /^At ([\p{Lu}][\p{L}\p{N}&.-]*(?: (?!I\b)[\p{Lu}][\p{L}\p{N}&.-]*)*)/u;
 
 const RESTATING =
@@ -129,6 +132,14 @@ export function lintLetter(letter: string, context: LetterContext): string[] {
     problems.push(
       `"${meta[0]!.slice(0, 50)}…" only comments on the sentence before it; delete it or ` +
         'replace it with a result.',
+    );
+  }
+
+  const lacks = sentences.filter((sentence) => LACKS.test(sentence));
+  if (lacks.length > 0) {
+    problems.push(
+      `"${lacks[0]!.slice(0, 50)}…" says what the candidate lacks. The letter never mentions ` +
+        'missing skills; delete the sentence.',
     );
   }
 

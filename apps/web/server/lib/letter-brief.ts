@@ -6,7 +6,6 @@ export interface LetterBrief {
   distinctive: string;
   openingFact: string | null;
   needs: Array<{ need: string; evidence: string }>;
-  gap: string | null;
   closeOffer: string | null;
 }
 
@@ -16,7 +15,6 @@ const briefSchema = z.object({
   needs: z
     .array(z.object({ need: z.string().trim().min(1), evidence: z.string().trim().min(1) }))
     .min(1),
-  gap: z.string().trim().nullish(),
   close_offer: z.string().trim().nullish(),
 });
 
@@ -33,13 +31,11 @@ export function parseLetterBrief(raw: string): LetterBrief | null {
   }
   const parsed = briefSchema.safeParse(data);
   if (!parsed.success) return null;
-  const { distinctive, opening_fact, needs, gap, close_offer } = parsed.data;
+  const { distinctive, opening_fact, needs, close_offer } = parsed.data;
   return {
     distinctive,
     openingFact: opening_fact || null,
     needs: needs.slice(0, 2),
-    // Models write "null" or "none" as text now and then.
-    gap: gap && !/^(null|none|n\/a|-)$/i.test(gap) ? gap : null,
     closeOffer: close_offer || null,
   };
 }
