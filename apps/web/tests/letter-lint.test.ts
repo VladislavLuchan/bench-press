@@ -138,7 +138,8 @@ describe('parseLetterBrief', () => {
 
 describe('ensureSignature', () => {
   it('finds the signature under the blocks and puts it back when dropped', () => {
-    const template = '# Title\n\n- Rule: keep it short.\n\n---\n\n[OPENING]\n\nA constant paragraph.\n\n[CLOSE]\n\nJane';
+    const template =
+      '# Title\n\n- Rule: keep it short.\n\n---\n\n[OPENING]\n\nA constant paragraph.\n\n[CLOSE]\n\nJane';
     expect(templateSignature(template)).toBe('Jane');
     expect(ensureSignature('Body text.', template)).toBe('Body text.\n\nJane');
     expect(ensureSignature('Body text.\n\nJane', template)).toBe('Body text.\n\nJane');
