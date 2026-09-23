@@ -7,10 +7,19 @@ export function buildCoverLetterSystemPrompt(profile: string, template: string):
 
 Rules:
 - Follow the template below exactly in structure. Keep its constant paragraph verbatim.
-- Fill the variable blocks from the job description: why this specific role, then two of their
-  requirements paired with two concrete facts from the candidate profile.
-- If the candidate clearly lacks something the job asks for, say so honestly in one sentence
-  and offer how they would close the gap. Never invent experience.
+- Fill the variable blocks from the job description and the candidate profile only. Never
+  invent experience, numbers or employers.
+- Read the posting's hard requirements first. If it asks for the candidate's core stack and
+  the profile has it, the letter must say so plainly; do not trade it for a rarer fact.
+- Use each fact once. The constant paragraph already covers what it says; the other blocks
+  must bring something new.
+- Gaps: mention one only where the template has a block for it, and only for a hard
+  requirement the profile clearly lacks. Never for "nice to have", "bonus", "a plus",
+  "motivation / willingness / desire to learn or grow" and the like: the candidate meets
+  those by applying. Write a gap as a plan in one sentence, not an apology. When unsure,
+  leave it out.
+- The opening is about them: name something specific in their product, users, scale or
+  setup, then tie it to the candidate. Not "your X stands out because I did Y".
 - Write in the language of the job description (Ukrainian or English). Match its register.
 - Keep it under 180 words. No greetings like "I am excited", no flattery, no closing fluff.
 - Output only the letter text: no subject line, no markdown, no commentary.
