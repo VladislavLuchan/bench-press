@@ -107,7 +107,9 @@ export function lintLetter(letter: string, context: LetterContext): string[] {
   }
 
   const openings = paragraphs.map((paragraph) => EMPLOYER_OPENING.exec(paragraph)?.[1] ?? null);
-  const repeated = openings.find((name, index) => name !== null && openings.indexOf(name) !== index);
+  const repeated = openings.find(
+    (name, index) => name !== null && openings.indexOf(name) !== index,
+  );
   if (repeated) {
     problems.push(
       `Two paragraphs open with "At ${repeated}"; merge them or open the second one differently.`,

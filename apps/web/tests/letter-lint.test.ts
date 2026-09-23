@@ -69,9 +69,12 @@ describe('lintLetter: what an editor would cut', () => {
   });
 
   it('flags two paragraphs opening with the same employer', () => {
-    const text = [`Opening. ${filler(60)}`, CONSTANT, `At Acme, I also did more. ${filler(40)}`, 'Jane'].join(
-      '\n\n',
-    );
+    const text = [
+      `Opening. ${filler(60)}`,
+      CONSTANT,
+      `At Acme, I also did more. ${filler(40)}`,
+      'Jane',
+    ].join('\n\n');
     expect(joined(lintLetter(text, context))).toMatch(/Two paragraphs open with "At Acme"/);
   });
 
@@ -92,7 +95,9 @@ describe('lintLetter: what an editor would cut', () => {
 
   it('leaves a specific opening alone', () => {
     const problems = lintLetter(
-      letter(`Your team settles API contracts before code review; I wrote ours at Acme. ${filler(90)}`),
+      letter(
+        `Your team settles API contracts before code review; I wrote ours at Acme. ${filler(90)}`,
+      ),
       context,
     );
     expect(problems).toEqual([]);
