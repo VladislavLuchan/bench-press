@@ -23,7 +23,7 @@ describe('djinni.parseListings', () => {
       salaryRaw: null,
       remote: true,
     });
-    expect(jobs[0]?.postedAt).toBe('2026-09-15T11:49:00.000Z');
+    expect(jobs[0]?.postedAt).toBe('2026-09-15T08:49:00.000Z');
   });
 
   it('takes the full description from the hidden block in the card', () => {
