@@ -38,12 +38,26 @@ const DEFAULT_QUERY: Record<Props['mode'], JobsQuery> = {
 // Bump the suffix when defaults change, so saved filters do not hide new ones.
 const QUERY_STORAGE_KEY = 'bench-press.filters.v2';
 
+/** Statuses each tab may show: Jobs only unseen ones, Filtered rejected or skipped ones. */
+const ALLOWED_STATUSES: Record<Props['mode'], string[]> = {
+  jobs: ['new'],
+  filtered: ['filtered', 'skipped'],
+};
+
+function withAllowedStatus(mode: Props['mode'], query: JobsQuery): JobsQuery {
+  return query.status && ALLOWED_STATUSES[mode].includes(query.status)
+    ? query
+    : { ...query, status: DEFAULT_QUERY[mode].status };
+}
+
 function loadQuery(mode: Props['mode']): JobsQuery {
   try {
     const saved = localStorage.getItem(`${QUERY_STORAGE_KEY}.${mode}`);
-    return saved
-      ? { ...DEFAULT_QUERY[mode], ...(JSON.parse(saved) as JobsQuery) }
-      : DEFAULT_QUERY[mode];
+    // Saved filters from before may carry "all active" or another status; the tab decides.
+    return withAllowedStatus(
+      mode,
+      saved ? { ...DEFAULT_QUERY[mode], ...(JSON.parse(saved) as JobsQuery) } : DEFAULT_QUERY[mode],
+    );
   } catch {
     return DEFAULT_QUERY[mode];
   }
@@ -65,6 +79,8 @@ function toSummary(job: Job | JobWithEvents): JobSummary {
 
 export function JobsPage({ mode, selectedId }: Props) {
   const [query, setQueryState] = useState<JobsQuery>(() => loadQuery(mode));
+  const statusRef = useRef(query.status);
+  statusRef.current = query.status;
   const base = mode === 'filtered' ? '#/filtered' : '#/jobs';
   const setQuery = (next: JobsQuery) => {
     saveQuery(mode, next);
@@ -125,7 +141,13 @@ export function JobsPage({ mode, selectedId }: Props) {
   useEffect(() => {
     const onUpdated = (event: Event) => {
       const job = (event as CustomEvent<JobWithEvents>).detail;
-      setJobs((current) => current.map((item) => (item.id === job.id ? toSummary(job) : item)));
+      // A job whose status left this tab's filter leaves the list: applied jobs live on the
+      // Pipeline, skipped ones under Filtered, and Jobs keeps only what is still unseen.
+      setJobs((current) =>
+        job.status === statusRef.current
+          ? current.map((item) => (item.id === job.id ? toSummary(job) : item))
+          : current.filter((item) => item.id !== job.id),
+      );
       setSelected((current) => (current?.id === job.id ? job : current));
     };
     window.addEventListener(JOB_UPDATED_EVENT, onUpdated);
@@ -238,7 +260,7 @@ export function JobsPage({ mode, selectedId }: Props) {
   return (
     <div className={`jobs ${selectedId !== null ? 'jobs--has-selection' : ''}`}>
       <div className="jobs__list">
-        <JobFilters query={query} onChange={setQuery} lockStatus={mode === 'filtered'} />
+        <JobFilters query={query} onChange={setQuery} mode={mode} />
         <p className="jobs__count">
           {loading ? 'Loading…' : `${jobs.length} job${jobs.length === 1 ? '' : 's'}`}
           <span className="jobs__hint"> · press ? for shortcuts</span>

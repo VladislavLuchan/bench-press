@@ -4,6 +4,7 @@ import { ApplyPrompt } from './components/ApplyPrompt.tsx';
 import { FetchNowButton } from './components/FetchNowButton.tsx';
 import { HeaderCounters } from './components/HeaderCounters.tsx';
 import { HotkeysHelp } from './components/HotkeysHelp.tsx';
+import { useCatchUp } from './hooks/useCatchUp.ts';
 import { useHotkeys } from './hooks/useHotkeys.ts';
 import { TokenGate } from './components/TokenGate.tsx';
 import { Toasts } from './components/Toasts.tsx';
@@ -42,6 +43,7 @@ export function App() {
     [],
   );
   useHotkeys(hotkeys, hasToken);
+  useCatchUp(hasToken);
   useHotkeys(
     useMemo(
       () => [{ keys: ['Escape'], description: 'close help', action: () => setHelpOpen(false) }],

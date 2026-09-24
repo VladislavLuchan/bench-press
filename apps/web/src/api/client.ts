@@ -189,6 +189,9 @@ export const api = {
   fetchNow: {
     status: (): Promise<FetchStatus> => request('/fetch-now'),
     trigger: (): Promise<FetchStatus> => request('/fetch-now', { method: 'POST' }),
+    /** Starts a run only when the last one is over an hour old (the cron skipped slots). */
+    catchUp: (): Promise<{ started: boolean }> =>
+      request('/fetch-now/catch-up', { method: 'POST' }),
   },
   rescore: {
     status: (): Promise<FetchStatus> => request('/rescore'),

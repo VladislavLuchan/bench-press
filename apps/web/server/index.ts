@@ -2,6 +2,7 @@ import { answerHandler, applyFieldsHandler, coverLetterPdfHandler } from './hand
 import { coverLetterHandler } from './handlers/cover-letter.ts';
 import { exportHandler } from './handlers/export.ts';
 import {
+  catchUpHandler,
   fetchNowHandler,
   fetchStatusHandler,
   rescoreHandler,
@@ -42,6 +43,7 @@ const handle = createRouter([
   route('PUT', /^\/settings$/, updateSettingsHandler),
   route('GET', /^\/fetch-now$/, fetchStatusHandler),
   route('POST', /^\/fetch-now$/, fetchNowHandler),
+  route('POST', /^\/fetch-now\/catch-up$/, catchUpHandler),
   route('GET', /^\/rescore$/, rescoreStatusHandler),
   route('POST', /^\/rescore$/, rescoreHandler),
 ]);

@@ -1,18 +1,26 @@
 import {
   COMPANY_TYPES,
-  JOB_STATUSES,
   LOCATION_TYPES,
   ROLE_TYPES,
   SOURCE_NAMES,
+  type JobStatus,
 } from '@bench-press/shared/types';
 import type { JobsQuery } from '../api/client.ts';
 
 interface Props {
   query: JobsQuery;
   onChange: (query: JobsQuery) => void;
-  /** The Filtered tab pins status to `filtered`. */
-  lockStatus?: boolean;
+  /**
+   * `jobs` lists only unseen (`new`) jobs, so it has no status choice. `filtered` switches
+   * between what the rules rejected and what the user skipped.
+   */
+  mode: 'jobs' | 'filtered';
 }
+
+const HIDDEN_STATUSES: Array<{ status: JobStatus; label: string }> = [
+  { status: 'filtered', label: 'filtered by rules' },
+  { status: 'skipped', label: 'skipped by me' },
+];
 
 const LOCATION_OPTIONS = [...LOCATION_TYPES, 'unscored'] as const;
 const LOCATION_LABELS: Record<(typeof LOCATION_OPTIONS)[number], string> = {
@@ -24,7 +32,8 @@ const LOCATION_LABELS: Record<(typeof LOCATION_OPTIONS)[number], string> = {
   unscored: 'not scored yet',
 };
 
-export function JobFilters({ query, onChange, lockStatus = false }: Props) {
+export function JobFilters({ query, onChange, mode }: Props) {
+  const lockStatus = mode === 'filtered';
   const update = (patch: Partial<JobsQuery>) => onChange({ ...query, ...patch });
   const locations = query.locationType ?? [];
   const roles = query.roleType ?? [];
@@ -72,22 +81,22 @@ export function JobFilters({ query, onChange, lockStatus = false }: Props) {
           ))}
         </select>
       </label>
-      <label className="field field--inline">
-        <span className="field__label">Status</span>
-        <select
-          className="field__input"
-          value={query.status ?? ''}
-          disabled={lockStatus}
-          onChange={(event) => update({ status: event.target.value || undefined })}
-        >
-          <option value="">all active</option>
-          {JOB_STATUSES.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
-      </label>
+      {mode === 'filtered' && (
+        <label className="field field--inline">
+          <span className="field__label">Show</span>
+          <select
+            className="field__input"
+            value={query.status ?? 'filtered'}
+            onChange={(event) => update({ status: event.target.value })}
+          >
+            {HIDDEN_STATUSES.map(({ status, label }) => (
+              <option key={status} value={status}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <label className="field field--inline">
         <span className="field__label">Since</span>
         <input
