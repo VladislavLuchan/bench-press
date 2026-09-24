@@ -28,7 +28,7 @@ const CASES: Array<[title: string, expected: 'ok' | RegExp]> = [
   ['Senior Angular Developer', /excluded "angular"/],
   ['Senior React/Angular Engineer', 'ok'],
   ['Senior Front-End Engineer – TypeScript / React / Angular', 'ok'],
-  ['React Native / Angular Developer', /excluded "angular"/],
+  ['React Native / Angular Developer', /excluded "react native"/],
   ['Senior Full Stack Developer with Angular & Java/Spring Boot', /excluded "angular"/],
   ['Frontend Developer (Angular v18+) Junior+/Middle level', /excluded/],
   ['Middle Frontend developer (Nuxt)', /excluded "middle"/],
