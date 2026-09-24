@@ -12,9 +12,10 @@ describe('parseDate', () => {
     expect(parseDate('Mon, 14 Sep 2026 10:30:00 +0300', now)).toBe('2026-09-14T07:30:00.000Z');
   });
 
-  it('parses Djinni dotted timestamps', () => {
-    expect(parseDate('11:49 15.09.2026', now)).toBe('2026-09-15T11:49:00.000Z');
-    expect(parseDate('15.09.2026', now)).toBe('2026-09-15T00:00:00.000Z');
+  it('parses Djinni dotted timestamps as Kyiv time, summer and winter', () => {
+    expect(parseDate('11:49 15.09.2026', now)).toBe('2026-09-15T08:49:00.000Z');
+    expect(parseDate('15.09.2026', now)).toBe('2026-09-14T21:00:00.000Z');
+    expect(parseDate('10:00 15.01.2026', now)).toBe('2026-01-15T08:00:00.000Z');
   });
 
   it('handles English relative phrases', () => {

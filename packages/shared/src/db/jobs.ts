@@ -110,13 +110,15 @@ async function selectExisting(
   db: Db,
   column: string,
   values: string[],
+  seenSince: string | null = null,
 ): Promise<Map<string, ExistingJobRef>> {
   const found = new Map<string, ExistingJobRef>();
+  const window = seenSince ? ' AND first_seen_at >= ?' : '';
   for (let i = 0; i < values.length; i += IN_CHUNK) {
     const chunk = values.slice(i, i + IN_CHUNK);
     const result = await db.execute({
-      sql: `SELECT ${column} AS value, id, source, sources FROM jobs WHERE ${column} IN (${placeholders(chunk.length)})`,
-      args: chunk,
+      sql: `SELECT ${column} AS value, id, source, sources FROM jobs WHERE ${column} IN (${placeholders(chunk.length)})${window}`,
+      args: seenSince ? [...chunk, seenSince] : chunk,
     });
     for (const row of result.rows) {
       found.set(textRequired(row, 'value'), {
@@ -129,16 +131,22 @@ async function selectExisting(
 }
 
 /** Which of the given keys are already present, with the row they belong to. */
+/**
+ * Stored jobs matching these keys. A URL match is forever; a title+company match only
+ * counts for jobs first seen after `dedupeKeysSince`, so a company that posts the same title
+ * again months later (a new opening, a new URL) is not mistaken for the old one.
+ */
 export async function findExistingJobKeys(
   db: Db,
   keys: { canonicalUrls: string[]; dedupeKeys: string[] },
+  dedupeKeysSince: string | null = null,
 ): Promise<{
   canonicalUrls: Map<string, ExistingJobRef>;
   dedupeKeys: Map<string, ExistingJobRef>;
 }> {
   return {
     canonicalUrls: await selectExisting(db, 'canonical_url', keys.canonicalUrls),
-    dedupeKeys: await selectExisting(db, 'dedupe_key', keys.dedupeKeys),
+    dedupeKeys: await selectExisting(db, 'dedupe_key', keys.dedupeKeys, dedupeKeysSince),
   };
 }
 

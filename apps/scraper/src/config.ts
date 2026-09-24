@@ -72,6 +72,12 @@ export const config = {
     },
   },
 
+  /**
+   * A stored job with the same title and company counts as the same opening only if it was
+   * first seen within this many days; older matches are treated as a new posting.
+   */
+  dedupeKeyWindowDays: 60,
+
   /** How long a source stays disabled after a block signal (429, login redirect, empty page). */
   sourceBackoffHours: 12,
   /**

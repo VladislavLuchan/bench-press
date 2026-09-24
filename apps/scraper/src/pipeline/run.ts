@@ -159,10 +159,15 @@ async function prepareNewJobs(
 ): Promise<NewJob[]> {
   let unique: KeyedJob[] = dedupeWithinRun(discovered);
   if (db) {
-    const existing = await findExistingJobKeys(db, {
-      canonicalUrls: unique.map((job) => job.canonicalUrl),
-      dedupeKeys: unique.map((job) => job.dedupeKey),
-    });
+    const since = new Date(Date.now() - config.dedupeKeyWindowDays * 86_400_000).toISOString();
+    const existing = await findExistingJobKeys(
+      db,
+      {
+        canonicalUrls: unique.map((job) => job.canonicalUrl),
+        dedupeKeys: unique.map((job) => job.dedupeKey),
+      },
+      since,
+    );
     const { fresh, sourceUpdates } = excludeExisting(unique, existing);
     await addJobSources(db, sourceUpdates);
     unique = fresh;
@@ -208,6 +213,13 @@ async function prepareNewJobs(
       locationFlag,
       roleType: roleTypeOf(job.title),
     });
+  }
+  // Per source: how many listings were new to us, and how many of those passed the filters.
+  for (const job of prepared) {
+    const source = stats.sources[job.source];
+    if (!source) continue;
+    source.fresh = (source.fresh ?? 0) + 1;
+    if (job.status === 'new') source.kept = (source.kept ?? 0) + 1;
   }
   return prepared;
 }

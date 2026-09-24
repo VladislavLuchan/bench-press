@@ -33,6 +33,9 @@ export const linkedin: Source = {
           location,
           f_WT: '2',
           f_TPR: window,
+          // Newest first. The default order is relevance, and most searches fill every page,
+          // so a job posted an hour ago could fall past the last page we read.
+          sortBy: 'DD',
           start: String(page * pageSize),
         })}`,
       }),

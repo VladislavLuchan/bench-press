@@ -184,6 +184,10 @@ export interface SourceRunStats {
   /** The board started refusing mid-run; listed jobs were still kept. */
   blocked: boolean;
   error: string | null;
+  /** Listings never seen before (absent in runs recorded before this field existed). */
+  fresh?: number;
+  /** Of the fresh listings, how many passed the pre-filter and went on to scoring. */
+  kept?: number;
 }
 
 export interface RunStats {

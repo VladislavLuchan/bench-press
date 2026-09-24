@@ -30,9 +30,16 @@ export function RunsHealth({ runs }: { runs: Run[] }) {
                         <span
                           key={name}
                           className={`runs__source ${stats.error ? 'runs__source--bad' : ''} ${stats.skipped ? 'runs__source--skipped' : ''}`}
-                          title={stats.error ?? (stats.skipped ? 'backing off' : 'ok')}
+                          title={
+                            stats.error ??
+                            (stats.skipped
+                              ? 'skipped: backing off or fetched recently'
+                              : `${stats.listed} listed, ${stats.fresh ?? '?'} new to us, ` +
+                                `${stats.kept ?? '?'} passed the filters`)
+                          }
                         >
                           {name} {stats.skipped ? '⏸' : stats.error ? '✗' : stats.listed}
+                          {!stats.skipped && stats.fresh ? ` +${stats.fresh}` : ''}
                         </span>
                       ),
                   )}
