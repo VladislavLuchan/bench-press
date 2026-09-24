@@ -44,11 +44,11 @@ export function roleTypeOf(title: string): RoleType {
 export function checkTitle(title: string): TitleVerdict {
   const foreign = title.match(TITLE_FOREIGN_LANGUAGE);
   if (foreign) return { ok: false, reason: `language: "${foreign[0].toLowerCase()}"` };
-  const other = title.match(TITLE_OTHER_FRAMEWORK);
-  if (other && !TITLE_REACT.test(title)) {
-    return { ok: false, reason: `title: excluded "${other[0].toLowerCase()}"` };
-  }
-  const excluded = title.match(TITLE_EXCLUDE);
+  const other = TITLE_REACT.test(title) ? null : title.match(TITLE_OTHER_FRAMEWORK);
+  // The reason names whichever excluded word comes first in the title.
+  const excluded = [title.match(TITLE_EXCLUDE), other]
+    .filter((match): match is RegExpMatchArray => match !== null)
+    .sort((a, b) => (a.index ?? 0) - (b.index ?? 0))[0];
   if (excluded) return { ok: false, reason: `title: excluded "${excluded[0].toLowerCase()}"` };
   const outsource = title.match(TITLE_OUTSOURCE_ID);
   if (outsource) return { ok: false, reason: `title: outsourcing id "${outsource[0]}"` };
