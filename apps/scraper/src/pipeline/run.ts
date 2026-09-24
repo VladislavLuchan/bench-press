@@ -84,9 +84,20 @@ async function discover(
 
   const results = await Promise.all(
     sources.map(async (source): Promise<DiscoveredJob[]> => {
-      const backoffUntil = states.get(source.name)?.backoffUntil;
-      if (backoffUntil && backoffUntil > now) {
-        log.warn(`Skipping ${source.name}: backing off until ${backoffUntil}`);
+      const state = states.get(source.name);
+      const backoffUntil = state?.backoffUntil;
+      const minInterval = config.sourceMinIntervalHours[source.name];
+      const recent =
+        !backfill &&
+        minInterval !== undefined &&
+        state?.lastSuccessAt &&
+        Date.parse(state.lastSuccessAt) > Date.now() - minInterval * 3_600_000;
+      if ((backoffUntil && backoffUntil > now) || recent) {
+        log.warn(
+          recent
+            ? `Skipping ${source.name}: fetched less than ${minInterval}h ago`
+            : `Skipping ${source.name}: backing off until ${backoffUntil}`,
+        );
         stats.sources[source.name] = {
           listed: 0,
           requests: 0,
@@ -135,7 +146,8 @@ async function discover(
 }
 
 async function backOff(db: Db, source: SourceName, error: BlockedError): Promise<void> {
-  const until = new Date(Date.now() + config.sourceBackoffHours * 3_600_000).toISOString();
+  const hours = config.sourceBackoffHoursBySource[source] ?? config.sourceBackoffHours;
+  const until = new Date(Date.now() + hours * 3_600_000).toISOString();
   await markSourceBackoff(db, source, { until, error: error.message });
 }
 

@@ -12,7 +12,14 @@ export const TITLE_INCLUDE =
 
 // `.net`, `c#` and `c++` sit outside the word-boundary group: `\b` does not work next to punctuation.
 export const TITLE_EXCLUDE =
-  /\.net\b|\bdotnet\b|c#|c\+\+|\b(designer|ux|python|django|java|kotlin|angular|vue|nuxt|svelte|shopify|wordpress|webflow|php|laravel|ruby|rails|golang|go|rust|webgpu|webgl|three\.?js|pixi|unity|unreal|qa\b|test engineer|test automation|aqa|devops|sre|data engineer|ml engineer|manager|recruiter|junior|middle|mid[- ]?level|mid|talent pool|intern|trainee|student|ai training|annotat\w*|react native|mobile|ios|android|flutter|scada|roku|html coder|coder\b|джуніор|стажер|верстальник)\b/i;
+  /\.net\b|\bdotnet\b|c#|c\+\+|\b(designer|ux|python|django|java|kotlin|shopify|wordpress|webflow|php|laravel|ruby|rails|golang|go|rust|webgpu|webgl|three\.?js|pixi|unity|unreal|qa\b|test engineer|test automation|aqa|devops|sre|data engineer|ml engineer|manager|recruiter|junior|middle|mid[- ]?level|mid|talent pool|intern|trainee|student|ai training|annotat\w*|react native|mobile|ios|android|flutter|scada|roku|html coder|coder\b|джуніор|стажер|верстальник)\b/i;
+
+/**
+ * Other front-end frameworks. A title naming one of them is excluded unless it also names
+ * React ("Senior React/Angular Engineer" is still a React role); React Native does not count.
+ */
+export const TITLE_OTHER_FRAMEWORK = /\b(angular|vue|nuxt|svelte)\b/i;
+const TITLE_REACT = /\breact\b(?!\s*native)/i;
 
 /** Outsourcing companies tag listings with request ids; those are bulk postings, not roles. */
 export const TITLE_OUTSOURCE_ID = /\b(IRC|REQ|JR|ID)[-_ ]?\d{4,}\b/;
@@ -37,6 +44,10 @@ export function roleTypeOf(title: string): RoleType {
 export function checkTitle(title: string): TitleVerdict {
   const foreign = title.match(TITLE_FOREIGN_LANGUAGE);
   if (foreign) return { ok: false, reason: `language: "${foreign[0].toLowerCase()}"` };
+  const other = title.match(TITLE_OTHER_FRAMEWORK);
+  if (other && !TITLE_REACT.test(title)) {
+    return { ok: false, reason: `title: excluded "${other[0].toLowerCase()}"` };
+  }
   const excluded = title.match(TITLE_EXCLUDE);
   if (excluded) return { ok: false, reason: `title: excluded "${excluded[0].toLowerCase()}"` };
   const outsource = title.match(TITLE_OUTSOURCE_ID);

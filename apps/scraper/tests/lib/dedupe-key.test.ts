@@ -8,6 +8,16 @@ describe('dedupeKey', () => {
     );
   });
 
+  it('ignores legal forms, so boards that spell the employer differently still match', () => {
+    expect(dedupeKey('Senior Frontend Engineer', 'Patrianna Limited')).toBe(
+      dedupeKey('Senior Frontend Engineer', 'Patrianna'),
+    );
+    expect(dedupeKey('Frontend Developer', 'Acme Sp. z o.o.')).toBe(
+      dedupeKey('Frontend Developer', 'ACME'),
+    );
+    expect(dedupeKey('Frontend Developer', 'Limited')).toBe('frontend developer|limited');
+  });
+
   it('distinguishes different companies', () => {
     expect(dedupeKey('Frontend Developer', 'A')).not.toBe(dedupeKey('Frontend Developer', 'B'));
   });

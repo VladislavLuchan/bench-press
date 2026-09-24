@@ -32,6 +32,10 @@ export const config = {
       /**
        * Guest search endpoint: no cookies, no session. Each keyword x location is one search.
        * Two pools keep the intake mostly front-end: the fullstack pool is small on purpose.
+       * "European Union" already covers every member country; searching Poland, Sweden,
+       * Denmark, the Netherlands and Germany on their own added depth but mostly city-bound
+       * hybrid and on-site roles (under 10% truly remote), and doubled the requests that
+       * end in a 429. Norway is outside the EU, so it keeps its own search.
        */
       pools: [
         {
@@ -46,16 +50,7 @@ export const config = {
             'react electron',
             'product engineer react',
           ],
-          locations: [
-            'Ukraine',
-            'European Union',
-            'Poland',
-            'Norway',
-            'Sweden',
-            'Denmark',
-            'Netherlands',
-            'Germany',
-          ],
+          locations: ['Ukraine', 'European Union', 'Norway'],
         },
         {
           name: 'fullstack',
@@ -63,7 +58,7 @@ export const config = {
           locations: ['Ukraine', 'European Union'],
         },
       ],
-      maxPages: 3,
+      maxPages: 4,
       pageSize: 10,
     },
     dou: {
@@ -79,6 +74,16 @@ export const config = {
 
   /** How long a source stays disabled after a block signal (429, login redirect, empty page). */
   sourceBackoffHours: 12,
+  /**
+   * Shorter back-off per source. LinkedIn rate-limits by IP and every Actions run gets a new
+   * runner, so a 429 says little about the next run: skip one or two runs, not a whole day.
+   */
+  sourceBackoffHoursBySource: { linkedin: 3 } as Partial<Record<string, number>>,
+  /**
+   * The workflow runs hourly (GitHub drops many scheduled runs, so real gaps are longer).
+   * Sources listed here are fetched at most this often, counted from their last success.
+   */
+  sourceMinIntervalHours: { linkedin: 2 } as Partial<Record<string, number>>,
 
   prefilter: {
     /** Title rules live in config/filters.ts. */

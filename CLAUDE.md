@@ -35,7 +35,7 @@ rules and traps that are not visible in the code.
 5. Vercel deploys `main` automatically; confirm by fetching the new JS asset or hitting
    `/api/*` with the dashboard token.
 
-Other workflows: **Scrape** (`scrape.yml`, cron every 2h; inputs `dry_run`, `backfill`,
+Other workflows: **Scrape** (`scrape.yml`, cron hourly, LinkedIn at most every 2h; inputs `dry_run`, `backfill`,
 `rescore`), **Capture fixtures** (saves live pages into `apps/scraper/tests/fixtures`, then
 fix parsers until tests pass).
 

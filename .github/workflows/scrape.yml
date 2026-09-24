@@ -2,7 +2,9 @@ name: Scrape
 
 on:
   schedule:
-    - cron: '17 */2 * * *'
+    # Hourly: GitHub drops many scheduled runs, so real gaps are longer. Sources that must
+    # not be fetched that often have a minimum interval in apps/scraper/src/config.ts.
+    - cron: '17 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:

@@ -1,6 +1,6 @@
 # bench-press
 
-Personal AI-assisted job aggregator for a front-end developer. Every two hours it collects
+Personal AI-assisted job aggregator for a front-end developer. Every hour or two it collects
 listings from several boards, drops the obvious misses with plain code, asks an LLM to score
 what is left against my CV, and shows the result in a small dashboard. One click drafts a
 cover letter, copies it to the clipboard and opens the listing.
@@ -17,7 +17,7 @@ you press a button and never submits a form.
 ## How it works
 
 ```
-GitHub Actions cron (every 2h)                     Vercel
+GitHub Actions cron (hourly)                       Vercel
 ┌──────────────────────────────────────┐          ┌───────────────────────────┐
 │ apps/scraper                          │          │ apps/web                  │
 │  Djinni ─┐                            │          │  React dashboard (Vite)   │
@@ -32,7 +32,8 @@ GitHub Actions cron (every 2h)                     Vercel
 Pipeline, in order:
 
 1. **Fetch** all sources in parallel. A failing source never stops the others. A block signal
-   (429, login wall, empty page) puts that source on a 12 hour back-off.
+   (429, login wall, empty page) puts that source on a 12 hour back-off (LinkedIn: 3 hours,
+   since every run starts on a new runner IP). LinkedIn is fetched at most every 2 hours.
 2. **Dedupe** by canonical URL and by normalized `title|company`, within the run and against
    the database.
 3. **Pre-filter** in code, before any LLM call. Title rules are three regexes in
